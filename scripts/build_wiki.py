@@ -46,13 +46,13 @@ MODULES = [
     {
         "title": "Video on Demand",
         "image": "video-on-demand.png",
-        "text": "Browse Emby, Jellyfin, or Plex libraries from a VCR-style interface with resume, autoplay, audio selection, subtitles, collections, TV Mode, and custom movie or series channels.",
-        "chips": ["Emby/Jellyfin", "Plex", "Custom Channels"],
+        "text": "Browse Emby, Jellyfin, or Plex libraries from a VCR-style interface with TV Mode, custom channels, no-repeat local commercials, and optional mid-roll breaks.",
+        "chips": ["Emby/Jellyfin", "Mid-Roll", "Custom Channels"],
     },
     {
         "title": "Public Access",
         "image": "public-access.png",
-        "text": "Save public YouTube playlists, browse videos from the couch, and run TV Mode with shuffled playlist channels and local commercial categories.",
+        "text": "Save public YouTube playlists, browse videos from the couch, and run TV Mode with shuffled playlist channels and no-repeat local commercial categories.",
         "chips": ["YouTube Playlists", "yt-dlp", "Commercials"],
     },
     {
@@ -452,7 +452,7 @@ def render_setup_page() -> str:
       <div class="split-copy">
         <span class="eyebrow">Normal update path</span>
         <h2>Existing images update from inside Tater Tube.</h2>
-        <p>Use Settings, System, Check For Updates. The updater refreshes the app, helpers, runtime packages, RetroArch cores, Moonlight, Bluetooth support, boot splash, IR, fan control, and display setup.</p>
+        <p>Use Settings, System, Check For Updates. The updater refreshes the app, helpers, runtime packages, RetroArch cores, Moonlight, Bluetooth support, boot splash, IR, fan control, and display setup. The update splash keeps the logo visible and uses one compact bottom status line.</p>
         {command_box("bash <(curl -fsSL https://github.com/TaterTotterson/Tater-Tube/releases/latest/download/install.sh)", "SSH update fallback")}
       </div>
       <figure class="image-panel">
@@ -468,8 +468,8 @@ def render_setup_page() -> str:
         <p>Open <code>http://tatertube.local:24024/setup</code> from a phone or computer on the same network to enter logins, API keys, RetroNAS paths, Sunshine pairing details, local commercials, and custom VoD TV channels.</p>
       </div>
       <div class="grid grid-3">
-        {simple_card("Local Commercials", "Create commercial categories and upload local video files. Public Access TV Mode and VoD TV Mode can choose which categories to use.", ["Uploads", "Categories", "TV Mode"])}
-        {simple_card("Custom VoD Channels", "Build named TV Mode channels from Plex, Emby, or Jellyfin movies and series. Custom channels appear first when VoD TV Mode starts.", ["Movies", "Series", "Priority"])}
+        {simple_card("Local Commercials", "Create commercial categories and upload local video files. Public Access TV Mode and VoD TV Mode rotate commercials without repeating until the selected pool has played.", ["Uploads", "No Repeat", "TV Mode"])}
+        {simple_card("Custom VoD Channels", "Build named TV Mode channels from Plex, Emby, or Jellyfin movies and series. Custom channels appear first and can use a specific commercial category.", ["Movies", "Series", "Categories"])}
         {simple_card("Module Settings", "Update provider URLs, API keys, module settings, controller-related setup, and other appliance settings without typing them on the TV.", ["Mobile", "Settings", "Setup"])}
       </div>
     </section>

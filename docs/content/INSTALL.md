@@ -37,13 +37,13 @@ Open Settings inside Tater Tube and configure the modules you want:
 
 Video on Demand supports Emby, Jellyfin, and Plex.
 
-Video on Demand TV Mode can use automatic library channels plus custom movie and series channels created in the Web Setup UI.
+Video on Demand TV Mode can use automatic library channels plus custom movie and series channels created in the Web Setup UI. Custom channels can optionally use one specific local commercial category.
 
 Tape Deck uses Emby, Jellyfin, or Plex music libraries.
 
 Public Access uses public YouTube playlist IDs or playlist URLs.
 
-Public Access TV Mode and Video on Demand TV Mode can use local commercial categories uploaded through the Web Setup UI.
+Public Access TV Mode and Video on Demand TV Mode can use local commercial categories uploaded through the Web Setup UI. Commercial playback rotates through the selected pool before repeating. Video on Demand TV Mode also supports optional mid-roll commercial breaks.
 
 Over The Air uses HDHomeRun discovery or a configured device address.
 
@@ -70,6 +70,8 @@ Use:
 ```text
 Settings -> System -> Check For Updates
 ```
+
+The update splash keeps the Tater Tube image visible and shows a compact one-line bottom status while the update runs.
 
 For SSH recovery, use the release installer:
 

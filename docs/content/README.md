@@ -10,8 +10,8 @@ The project targets two appliance styles:
 ## Modules
 
 - **Over The Air** tunes HDHomeRun channels directly with an old-TV channel overlay.
-- **Video on Demand** connects to Emby, Jellyfin, or Plex for movies, shows, collections, resume, TV Mode, and custom TV Mode channels.
-- **Public Access** plays saved YouTube playlists, supports multiple playlists, and includes playlist-based TV Mode.
+- **Video on Demand** connects to Emby, Jellyfin, or Plex for movies, shows, collections, resume, TV Mode, custom TV Mode channels, and optional mid-roll commercials.
+- **Public Access** plays saved YouTube playlists, supports multiple playlists, and includes playlist-based TV Mode with local commercials.
 - **Usenet** browses media-focused Newznab categories, search, and trending feeds, then launches streams through a compatible streamer.
 - **Tape Deck** plays music albums from Emby, Jellyfin, or Plex with a cassette-style interface.
 - **Game Center** browses RetroNAS/MiSTer-style ROM folders and launches RetroArch cores.
@@ -36,13 +36,13 @@ Existing installs update from inside Tater Tube:
 Settings -> System -> Check For Updates
 ```
 
-The updater refreshes the app, helpers, runtime packages, controller support, RetroArch cores, Moonlight, boot assets, IR support, Bluetooth support, fan control, and display setup without a full reflash.
+The updater refreshes the app, helpers, runtime packages, controller support, RetroArch cores, Moonlight, boot assets, IR support, Bluetooth support, fan control, and display setup without a full reflash. During updates the splash uses a compact one-line bottom status so it does not cover the logo.
 
 ## Web Setup
 
 Open `http://tatertube.local:24024/setup` from a phone or computer on the same network to configure modules without typing everything on the TV.
 
-The Web Setup UI includes module logins and API keys, local commercial categories with video uploads, and custom Video on Demand TV Mode channel creation from Plex, Emby, or Jellyfin movies and series.
+The Web Setup UI includes module logins and API keys, local commercial categories with video uploads, and custom Video on Demand TV Mode channel creation from Plex, Emby, or Jellyfin movies and series. Custom VoD TV channels can optionally use one specific commercial category, and TV Mode rotates commercials without repeating until the selected pool has played.
 
 ## API
 

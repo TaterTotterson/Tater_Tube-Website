@@ -59,10 +59,10 @@
 </ul>
 <h3 id="media-setup">Media Setup</h3>
 <p>Video on Demand supports Emby, Jellyfin, and Plex.</p>
-<p>Video on Demand TV Mode can use automatic library channels plus custom movie and series channels created in the Web Setup UI.</p>
+<p>Video on Demand TV Mode can use automatic library channels plus custom movie and series channels created in the Web Setup UI. Custom channels can optionally use one specific local commercial category.</p>
 <p>Tape Deck uses Emby, Jellyfin, or Plex music libraries.</p>
 <p>Public Access uses public YouTube playlist IDs or playlist URLs.</p>
-<p>Public Access TV Mode and Video on Demand TV Mode can use local commercial categories uploaded through the Web Setup UI.</p>
+<p>Public Access TV Mode and Video on Demand TV Mode can use local commercial categories uploaded through the Web Setup UI. Commercial playback rotates through the selected pool before repeating. Video on Demand TV Mode also supports optional mid-roll commercial breaks.</p>
 <p>Over The Air uses HDHomeRun discovery or a configured device address.</p>
 <p>Game Center uses a RetroNAS/MiSTer-style ROM share.</p>
 <p>PC Link uses Sunshine on the host and Moonlight on the Pi.</p>
@@ -74,6 +74,7 @@
 <h3 id="updates">Updates</h3>
 <p>Use:</p>
 <pre><code>Settings -&gt; System -&gt; Check For Updates</code></pre>
+<p>The update splash keeps the Tater Tube image visible and shows a compact one-line bottom status while the update runs.</p>
 <p>For SSH recovery, use the release installer:</p>
 <pre><code>bash &lt;(curl -fsSL https://github.com/TaterTotterson/Tater-Tube/releases/latest/download/install.sh)</code></pre>
 <h3 id="local-api">Local API</h3>

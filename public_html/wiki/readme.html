@@ -39,8 +39,8 @@
 <h3 id="modules">Modules</h3>
 <ul>
 <li><strong>Over The Air</strong> tunes HDHomeRun channels directly with an old-TV channel overlay.</li>
-<li><strong>Video on Demand</strong> connects to Emby, Jellyfin, or Plex for movies, shows, collections, resume, TV Mode, and custom TV Mode channels.</li>
-<li><strong>Public Access</strong> plays saved YouTube playlists, supports multiple playlists, and includes playlist-based TV Mode.</li>
+<li><strong>Video on Demand</strong> connects to Emby, Jellyfin, or Plex for movies, shows, collections, resume, TV Mode, custom TV Mode channels, and optional mid-roll commercials.</li>
+<li><strong>Public Access</strong> plays saved YouTube playlists, supports multiple playlists, and includes playlist-based TV Mode with local commercials.</li>
 <li><strong>Usenet</strong> browses media-focused Newznab categories, search, and trending feeds, then launches streams through a compatible streamer.</li>
 <li><strong>Tape Deck</strong> plays music albums from Emby, Jellyfin, or Plex with a cassette-style interface.</li>
 <li><strong>Game Center</strong> browses RetroNAS/MiSTer-style ROM folders and launches RetroArch cores.</li>
@@ -58,10 +58,10 @@
 <h3 id="updates">Updates</h3>
 <p>Existing installs update from inside Tater Tube:</p>
 <pre><code>Settings -&gt; System -&gt; Check For Updates</code></pre>
-<p>The updater refreshes the app, helpers, runtime packages, controller support, RetroArch cores, Moonlight, boot assets, IR support, Bluetooth support, fan control, and display setup without a full reflash.</p>
+<p>The updater refreshes the app, helpers, runtime packages, controller support, RetroArch cores, Moonlight, boot assets, IR support, Bluetooth support, fan control, and display setup without a full reflash. During updates the splash uses a compact one-line bottom status so it does not cover the logo.</p>
 <h3 id="web-setup">Web Setup</h3>
 <p>Open <code>http://tatertube.local:24024/setup</code> from a phone or computer on the same network to configure modules without typing everything on the TV.</p>
-<p>The Web Setup UI includes module logins and API keys, local commercial categories with video uploads, and custom Video on Demand TV Mode channel creation from Plex, Emby, or Jellyfin movies and series.</p>
+<p>The Web Setup UI includes module logins and API keys, local commercial categories with video uploads, and custom Video on Demand TV Mode channel creation from Plex, Emby, or Jellyfin movies and series. Custom VoD TV channels can optionally use one specific commercial category, and TV Mode rotates commercials without repeating until the selected pool has played.</p>
 <h3 id="api">API</h3>
 <p>Tater Tube exposes a local HTTP API on port 24024 for companion apps and remote-control integrations.</p>
 <pre><code>curl http://tatertube.local:24024/api/v1/status</code></pre>
