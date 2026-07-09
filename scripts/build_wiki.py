@@ -1,0 +1,748 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import html
+import json
+import os
+import re
+import textwrap
+from datetime import datetime, timezone
+from pathlib import Path
+
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+WEBSITE_DIR = SCRIPT_DIR.parent
+PUBLIC_ROOT = WEBSITE_DIR / "public_html"
+ASSET_DIR = PUBLIC_ROOT / "assets"
+IMAGE_DIR = ASSET_DIR / "images"
+DOC_CONTENT_DIR = WEBSITE_DIR / "docs" / "content"
+SOURCE_DOC_DIR = WEBSITE_DIR / "docs" / "source"
+SOURCE_CACHE_DIR = WEBSITE_DIR / ".cache" / "tater-tube-source"
+GITHUB_REPO = "https://github.com/TaterTotterson/Tater-Tube"
+LATEST_RELEASE = f"{GITHUB_REPO}/releases/latest"
+
+NAV_ITEMS = [
+    ("home", "Home", "index.html"),
+    ("modules", "Modules", "modules/index.html"),
+    ("images", "Images", "images/index.html"),
+    ("setup", "Setup", "setup/index.html"),
+    ("api", "API", "api/index.html"),
+    ("docs", "Docs", "wiki/index.html"),
+]
+
+DOC_SOURCES = [
+    ("readme", "Project README", "README.md"),
+    ("install", "Install Guide", "INSTALL.md"),
+    ("building", "Build Guide", "BUILDING.md"),
+]
+
+MODULES = [
+    {
+        "title": "Over The Air",
+        "image": "over-the-air.png",
+        "text": "Direct HDHomeRun playback with no guide screen. Pick OTA and it tunes like an old TV, with up/down channel changes and a channel OSD.",
+        "chips": ["HDHomeRun", "Live TV", "Old-TV OSD"],
+    },
+    {
+        "title": "Video on Demand",
+        "image": "video-on-demand.png",
+        "text": "Browse Emby, Jellyfin, or Plex libraries from a VCR-style interface with resume, autoplay, audio selection, subtitles, collections, and TV Mode.",
+        "chips": ["Emby/Jellyfin", "Plex", "TV Mode"],
+    },
+    {
+        "title": "Public Access",
+        "image": "public-access.png",
+        "text": "Save public YouTube playlists, browse videos from the couch, and run TV Mode with shuffled channels and optional commercial playlists.",
+        "chips": ["YouTube Playlists", "yt-dlp", "TV Mode"],
+    },
+    {
+        "title": "Usenet",
+        "image": "usenet.png",
+        "text": "Browse media-only Newznab categories, search releases, view provider-supported trending, and hand selected NZBs to an AltMount/Stremio-compatible streamer.",
+        "chips": ["Newznab", "Trending", "Streaming"],
+    },
+    {
+        "title": "Tape Deck",
+        "image": "tape-deck.png",
+        "text": "A cassette-deck music player for Emby/Jellyfin or Plex albums, complete with album-as-mixtape browsing, VU visuals, and tape-style fast-forward.",
+        "chips": ["Music", "Albums", "VU Meter"],
+    },
+    {
+        "title": "Game Center",
+        "image": "game-center.png",
+        "text": "Browse RetroNAS/MiSTer ROM shares and launch supported systems straight into RetroArch without exposing the RetroArch menu.",
+        "chips": ["RetroNAS", "RetroArch", "Controllers"],
+    },
+    {
+        "title": "PC Link",
+        "image": "pc-link.png",
+        "text": "Pair with Sunshine through Moonlight, list host apps, and stream a stable Pi profile from a PC or Mac into the Tater Tube appliance.",
+        "chips": ["Sunshine", "Moonlight", "Game Streaming"],
+    },
+    {
+        "title": "Local Files",
+        "image": "local-files.png",
+        "text": "Browse local folders on the Pi and play common video files or playlists with loop and shuffle options.",
+        "chips": ["Local Video", "M3U", "Shuffle"],
+    },
+]
+
+IMAGE_DOWNLOADS = [
+    {
+        "key": "crt-ntsc",
+        "title": "Pi 4 NTSC Composite",
+        "summary": "For North American/Japanese CRTs using composite video through the Pi 4 AV jack.",
+        "chips": ["Pi 4", "CRT", "NTSC"],
+    },
+    {
+        "key": "crt-pal",
+        "title": "Pi 4 PAL Composite",
+        "summary": "For PAL CRTs. Same app defaults, with PAL composite output configured at boot.",
+        "chips": ["Pi 4", "CRT", "PAL"],
+    },
+    {
+        "key": "pi5-hdmi-auto",
+        "title": "Pi 5 HDMI Auto",
+        "summary": "For modern HDMI screens. The image uses the display's preferred EDID mode.",
+        "chips": ["Pi 5", "HDMI", "Auto"],
+    },
+]
+
+
+def escape(value: object) -> str:
+    return html.escape(str(value), quote=True)
+
+
+def ensure_dirs() -> None:
+    for path in [
+        PUBLIC_ROOT,
+        ASSET_DIR,
+        IMAGE_DIR,
+        PUBLIC_ROOT / "modules",
+        PUBLIC_ROOT / "images",
+        PUBLIC_ROOT / "setup",
+        PUBLIC_ROOT / "api",
+        PUBLIC_ROOT / "wiki",
+    ]:
+        path.mkdir(parents=True, exist_ok=True)
+
+
+def page_base(depth: int) -> str:
+    return "../" * depth
+
+
+def nav_html(base: str, active: str) -> str:
+    links = []
+    for key, label, href in NAV_ITEMS:
+        class_name = "nav-link is-active" if key == active else "nav-link"
+        links.append(f'<a class="{class_name}" href="{base}{href}">{escape(label)}</a>')
+    links.append(
+        f'<a class="nav-link nav-link-github" href="{GITHUB_REPO}" target="_blank" rel="noreferrer">GitHub</a>'
+    )
+    return "\n".join(links)
+
+
+def page_template(title: str, description: str, body: str, *, nav_key: str, depth: int = 0) -> str:
+    base = page_base(depth)
+    return textwrap.dedent(
+        f"""\
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <meta name="description" content="{escape(description)}">
+          <title>{escape(title)}</title>
+          <link rel="icon" type="image/png" href="{base}assets/images/tater-tube-logo.png">
+          <link rel="stylesheet" href="{base}assets/site.css">
+          <script src="{base}assets/site.js" defer></script>
+        </head>
+        <body data-page="{escape(nav_key)}">
+          <header class="site-header">
+            <a class="brand" href="{base}index.html" aria-label="Tater Tube home">
+              <img src="{base}assets/images/tater-tube-logo.png" alt="Tater Tube">
+            </a>
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+            <nav class="site-nav" id="site-nav">
+              {nav_html(base, nav_key)}
+            </nav>
+          </header>
+          <main>
+            {body}
+          </main>
+          <footer class="site-footer">
+            <p>Tater Tube website pages are generated from this website project and the Tater Tube source docs.</p>
+            <p><a href="{GITHUB_REPO}" target="_blank" rel="noreferrer">View Tater Tube on GitHub</a></p>
+          </footer>
+        </body>
+        </html>
+        """
+    )
+
+
+def write_page(path: Path, content: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(content, encoding="utf-8")
+
+
+def chip(label: str) -> str:
+    return f'<span class="chip">{escape(label)}</span>'
+
+
+def action_link(label: str, href: str, *, secondary: bool = False) -> str:
+    class_name = "button button-secondary" if secondary else "button"
+    return f'<a class="{class_name}" href="{escape(href)}">{escape(label)}</a>'
+
+
+def command_box(command: str, label: str = "Terminal") -> str:
+    return textwrap.dedent(
+        f"""\
+        <div class="command-box">
+          <div class="command-head">
+            <span>{escape(label)}</span>
+            <button type="button" data-copy-code>Copy</button>
+          </div>
+          <pre><code>{escape(command.strip())}</code></pre>
+        </div>
+        """
+    )
+
+
+def simple_card(title: str, text: str, chips: list[str] | None = None) -> str:
+    chip_html = f'<div class="chip-row">{"".join(chip(item) for item in chips or [])}</div>' if chips else ""
+    return textwrap.dedent(
+        f"""\
+        <article class="info-card">
+          <h3>{escape(title)}</h3>
+          <p>{escape(text)}</p>
+          {chip_html}
+        </article>
+        """
+    )
+
+
+def module_card(module: dict[str, object], base: str = "") -> str:
+    chips = "".join(chip(item) for item in module.get("chips", []))
+    return textwrap.dedent(
+        f"""\
+        <article class="module-card">
+          <img src="{base}assets/images/{escape(module["image"])}" alt="">
+          <h3>{escape(module["title"])}</h3>
+          <p>{escape(module["text"])}</p>
+          <div class="chip-row">{chips}</div>
+        </article>
+        """
+    )
+
+
+def image_download_card(image: dict[str, object]) -> str:
+    chips = "".join(chip(item) for item in image.get("chips", []))
+    return textwrap.dedent(
+        f"""\
+        <article class="download-card" data-release-card data-release-asset="{escape(image["key"])}">
+          <div>
+            <span class="eyebrow">Ready image</span>
+            <h3>{escape(image["title"])}</h3>
+            <p>{escape(image["summary"])}</p>
+            <div class="chip-row">{chips}</div>
+          </div>
+          <dl class="download-meta">
+            <div>
+              <dt>Version</dt>
+              <dd data-release-version>Latest</dd>
+            </div>
+            <div>
+              <dt>File</dt>
+              <dd data-release-file>Checking latest release...</dd>
+            </div>
+            <div>
+              <dt>Size</dt>
+              <dd data-release-size>--</dd>
+            </div>
+          </dl>
+          <div class="release-actions">
+            <a class="button" href="{LATEST_RELEASE}" target="_blank" rel="noreferrer" data-download-link>Open latest release</a>
+            <a class="button button-secondary" href="{LATEST_RELEASE}" target="_blank" rel="noreferrer" data-release-card-link>Release notes</a>
+          </div>
+        </article>
+        """
+    )
+
+
+def render_home_page() -> str:
+    cards = "\n".join(
+        [
+            simple_card(
+                "Pi 4 CRT Appliance",
+                "Flash the NTSC or PAL composite image, wire the Pi to a CRT through the 3.5mm AV jack, and boot directly into the VCR-style UI.",
+                ["Composite", "Argon IR", "Analog audio"],
+            ),
+            simple_card(
+                "Pi 5 HDMI Appliance",
+                "Use the HDMI auto image for modern screens. The image lets KMS choose the display's preferred EDID mode.",
+                ["HDMI auto", "Pi 5", "4K displays"],
+            ),
+            simple_card(
+                "Built-In Updates",
+                "Use Settings, System, Check For Updates to refresh the app, helpers, runtime packages, RetroArch cores, Moonlight, Bluetooth, and boot assets.",
+                ["Updater", "Progress UI", "No reflash"],
+            ),
+        ]
+    )
+    featured = "\n".join(module_card(module) for module in MODULES[:4])
+    body = f"""
+    <section class="hero">
+      <img class="hero-bg" src="assets/images/tater-tube-boot.png" alt="" aria-hidden="true">
+      <div class="hero-copy">
+        <span class="eyebrow">Retro media appliance for Raspberry Pi</span>
+        <h1>Tater Tube</h1>
+        <p>A VCR-style frontend for CRT and HDMI Pi builds with Video on Demand, OTA TV, Public Access playlists, Usenet streaming, Tape Deck music, Game Center, PC Link, and local files.</p>
+        <div class="hero-actions">
+          {action_link("Download images", "images/index.html")}
+          {action_link("View modules", "modules/index.html", secondary=True)}
+        </div>
+        <div class="hero-facts" aria-label="Tater Tube highlights">
+          <span>Pi 4 CRT composite</span>
+          <span>Pi 5 HDMI auto</span>
+          <span>Boots straight into the app</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="eyebrow">What it is</span>
+        <h2>A small media station that feels like an old TV.</h2>
+        <p>Tater Tube turns a Raspberry Pi into a focused appliance. It hides the desktop, starts the app at boot, supports remotes and controllers, and keeps the interface tuned for repeat couch use.</p>
+      </div>
+      <div class="grid grid-3">
+        {cards}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="eyebrow">Modules</span>
+        <h2>Everything lives behind the same VCR-style menu.</h2>
+        <p>Each module is designed to launch cleanly from the main menu and return without showing the Linux desktop.</p>
+      </div>
+      <div class="grid module-grid">
+        {featured}
+      </div>
+      <div class="action-row">
+        {action_link("See every module", "modules/index.html")}
+      </div>
+    </section>
+    """
+    return page_template(
+        "Tater Tube | Retro media appliance for Raspberry Pi",
+        "Tater Tube is a VCR-style Raspberry Pi media frontend for CRT composite and Pi 5 HDMI appliance images.",
+        body,
+        nav_key="home",
+    )
+
+
+def render_modules_page() -> str:
+    cards = "\n".join(module_card(module, "../") for module in MODULES)
+    body = f"""
+    <section class="section">
+      <div class="section-head">
+        <span class="eyebrow">Module guide</span>
+        <h1>Modules</h1>
+        <p>Tater Tube keeps media, games, PC streaming, and local playback in separate focused modules. The main menu can show a matching Tater mascot for each one.</p>
+      </div>
+      <div class="grid module-grid">
+        {cards}
+      </div>
+    </section>
+
+    <section class="section split-section">
+      <div class="split-copy">
+        <span class="eyebrow">Shared controls</span>
+        <h2>Remote, controller, keyboard, and API control use one app shell.</h2>
+        <p>The Pi image includes Argon IR defaults, Bluetooth controller pairing, a controller mapper, media keys, mpv OSD overlays, and a local HTTP API for companion apps.</p>
+        <div class="chip-row">
+          {chip("Argon IR")}
+          {chip("Bluetooth gamepads")}
+          {chip("USB controllers")}
+          {chip("HTTP API")}
+        </div>
+      </div>
+      <figure class="image-panel">
+        <img src="../assets/images/game-center.png" alt="Tater mascot holding a game controller">
+        <figcaption>Controllers can navigate Tater Tube and map into RetroArch cores.</figcaption>
+      </figure>
+    </section>
+    """
+    return page_template(
+        "Modules | Tater Tube",
+        "Overview of every Tater Tube module, including VOD, OTA, Public Access, Usenet, Tape Deck, Game Center, PC Link, and Local Files.",
+        body,
+        nav_key="modules",
+        depth=1,
+    )
+
+
+def render_images_page() -> str:
+    cards = "\n".join(image_download_card(image) for image in IMAGE_DOWNLOADS)
+    body = f"""
+    <section class="section">
+      <div class="section-head">
+        <span class="eyebrow">Ready-to-flash builds</span>
+        <h1>Images</h1>
+        <p>The easiest path is to download the image for your display, flash it to an SD card, and boot the Pi. Tater Tube starts automatically.</p>
+        <div class="latest-release-panel" data-latest-release>
+          <div>
+            <span class="release-label">Latest GitHub release</span>
+            <strong data-release-tag>Checking...</strong>
+            <span data-release-status>Direct image links load from GitHub.</span>
+          </div>
+          <a class="button button-secondary" href="{LATEST_RELEASE}" target="_blank" rel="noreferrer" data-release-link>Open release</a>
+        </div>
+      </div>
+      <div class="grid download-grid">
+        {cards}
+      </div>
+    </section>
+
+    <section class="section flow-section">
+      <div class="section-head">
+        <span class="eyebrow">Pick the display first</span>
+        <h2>The image profile controls the video output.</h2>
+      </div>
+      <div class="flow-strip">
+        <div><strong>CRT NTSC</strong><span>Pi 4 composite image</span></div>
+        <div><strong>CRT PAL</strong><span>Pi 4 composite image</span></div>
+        <div><strong>HDMI</strong><span>Pi 5 auto image</span></div>
+        <div><strong>Update</strong><span>Built-in updater later</span></div>
+        <div><strong>Recover</strong><span>SSH enabled by default</span></div>
+      </div>
+    </section>
+    """
+    return page_template(
+        "Images | Tater Tube",
+        "Tater Tube ready-to-flash Raspberry Pi image options for NTSC CRT, PAL CRT, and Pi 5 HDMI auto displays.",
+        body,
+        nav_key="images",
+        depth=1,
+    )
+
+
+def render_setup_page() -> str:
+    flash_steps = "\n".join(
+        [
+            simple_card("1. Download", "Open the latest GitHub release and choose the NTSC, PAL, or Pi 5 HDMI image for your display."),
+            simple_card("2. Flash", "Use Raspberry Pi Imager, Balena Etcher, or dd to write the `.img.xz` to an SD card."),
+            simple_card("3. Boot", "Connect the display, audio, remote receiver, and network, then boot directly into Tater Tube."),
+        ]
+    )
+    body = f"""
+    <section class="section">
+      <div class="section-head">
+        <span class="eyebrow">Start here</span>
+        <h1>Setup</h1>
+        <p>Tater Tube is intended to run as an appliance image. Flash first, then configure modules from Settings inside the app.</p>
+      </div>
+      <div class="grid grid-3">
+        {flash_steps}
+      </div>
+    </section>
+
+    <section class="section split-section">
+      <div class="split-copy">
+        <span class="eyebrow">Normal update path</span>
+        <h2>Existing images update from inside Tater Tube.</h2>
+        <p>Use Settings, System, Check For Updates. The updater refreshes the app, helpers, runtime packages, RetroArch cores, Moonlight, Bluetooth support, boot splash, IR, fan control, and display setup.</p>
+        {command_box("bash <(curl -fsSL https://github.com/TaterTotterson/Tater-Tube/releases/latest/download/install.sh)", "SSH update fallback")}
+      </div>
+      <figure class="image-panel">
+        <img src="../assets/images/tater-tube-boot.png" alt="Tater Tube boot screen">
+        <figcaption>The image boots into Tater Tube and keeps SSH available for recovery.</figcaption>
+      </figure>
+    </section>
+    """
+    return page_template(
+        "Setup | Tater Tube",
+        "Tater Tube setup information for flashing images, updating existing installs, and configuring modules.",
+        body,
+        nav_key="setup",
+        depth=1,
+    )
+
+
+def render_api_page() -> str:
+    endpoints = """GET  /api/v1/status
+POST /api/v1/player/play-pause
+POST /api/v1/player/pause
+POST /api/v1/player/resume
+POST /api/v1/player/stop
+POST /api/v1/player/seek          {"position_ms": 60000}
+POST /api/v1/player/skip-forward  {"offset_ms": 30000}
+POST /api/v1/player/skip-back     {"offset_ms": -10000}
+POST /api/v1/player/volume-up
+POST /api/v1/player/volume-down
+POST /api/v1/player/mute
+POST /api/v1/player/key           {"key": "LEFT", "repeat": 1}
+POST /api/v1/library/search       {"query": "batman", "types": ["movie", "show", "game"], "limit": 10}
+POST /api/v1/library/launch       {"id": "vod:movie:ITEM_ID"}"""
+    body = f"""
+    <section class="section">
+      <div class="section-head">
+        <span class="eyebrow">Companion app control</span>
+        <h1>API</h1>
+        <p>The Pi image exposes a small local HTTP API on port 24024. It is meant for companion apps, remote controls, and future voice-assistant bridges.</p>
+      </div>
+      {command_box("curl http://tatertube.local:24024/api/v1/status", "Status check")}
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="eyebrow">Useful endpoints</span>
+        <h2>Player, key, search, and launch calls.</h2>
+      </div>
+      {command_box(endpoints, "API surface")}
+      <p>Set <code>TATER_TUBE_API_TOKEN</code> to require <code>Authorization: Bearer &lt;token&gt;</code> or <code>X-TaterTube-Token: &lt;token&gt;</code>.</p>
+    </section>
+    """
+    return page_template(
+        "API | Tater Tube",
+        "Tater Tube local HTTP API endpoints for player control, key input, media search, and media launch.",
+        body,
+        nav_key="api",
+        depth=1,
+    )
+
+
+def slugify(text: str) -> str:
+    slug = re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")
+    return slug or "section"
+
+
+def convert_inline(text: str, current_depth: int) -> str:
+    placeholders: list[str] = []
+
+    def save_code(match: re.Match[str]) -> str:
+        placeholders.append(f"<code>{escape(match.group(1))}</code>")
+        return f"\u0000{len(placeholders) - 1}\u0000"
+
+    text = re.sub(r"`([^`]+)`", save_code, text)
+    escaped = escape(text)
+
+    def link_replace(match: re.Match[str]) -> str:
+        label = match.group(1)
+        href = match.group(2)
+        wiki_map = {
+            "README.md": "readme.html",
+            "INSTALL.md": "install.html",
+            "BUILDING.md": "building.html",
+            "LICENSE": f"{GITHUB_REPO}/blob/main/LICENSE",
+        }
+        clean_href = href.split("#", 1)[0]
+        if clean_href in wiki_map:
+            href = wiki_map[clean_href] + (("#" + href.split("#", 1)[1]) if "#" in href else "")
+        return f'<a href="{escape(href)}">{label}</a>'
+
+    escaped = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", link_replace, escaped)
+    escaped = re.sub(r"\*\*([^*]+)\*\*", r"<strong>\1</strong>", escaped)
+    escaped = re.sub(r"\*([^*]+)\*", r"<em>\1</em>", escaped)
+    for index, value in enumerate(placeholders):
+        escaped = escaped.replace(f"\u0000{index}\u0000", value)
+    return escaped
+
+
+def markdown_to_html(markdown: str, *, depth: int = 1) -> str:
+    lines = markdown.splitlines()
+    output: list[str] = []
+    paragraph: list[str] = []
+    in_list = False
+    in_code = False
+    code_lines: list[str] = []
+    table_lines: list[str] = []
+
+    def flush_paragraph() -> None:
+        nonlocal paragraph
+        if paragraph:
+            output.append(f"<p>{convert_inline(' '.join(paragraph), depth)}</p>")
+            paragraph = []
+
+    def flush_list() -> None:
+        nonlocal in_list
+        if in_list:
+            output.append("</ul>")
+            in_list = False
+
+    def flush_table() -> None:
+        nonlocal table_lines
+        if not table_lines:
+            return
+        rows = []
+        for raw in table_lines:
+            if re.match(r"^\s*\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?\s*$", raw):
+                continue
+            cells = [cell.strip() for cell in raw.strip().strip("|").split("|")]
+            rows.append(cells)
+        if rows:
+            head = rows[0]
+            body = rows[1:]
+            output.append("<table><thead><tr>" + "".join(f"<th>{convert_inline(cell, depth)}</th>" for cell in head) + "</tr></thead>")
+            output.append("<tbody>")
+            for row in body:
+                output.append("<tr>" + "".join(f"<td>{convert_inline(cell, depth)}</td>" for cell in row) + "</tr>")
+            output.append("</tbody></table>")
+        table_lines = []
+
+    for line in lines:
+        if line.startswith("```"):
+            if in_code:
+                output.append(f"<pre><code>{escape(chr(10).join(code_lines))}</code></pre>")
+                code_lines = []
+                in_code = False
+            else:
+                flush_paragraph()
+                flush_list()
+                flush_table()
+                in_code = True
+            continue
+        if in_code:
+            code_lines.append(line)
+            continue
+
+        if line.strip().startswith("|") and "|" in line.strip()[1:]:
+            flush_paragraph()
+            flush_list()
+            table_lines.append(line)
+            continue
+        elif table_lines:
+            flush_table()
+
+        if not line.strip():
+            flush_paragraph()
+            flush_list()
+            continue
+
+        heading = re.match(r"^(#{1,4})\s+(.+)$", line)
+        if heading:
+            flush_paragraph()
+            flush_list()
+            level = min(len(heading.group(1)) + 1, 4)
+            title = heading.group(2).strip()
+            output.append(f'<h{level} id="{slugify(title)}">{convert_inline(title, depth)}</h{level}>')
+            continue
+
+        item = re.match(r"^\s*[-*]\s+(.+)$", line)
+        if item:
+            flush_paragraph()
+            if not in_list:
+                output.append("<ul>")
+                in_list = True
+            output.append(f"<li>{convert_inline(item.group(1), depth)}</li>")
+            continue
+
+        paragraph.append(line.strip())
+
+    if in_code:
+        output.append(f"<pre><code>{escape(chr(10).join(code_lines))}</code></pre>")
+    flush_paragraph()
+    flush_list()
+    flush_table()
+    return "\n".join(output)
+
+
+def doc_path(name: str) -> Path:
+    content = DOC_CONTENT_DIR / name
+    if content.exists():
+        return content
+    source = SOURCE_DOC_DIR / name
+    if source.exists():
+        return source
+    source_dir = Path(os.getenv("TATER_TUBE_SOURCE_DIR", SOURCE_CACHE_DIR))
+    return source_dir / name
+
+
+def render_wiki_index() -> str:
+    cards = "\n".join(
+        f"""
+        <article class="doc-card">
+          <h3>{escape(title)}</h3>
+          <p>Generated from the Tater Tube website docs.</p>
+          <a class="button button-secondary" href="{escape(slug)}.html">Open doc</a>
+        </article>
+        """
+        for slug, title, source in DOC_SOURCES
+    )
+    body = f"""
+    <section class="section">
+      <div class="section-head">
+        <span class="eyebrow">Generated docs</span>
+        <h1>Docs</h1>
+        <p>This wiki section is generated from the Tater Tube source documentation so the website stays aligned with the app repo.</p>
+      </div>
+      <div class="grid grid-3">
+        {cards}
+      </div>
+    </section>
+    """
+    return page_template(
+        "Docs | Tater Tube",
+        "Generated Tater Tube documentation wiki.",
+        body,
+        nav_key="docs",
+        depth=1,
+    )
+
+
+def render_doc_page(slug: str, title: str, source_name: str) -> str:
+    source = doc_path(source_name)
+    markdown = source.read_text(encoding="utf-8") if source.exists() else f"# {title}\n\nSource file not found: `{source_name}`"
+    article = markdown_to_html(markdown, depth=1)
+    links = "\n".join(
+        f'<a class="{"is-active" if item_slug == slug else ""}" href="{escape(item_slug)}.html">{escape(item_title)}</a>'
+        for item_slug, item_title, _ in DOC_SOURCES
+    )
+    body = f"""
+    <section class="section wiki-body">
+      <article class="article">
+        {article}
+      </article>
+      <nav class="doc-nav" aria-label="Docs">
+        <a href="index.html">Docs home</a>
+        {links}
+      </nav>
+    </section>
+    """
+    return page_template(
+        f"{title} | Tater Tube Docs",
+        f"Generated Tater Tube documentation page for {title}.",
+        body,
+        nav_key="docs",
+        depth=1,
+    )
+
+
+def build_site_manifest() -> None:
+    manifest = {
+        "name": "Tater Tube Website",
+        "generated_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
+        "repo": GITHUB_REPO,
+        "pages": [item[2] for item in NAV_ITEMS],
+        "docs": [f"wiki/{slug}.html" for slug, _, _ in DOC_SOURCES],
+    }
+    write_page(PUBLIC_ROOT / "site-manifest.json", json.dumps(manifest, indent=2) + "\n")
+
+
+def main() -> None:
+    ensure_dirs()
+    write_page(PUBLIC_ROOT / "index.html", render_home_page())
+    write_page(PUBLIC_ROOT / "modules" / "index.html", render_modules_page())
+    write_page(PUBLIC_ROOT / "images" / "index.html", render_images_page())
+    write_page(PUBLIC_ROOT / "setup" / "index.html", render_setup_page())
+    write_page(PUBLIC_ROOT / "api" / "index.html", render_api_page())
+    write_page(PUBLIC_ROOT / "wiki" / "index.html", render_wiki_index())
+    for slug, title, source in DOC_SOURCES:
+        write_page(PUBLIC_ROOT / "wiki" / f"{slug}.html", render_doc_page(slug, title, source))
+    build_site_manifest()
+    print(f"Built Tater Tube website at {PUBLIC_ROOT}")
+
+
+if __name__ == "__main__":
+    main()

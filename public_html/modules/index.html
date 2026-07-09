@@ -1,0 +1,120 @@
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <meta name="description" content="Overview of every Tater Tube module, including VOD, OTA, Public Access, Usenet, Tape Deck, Game Center, PC Link, and Local Files.">
+          <title>Modules | Tater Tube</title>
+          <link rel="icon" type="image/png" href="../assets/images/tater-tube-logo.png">
+          <link rel="stylesheet" href="../assets/site.css">
+          <script src="../assets/site.js" defer></script>
+        </head>
+        <body data-page="modules">
+          <header class="site-header">
+            <a class="brand" href="../index.html" aria-label="Tater Tube home">
+              <img src="../assets/images/tater-tube-logo.png" alt="Tater Tube">
+            </a>
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+            <nav class="site-nav" id="site-nav">
+              <a class="nav-link" href="../index.html">Home</a>
+<a class="nav-link is-active" href="../modules/index.html">Modules</a>
+<a class="nav-link" href="../images/index.html">Images</a>
+<a class="nav-link" href="../setup/index.html">Setup</a>
+<a class="nav-link" href="../api/index.html">API</a>
+<a class="nav-link" href="../wiki/index.html">Docs</a>
+<a class="nav-link nav-link-github" href="https://github.com/TaterTotterson/Tater-Tube" target="_blank" rel="noreferrer">GitHub</a>
+            </nav>
+          </header>
+          <main>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="eyebrow">Module guide</span>
+        <h1>Modules</h1>
+        <p>Tater Tube keeps media, games, PC streaming, and local playback in separate focused modules. The main menu can show a matching Tater mascot for each one.</p>
+      </div>
+      <div class="grid module-grid">
+        <article class="module-card">
+  <img src="../assets/images/over-the-air.png" alt="">
+  <h3>Over The Air</h3>
+  <p>Direct HDHomeRun playback with no guide screen. Pick OTA and it tunes like an old TV, with up/down channel changes and a channel OSD.</p>
+  <div class="chip-row"><span class="chip">HDHomeRun</span><span class="chip">Live TV</span><span class="chip">Old-TV OSD</span></div>
+</article>
+
+<article class="module-card">
+  <img src="../assets/images/video-on-demand.png" alt="">
+  <h3>Video on Demand</h3>
+  <p>Browse Emby, Jellyfin, or Plex libraries from a VCR-style interface with resume, autoplay, audio selection, subtitles, collections, and TV Mode.</p>
+  <div class="chip-row"><span class="chip">Emby/Jellyfin</span><span class="chip">Plex</span><span class="chip">TV Mode</span></div>
+</article>
+
+<article class="module-card">
+  <img src="../assets/images/public-access.png" alt="">
+  <h3>Public Access</h3>
+  <p>Save public YouTube playlists, browse videos from the couch, and run TV Mode with shuffled channels and optional commercial playlists.</p>
+  <div class="chip-row"><span class="chip">YouTube Playlists</span><span class="chip">yt-dlp</span><span class="chip">TV Mode</span></div>
+</article>
+
+<article class="module-card">
+  <img src="../assets/images/usenet.png" alt="">
+  <h3>Usenet</h3>
+  <p>Browse media-only Newznab categories, search releases, view provider-supported trending, and hand selected NZBs to an AltMount/Stremio-compatible streamer.</p>
+  <div class="chip-row"><span class="chip">Newznab</span><span class="chip">Trending</span><span class="chip">Streaming</span></div>
+</article>
+
+<article class="module-card">
+  <img src="../assets/images/tape-deck.png" alt="">
+  <h3>Tape Deck</h3>
+  <p>A cassette-deck music player for Emby/Jellyfin or Plex albums, complete with album-as-mixtape browsing, VU visuals, and tape-style fast-forward.</p>
+  <div class="chip-row"><span class="chip">Music</span><span class="chip">Albums</span><span class="chip">VU Meter</span></div>
+</article>
+
+<article class="module-card">
+  <img src="../assets/images/game-center.png" alt="">
+  <h3>Game Center</h3>
+  <p>Browse RetroNAS/MiSTer ROM shares and launch supported systems straight into RetroArch without exposing the RetroArch menu.</p>
+  <div class="chip-row"><span class="chip">RetroNAS</span><span class="chip">RetroArch</span><span class="chip">Controllers</span></div>
+</article>
+
+<article class="module-card">
+  <img src="../assets/images/pc-link.png" alt="">
+  <h3>PC Link</h3>
+  <p>Pair with Sunshine through Moonlight, list host apps, and stream a stable Pi profile from a PC or Mac into the Tater Tube appliance.</p>
+  <div class="chip-row"><span class="chip">Sunshine</span><span class="chip">Moonlight</span><span class="chip">Game Streaming</span></div>
+</article>
+
+<article class="module-card">
+  <img src="../assets/images/local-files.png" alt="">
+  <h3>Local Files</h3>
+  <p>Browse local folders on the Pi and play common video files or playlists with loop and shuffle options.</p>
+  <div class="chip-row"><span class="chip">Local Video</span><span class="chip">M3U</span><span class="chip">Shuffle</span></div>
+</article>
+
+      </div>
+    </section>
+
+    <section class="section split-section">
+      <div class="split-copy">
+        <span class="eyebrow">Shared controls</span>
+        <h2>Remote, controller, keyboard, and API control use one app shell.</h2>
+        <p>The Pi image includes Argon IR defaults, Bluetooth controller pairing, a controller mapper, media keys, mpv OSD overlays, and a local HTTP API for companion apps.</p>
+        <div class="chip-row">
+          <span class="chip">Argon IR</span>
+          <span class="chip">Bluetooth gamepads</span>
+          <span class="chip">USB controllers</span>
+          <span class="chip">HTTP API</span>
+        </div>
+      </div>
+      <figure class="image-panel">
+        <img src="../assets/images/game-center.png" alt="Tater mascot holding a game controller">
+        <figcaption>Controllers can navigate Tater Tube and map into RetroArch cores.</figcaption>
+      </figure>
+    </section>
+
+          </main>
+          <footer class="site-footer">
+            <p>Tater Tube website pages are generated from this website project and the Tater Tube source docs.</p>
+            <p><a href="https://github.com/TaterTotterson/Tater-Tube" target="_blank" rel="noreferrer">View Tater Tube on GitHub</a></p>
+          </footer>
+        </body>
+        </html>

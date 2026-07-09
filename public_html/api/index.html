@@ -1,0 +1,81 @@
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <meta name="description" content="Tater Tube local HTTP API endpoints for player control, key input, media search, and media launch.">
+          <title>API | Tater Tube</title>
+          <link rel="icon" type="image/png" href="../assets/images/tater-tube-logo.png">
+          <link rel="stylesheet" href="../assets/site.css">
+          <script src="../assets/site.js" defer></script>
+        </head>
+        <body data-page="api">
+          <header class="site-header">
+            <a class="brand" href="../index.html" aria-label="Tater Tube home">
+              <img src="../assets/images/tater-tube-logo.png" alt="Tater Tube">
+            </a>
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+            <nav class="site-nav" id="site-nav">
+              <a class="nav-link" href="../index.html">Home</a>
+<a class="nav-link" href="../modules/index.html">Modules</a>
+<a class="nav-link" href="../images/index.html">Images</a>
+<a class="nav-link" href="../setup/index.html">Setup</a>
+<a class="nav-link is-active" href="../api/index.html">API</a>
+<a class="nav-link" href="../wiki/index.html">Docs</a>
+<a class="nav-link nav-link-github" href="https://github.com/TaterTotterson/Tater-Tube" target="_blank" rel="noreferrer">GitHub</a>
+            </nav>
+          </header>
+          <main>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="eyebrow">Companion app control</span>
+        <h1>API</h1>
+        <p>The Pi image exposes a small local HTTP API on port 24024. It is meant for companion apps, remote controls, and future voice-assistant bridges.</p>
+      </div>
+      <div class="command-box">
+  <div class="command-head">
+    <span>Status check</span>
+    <button type="button" data-copy-code>Copy</button>
+  </div>
+  <pre><code>curl http://tatertube.local:24024/api/v1/status</code></pre>
+</div>
+
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="eyebrow">Useful endpoints</span>
+        <h2>Player, key, search, and launch calls.</h2>
+      </div>
+              <div class="command-box">
+          <div class="command-head">
+            <span>API surface</span>
+            <button type="button" data-copy-code>Copy</button>
+          </div>
+          <pre><code>GET  /api/v1/status
+POST /api/v1/player/play-pause
+POST /api/v1/player/pause
+POST /api/v1/player/resume
+POST /api/v1/player/stop
+POST /api/v1/player/seek          {&quot;position_ms&quot;: 60000}
+POST /api/v1/player/skip-forward  {&quot;offset_ms&quot;: 30000}
+POST /api/v1/player/skip-back     {&quot;offset_ms&quot;: -10000}
+POST /api/v1/player/volume-up
+POST /api/v1/player/volume-down
+POST /api/v1/player/mute
+POST /api/v1/player/key           {&quot;key&quot;: &quot;LEFT&quot;, &quot;repeat&quot;: 1}
+POST /api/v1/library/search       {&quot;query&quot;: &quot;batman&quot;, &quot;types&quot;: [&quot;movie&quot;, &quot;show&quot;, &quot;game&quot;], &quot;limit&quot;: 10}
+POST /api/v1/library/launch       {&quot;id&quot;: &quot;vod:movie:ITEM_ID&quot;}</code></pre>
+        </div>
+
+      <p>Set <code>TATER_TUBE_API_TOKEN</code> to require <code>Authorization: Bearer &lt;token&gt;</code> or <code>X-TaterTube-Token: &lt;token&gt;</code>.</p>
+    </section>
+
+          </main>
+          <footer class="site-footer">
+            <p>Tater Tube website pages are generated from this website project and the Tater Tube source docs.</p>
+            <p><a href="https://github.com/TaterTotterson/Tater-Tube" target="_blank" rel="noreferrer">View Tater Tube on GitHub</a></p>
+          </footer>
+        </body>
+        </html>

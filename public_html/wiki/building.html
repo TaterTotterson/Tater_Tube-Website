@@ -1,0 +1,83 @@
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <meta name="description" content="Generated Tater Tube documentation page for Build Guide.">
+          <title>Build Guide | Tater Tube Docs</title>
+          <link rel="icon" type="image/png" href="../assets/images/tater-tube-logo.png">
+          <link rel="stylesheet" href="../assets/site.css">
+          <script src="../assets/site.js" defer></script>
+        </head>
+        <body data-page="docs">
+          <header class="site-header">
+            <a class="brand" href="../index.html" aria-label="Tater Tube home">
+              <img src="../assets/images/tater-tube-logo.png" alt="Tater Tube">
+            </a>
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+            <nav class="site-nav" id="site-nav">
+              <a class="nav-link" href="../index.html">Home</a>
+<a class="nav-link" href="../modules/index.html">Modules</a>
+<a class="nav-link" href="../images/index.html">Images</a>
+<a class="nav-link" href="../setup/index.html">Setup</a>
+<a class="nav-link" href="../api/index.html">API</a>
+<a class="nav-link is-active" href="../wiki/index.html">Docs</a>
+<a class="nav-link nav-link-github" href="https://github.com/TaterTotterson/Tater-Tube" target="_blank" rel="noreferrer">GitHub</a>
+            </nav>
+          </header>
+          <main>
+
+    <section class="section wiki-body">
+      <article class="article">
+        <h2 id="build-guide">Build Guide</h2>
+<p>Most users should use the ready-to-flash release images. Build locally only when changing the app, the image profile, or the website.</p>
+<h3 id="website">Website</h3>
+<p>Build the static website:</p>
+<pre><code>python3 scripts/update_site.py</code></pre>
+<p>The website script keeps a source checkout in:</p>
+<pre><code>.cache/tater-tube-source</code></pre>
+<p>It clones the Tater Tube app repo if the cache is missing and fetches the latest <code>main</code> when the cache already exists.</p>
+<p>Preview locally:</p>
+<pre><code>python3 -m http.server 8080 -d public_html</code></pre>
+<h3 id="app-development">App Development</h3>
+<p>For quick app UI checks on macOS, build the local test app from the Tater Tube source repo. The macOS build is for development only and is not a release target.</p>
+<p>For Pi testing, use the release image or build an image profile.</p>
+<h3 id="image-profiles">Image Profiles</h3>
+<p>The appliance image builder supports:</p>
+<ul>
+<li><code>crt-ntsc</code></li>
+<li><code>crt-pal</code></li>
+<li><code>pi5-hdmi-auto</code></li>
+</ul>
+<p>Build examples from the Tater Tube source repo:</p>
+<pre><code>PI_IMAGE_PROFILE=crt-ntsc PI_IMAGE_NAME=tater-tube-ntsc ./scripts/build-pi-image.sh
+PI_IMAGE_PROFILE=crt-pal PI_IMAGE_NAME=tater-tube-pal ./scripts/build-pi-image.sh
+PI_IMAGE_PROFILE=pi5-hdmi-auto PI_IMAGE_NAME=tater-tube-pi5-hdmi-auto ./scripts/build-pi-image.sh</code></pre>
+<p>The release workflow publishes the app update bundle and the three ready-to-flash Raspberry Pi images.</p>
+<h3 id="release-artifacts">Release Artifacts</h3>
+<p>Each release should include:</p>
+<ul>
+<li>Pi 4 NTSC composite image.</li>
+<li>Pi 4 PAL composite image.</li>
+<li>Pi 5 HDMI auto image.</li>
+<li>App update tarball.</li>
+<li>Installer script.</li>
+<li>Checksums.</li>
+</ul>
+<p>The website Images page reads the latest GitHub release at page load and links directly to the current image files.</p>
+      </article>
+      <nav class="doc-nav" aria-label="Docs">
+        <a href="index.html">Docs home</a>
+        <a class="" href="readme.html">Project README</a>
+<a class="" href="install.html">Install Guide</a>
+<a class="is-active" href="building.html">Build Guide</a>
+      </nav>
+    </section>
+
+          </main>
+          <footer class="site-footer">
+            <p>Tater Tube website pages are generated from this website project and the Tater Tube source docs.</p>
+            <p><a href="https://github.com/TaterTotterson/Tater-Tube" target="_blank" rel="noreferrer">View Tater Tube on GitHub</a></p>
+          </footer>
+        </body>
+        </html>

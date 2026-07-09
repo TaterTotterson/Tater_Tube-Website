@@ -1,0 +1,86 @@
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <meta name="description" content="Generated Tater Tube documentation page for Project README.">
+          <title>Project README | Tater Tube Docs</title>
+          <link rel="icon" type="image/png" href="../assets/images/tater-tube-logo.png">
+          <link rel="stylesheet" href="../assets/site.css">
+          <script src="../assets/site.js" defer></script>
+        </head>
+        <body data-page="docs">
+          <header class="site-header">
+            <a class="brand" href="../index.html" aria-label="Tater Tube home">
+              <img src="../assets/images/tater-tube-logo.png" alt="Tater Tube">
+            </a>
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+            <nav class="site-nav" id="site-nav">
+              <a class="nav-link" href="../index.html">Home</a>
+<a class="nav-link" href="../modules/index.html">Modules</a>
+<a class="nav-link" href="../images/index.html">Images</a>
+<a class="nav-link" href="../setup/index.html">Setup</a>
+<a class="nav-link" href="../api/index.html">API</a>
+<a class="nav-link is-active" href="../wiki/index.html">Docs</a>
+<a class="nav-link nav-link-github" href="https://github.com/TaterTotterson/Tater-Tube" target="_blank" rel="noreferrer">GitHub</a>
+            </nav>
+          </header>
+          <main>
+
+    <section class="section wiki-body">
+      <article class="article">
+        <h2 id="tater-tube">Tater Tube</h2>
+<p>Tater Tube is a retro media appliance for Raspberry Pi. It boots straight into a VCR-style interface and keeps the Linux desktop out of the normal couch experience.</p>
+<p>The project targets two appliance styles:</p>
+<ul>
+<li>Raspberry Pi 4 composite output for CRT televisions, with separate NTSC and PAL images.</li>
+<li>Raspberry Pi 5 HDMI output for modern displays, using the display&#x27;s preferred mode.</li>
+</ul>
+<h3 id="modules">Modules</h3>
+<ul>
+<li><strong>Over The Air</strong> tunes HDHomeRun channels directly with an old-TV channel overlay.</li>
+<li><strong>Video on Demand</strong> connects to Emby, Jellyfin, or Plex for movies, shows, collections, resume, and TV Mode.</li>
+<li><strong>Public Access</strong> plays saved YouTube playlists, supports multiple playlists, and includes playlist-based TV Mode.</li>
+<li><strong>Usenet</strong> browses media-focused Newznab categories, search, and trending feeds, then launches streams through a compatible streamer.</li>
+<li><strong>Tape Deck</strong> plays music albums from Emby, Jellyfin, or Plex with a cassette-style interface.</li>
+<li><strong>Game Center</strong> browses RetroNAS/MiSTer-style ROM folders and launches RetroArch cores.</li>
+<li><strong>PC Link</strong> pairs with Sunshine through Moonlight for PC or Mac game streaming.</li>
+<li><strong>Local Files</strong> plays local videos and playlists from folders on the Pi.</li>
+</ul>
+<h3 id="images">Images</h3>
+<p>The release page includes three ready-to-flash images:</p>
+<ul>
+<li>Pi 4 NTSC Composite</li>
+<li>Pi 4 PAL Composite</li>
+<li>Pi 5 HDMI Auto</li>
+</ul>
+<p>Download the image that matches the display, flash it to an SD card, and boot the Pi. Tater Tube starts automatically.</p>
+<h3 id="updates">Updates</h3>
+<p>Existing installs update from inside Tater Tube:</p>
+<pre><code>Settings -&gt; System -&gt; Check For Updates</code></pre>
+<p>The updater refreshes the app, helpers, runtime packages, controller support, RetroArch cores, Moonlight, boot assets, IR support, Bluetooth support, fan control, and display setup without a full reflash.</p>
+<h3 id="api">API</h3>
+<p>Tater Tube exposes a local HTTP API on port 24024 for companion apps and remote-control integrations.</p>
+<pre><code>curl http://tatertube.local:24024/api/v1/status</code></pre>
+<p>If API auth is enabled, callers send:</p>
+<pre><code>Authorization: Bearer &lt;token&gt;</code></pre>
+<p>or:</p>
+<pre><code>X-TaterTube-Token: &lt;token&gt;</code></pre>
+<h3 id="credits">Credits</h3>
+<p>Tater Tube began as a fork of the original upstream retro media player project and is now focused on Tater Tube appliance images, Emby/Jellyfin and Plex support, HDHomeRun OTA, Public Access, Usenet streaming, RetroNAS games, PC Link, and Argon IR defaults.</p>
+      </article>
+      <nav class="doc-nav" aria-label="Docs">
+        <a href="index.html">Docs home</a>
+        <a class="is-active" href="readme.html">Project README</a>
+<a class="" href="install.html">Install Guide</a>
+<a class="" href="building.html">Build Guide</a>
+      </nav>
+    </section>
+
+          </main>
+          <footer class="site-footer">
+            <p>Tater Tube website pages are generated from this website project and the Tater Tube source docs.</p>
+            <p><a href="https://github.com/TaterTotterson/Tater-Tube" target="_blank" rel="noreferrer">View Tater Tube on GitHub</a></p>
+          </footer>
+        </body>
+        </html>

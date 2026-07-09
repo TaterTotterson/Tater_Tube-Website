@@ -1,0 +1,84 @@
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <meta name="description" content="Tater Tube setup information for flashing images, updating existing installs, and configuring modules.">
+          <title>Setup | Tater Tube</title>
+          <link rel="icon" type="image/png" href="../assets/images/tater-tube-logo.png">
+          <link rel="stylesheet" href="../assets/site.css">
+          <script src="../assets/site.js" defer></script>
+        </head>
+        <body data-page="setup">
+          <header class="site-header">
+            <a class="brand" href="../index.html" aria-label="Tater Tube home">
+              <img src="../assets/images/tater-tube-logo.png" alt="Tater Tube">
+            </a>
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+            <nav class="site-nav" id="site-nav">
+              <a class="nav-link" href="../index.html">Home</a>
+<a class="nav-link" href="../modules/index.html">Modules</a>
+<a class="nav-link" href="../images/index.html">Images</a>
+<a class="nav-link is-active" href="../setup/index.html">Setup</a>
+<a class="nav-link" href="../api/index.html">API</a>
+<a class="nav-link" href="../wiki/index.html">Docs</a>
+<a class="nav-link nav-link-github" href="https://github.com/TaterTotterson/Tater-Tube" target="_blank" rel="noreferrer">GitHub</a>
+            </nav>
+          </header>
+          <main>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="eyebrow">Start here</span>
+        <h1>Setup</h1>
+        <p>Tater Tube is intended to run as an appliance image. Flash first, then configure modules from Settings inside the app.</p>
+      </div>
+      <div class="grid grid-3">
+        <article class="info-card">
+  <h3>1. Download</h3>
+  <p>Open the latest GitHub release and choose the NTSC, PAL, or Pi 5 HDMI image for your display.</p>
+
+</article>
+
+<article class="info-card">
+  <h3>2. Flash</h3>
+  <p>Use Raspberry Pi Imager, Balena Etcher, or dd to write the `.img.xz` to an SD card.</p>
+
+</article>
+
+<article class="info-card">
+  <h3>3. Boot</h3>
+  <p>Connect the display, audio, remote receiver, and network, then boot directly into Tater Tube.</p>
+
+</article>
+
+      </div>
+    </section>
+
+    <section class="section split-section">
+      <div class="split-copy">
+        <span class="eyebrow">Normal update path</span>
+        <h2>Existing images update from inside Tater Tube.</h2>
+        <p>Use Settings, System, Check For Updates. The updater refreshes the app, helpers, runtime packages, RetroArch cores, Moonlight, Bluetooth support, boot splash, IR, fan control, and display setup.</p>
+        <div class="command-box">
+  <div class="command-head">
+    <span>SSH update fallback</span>
+    <button type="button" data-copy-code>Copy</button>
+  </div>
+  <pre><code>bash &lt;(curl -fsSL https://github.com/TaterTotterson/Tater-Tube/releases/latest/download/install.sh)</code></pre>
+</div>
+
+      </div>
+      <figure class="image-panel">
+        <img src="../assets/images/tater-tube-boot.png" alt="Tater Tube boot screen">
+        <figcaption>The image boots into Tater Tube and keeps SSH available for recovery.</figcaption>
+      </figure>
+    </section>
+
+          </main>
+          <footer class="site-footer">
+            <p>Tater Tube website pages are generated from this website project and the Tater Tube source docs.</p>
+            <p><a href="https://github.com/TaterTotterson/Tater-Tube" target="_blank" rel="noreferrer">View Tater Tube on GitHub</a></p>
+          </footer>
+        </body>
+        </html>

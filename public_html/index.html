@@ -1,0 +1,123 @@
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <meta name="description" content="Tater Tube is a VCR-style Raspberry Pi media frontend for CRT composite and Pi 5 HDMI appliance images.">
+          <title>Tater Tube | Retro media appliance for Raspberry Pi</title>
+          <link rel="icon" type="image/png" href="assets/images/tater-tube-logo.png">
+          <link rel="stylesheet" href="assets/site.css">
+          <script src="assets/site.js" defer></script>
+        </head>
+        <body data-page="home">
+          <header class="site-header">
+            <a class="brand" href="index.html" aria-label="Tater Tube home">
+              <img src="assets/images/tater-tube-logo.png" alt="Tater Tube">
+            </a>
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+            <nav class="site-nav" id="site-nav">
+              <a class="nav-link is-active" href="index.html">Home</a>
+<a class="nav-link" href="modules/index.html">Modules</a>
+<a class="nav-link" href="images/index.html">Images</a>
+<a class="nav-link" href="setup/index.html">Setup</a>
+<a class="nav-link" href="api/index.html">API</a>
+<a class="nav-link" href="wiki/index.html">Docs</a>
+<a class="nav-link nav-link-github" href="https://github.com/TaterTotterson/Tater-Tube" target="_blank" rel="noreferrer">GitHub</a>
+            </nav>
+          </header>
+          <main>
+
+    <section class="hero">
+      <img class="hero-bg" src="assets/images/tater-tube-boot.png" alt="" aria-hidden="true">
+      <div class="hero-copy">
+        <span class="eyebrow">Retro media appliance for Raspberry Pi</span>
+        <h1>Tater Tube</h1>
+        <p>A VCR-style frontend for CRT and HDMI Pi builds with Video on Demand, OTA TV, Public Access playlists, Usenet streaming, Tape Deck music, Game Center, PC Link, and local files.</p>
+        <div class="hero-actions">
+          <a class="button" href="images/index.html">Download images</a>
+          <a class="button button-secondary" href="modules/index.html">View modules</a>
+        </div>
+        <div class="hero-facts" aria-label="Tater Tube highlights">
+          <span>Pi 4 CRT composite</span>
+          <span>Pi 5 HDMI auto</span>
+          <span>Boots straight into the app</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="eyebrow">What it is</span>
+        <h2>A small media station that feels like an old TV.</h2>
+        <p>Tater Tube turns a Raspberry Pi into a focused appliance. It hides the desktop, starts the app at boot, supports remotes and controllers, and keeps the interface tuned for repeat couch use.</p>
+      </div>
+      <div class="grid grid-3">
+        <article class="info-card">
+  <h3>Pi 4 CRT Appliance</h3>
+  <p>Flash the NTSC or PAL composite image, wire the Pi to a CRT through the 3.5mm AV jack, and boot directly into the VCR-style UI.</p>
+  <div class="chip-row"><span class="chip">Composite</span><span class="chip">Argon IR</span><span class="chip">Analog audio</span></div>
+</article>
+
+<article class="info-card">
+  <h3>Pi 5 HDMI Appliance</h3>
+  <p>Use the HDMI auto image for modern screens. The image lets KMS choose the display&#x27;s preferred EDID mode.</p>
+  <div class="chip-row"><span class="chip">HDMI auto</span><span class="chip">Pi 5</span><span class="chip">4K displays</span></div>
+</article>
+
+<article class="info-card">
+  <h3>Built-In Updates</h3>
+  <p>Use Settings, System, Check For Updates to refresh the app, helpers, runtime packages, RetroArch cores, Moonlight, Bluetooth, and boot assets.</p>
+  <div class="chip-row"><span class="chip">Updater</span><span class="chip">Progress UI</span><span class="chip">No reflash</span></div>
+</article>
+
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="eyebrow">Modules</span>
+        <h2>Everything lives behind the same VCR-style menu.</h2>
+        <p>Each module is designed to launch cleanly from the main menu and return without showing the Linux desktop.</p>
+      </div>
+      <div class="grid module-grid">
+        <article class="module-card">
+  <img src="assets/images/over-the-air.png" alt="">
+  <h3>Over The Air</h3>
+  <p>Direct HDHomeRun playback with no guide screen. Pick OTA and it tunes like an old TV, with up/down channel changes and a channel OSD.</p>
+  <div class="chip-row"><span class="chip">HDHomeRun</span><span class="chip">Live TV</span><span class="chip">Old-TV OSD</span></div>
+</article>
+
+<article class="module-card">
+  <img src="assets/images/video-on-demand.png" alt="">
+  <h3>Video on Demand</h3>
+  <p>Browse Emby, Jellyfin, or Plex libraries from a VCR-style interface with resume, autoplay, audio selection, subtitles, collections, and TV Mode.</p>
+  <div class="chip-row"><span class="chip">Emby/Jellyfin</span><span class="chip">Plex</span><span class="chip">TV Mode</span></div>
+</article>
+
+<article class="module-card">
+  <img src="assets/images/public-access.png" alt="">
+  <h3>Public Access</h3>
+  <p>Save public YouTube playlists, browse videos from the couch, and run TV Mode with shuffled channels and optional commercial playlists.</p>
+  <div class="chip-row"><span class="chip">YouTube Playlists</span><span class="chip">yt-dlp</span><span class="chip">TV Mode</span></div>
+</article>
+
+<article class="module-card">
+  <img src="assets/images/usenet.png" alt="">
+  <h3>Usenet</h3>
+  <p>Browse media-only Newznab categories, search releases, view provider-supported trending, and hand selected NZBs to an AltMount/Stremio-compatible streamer.</p>
+  <div class="chip-row"><span class="chip">Newznab</span><span class="chip">Trending</span><span class="chip">Streaming</span></div>
+</article>
+
+      </div>
+      <div class="action-row">
+        <a class="button" href="modules/index.html">See every module</a>
+      </div>
+    </section>
+
+          </main>
+          <footer class="site-footer">
+            <p>Tater Tube website pages are generated from this website project and the Tater Tube source docs.</p>
+            <p><a href="https://github.com/TaterTotterson/Tater-Tube" target="_blank" rel="noreferrer">View Tater Tube on GitHub</a></p>
+          </footer>
+        </body>
+        </html>
