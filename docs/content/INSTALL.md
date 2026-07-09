@@ -37,9 +37,13 @@ Open Settings inside Tater Tube and configure the modules you want:
 
 Video on Demand supports Emby, Jellyfin, and Plex.
 
+Video on Demand TV Mode can use automatic library channels plus custom movie and series channels created in the Web Setup UI.
+
 Tape Deck uses Emby, Jellyfin, or Plex music libraries.
 
 Public Access uses public YouTube playlist IDs or playlist URLs.
+
+Public Access TV Mode and Video on Demand TV Mode can use local commercial categories uploaded through the Web Setup UI.
 
 Over The Air uses HDHomeRun discovery or a configured device address.
 
@@ -48,6 +52,16 @@ Game Center uses a RetroNAS/MiSTer-style ROM share.
 PC Link uses Sunshine on the host and Moonlight on the Pi.
 
 Usenet uses a Newznab provider and a compatible stream endpoint.
+
+## Web Setup
+
+Open:
+
+```text
+http://tatertube.local:24024/setup
+```
+
+Use Web Setup from a phone or computer to configure module logins, API keys, Sunshine pairing, local commercials, and custom Video on Demand TV Mode channels.
 
 ## Updates
 

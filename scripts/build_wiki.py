@@ -46,14 +46,14 @@ MODULES = [
     {
         "title": "Video on Demand",
         "image": "video-on-demand.png",
-        "text": "Browse Emby, Jellyfin, or Plex libraries from a VCR-style interface with resume, autoplay, audio selection, subtitles, collections, and TV Mode.",
-        "chips": ["Emby/Jellyfin", "Plex", "TV Mode"],
+        "text": "Browse Emby, Jellyfin, or Plex libraries from a VCR-style interface with resume, autoplay, audio selection, subtitles, collections, TV Mode, and custom movie or series channels.",
+        "chips": ["Emby/Jellyfin", "Plex", "Custom Channels"],
     },
     {
         "title": "Public Access",
         "image": "public-access.png",
-        "text": "Save public YouTube playlists, browse videos from the couch, and run TV Mode with shuffled channels and optional commercial playlists.",
-        "chips": ["YouTube Playlists", "yt-dlp", "TV Mode"],
+        "text": "Save public YouTube playlists, browse videos from the couch, and run TV Mode with shuffled playlist channels and local commercial categories.",
+        "chips": ["YouTube Playlists", "yt-dlp", "Commercials"],
     },
     {
         "title": "Usenet",
@@ -296,7 +296,7 @@ def render_home_page() -> str:
       <div class="hero-copy">
         <span class="eyebrow">Retro media appliance for Raspberry Pi</span>
         <h1>Tater Tube</h1>
-        <p>A VCR-style frontend for CRT and HDMI Pi builds with Video on Demand, OTA TV, Public Access playlists, Usenet streaming, Tape Deck music, Game Center, PC Link, and local files.</p>
+        <p>A VCR-style frontend for CRT and HDMI Pi builds with Video on Demand, OTA TV, Public Access playlists, Usenet streaming, Tape Deck music, Game Center, PC Link, local commercials, and local files.</p>
         <div class="hero-actions">
           {action_link("Download images", "images/index.html")}
           {action_link("View modules", "modules/index.html", secondary=True)}
@@ -324,7 +324,7 @@ def render_home_page() -> str:
       <div class="section-head">
         <span class="eyebrow">Modules</span>
         <h2>Everything lives behind the same VCR-style menu.</h2>
-        <p>Each module is designed to launch cleanly from the main menu and return without showing the Linux desktop.</p>
+        <p>Each module is designed to launch cleanly from the main menu and return without showing the Linux desktop. Web Setup handles long-form configuration from a phone or computer.</p>
       </div>
       <div class="grid module-grid">
         {featured}
@@ -459,6 +459,19 @@ def render_setup_page() -> str:
         <img src="../assets/images/tater-tube-boot.png" alt="Tater Tube boot screen">
         <figcaption>The image boots into Tater Tube and keeps SSH available for recovery.</figcaption>
       </figure>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="eyebrow">Web Setup</span>
+        <h2>Configure long-form settings from another device.</h2>
+        <p>Open <code>http://tatertube.local:24024/setup</code> from a phone or computer on the same network to enter logins, API keys, RetroNAS paths, Sunshine pairing details, local commercials, and custom VoD TV channels.</p>
+      </div>
+      <div class="grid grid-3">
+        {simple_card("Local Commercials", "Create commercial categories and upload local video files. Public Access TV Mode and VoD TV Mode can choose which categories to use.", ["Uploads", "Categories", "TV Mode"])}
+        {simple_card("Custom VoD Channels", "Build named TV Mode channels from Plex, Emby, or Jellyfin movies and series. Custom channels appear first when VoD TV Mode starts.", ["Movies", "Series", "Priority"])}
+        {simple_card("Module Settings", "Update provider URLs, API keys, module settings, controller-related setup, and other appliance settings without typing them on the TV.", ["Mobile", "Settings", "Setup"])}
+      </div>
     </section>
     """
     return page_template(
