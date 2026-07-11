@@ -1,5 +1,4 @@
 (() => {
-  const latestRelease = document.querySelector("[data-latest-release]");
   const navToggle = document.querySelector(".nav-toggle");
   const siteNav = document.querySelector(".site-nav");
 
@@ -44,10 +43,27 @@
     });
   });
 
-  const imageAssetMatchers = {
-    "crt-ntsc": /crt-ntsc\.img\.xz$/i,
-    "crt-pal": /crt-pal\.img\.xz$/i,
-    "pi5-hdmi-auto": /pi5-hdmi-auto\.img\.xz$/i,
+  const releaseConfigs = {
+    "TaterTotterson/Tater-Tube": {
+      latestUrl: "https://github.com/TaterTotterson/Tater-Tube/releases/latest",
+      apiUrl: "https://api.github.com/repos/TaterTotterson/Tater-Tube/releases/latest",
+      readyMessage: "Direct image links are ready.",
+      missingFileMessage: "Open release to download",
+      downloadText: "Download image",
+      matchers: {
+        "crt-ntsc": /crt-ntsc\.img\.xz$/i,
+        "crt-pal": /crt-pal\.img\.xz$/i,
+        "pi5-hdmi-auto": /pi5-hdmi-auto\.img\.xz$/i,
+      },
+    },
+    "TaterTotterson/tater-tube-server": {
+      latestUrl: "https://github.com/TaterTotterson/tater-tube-server/releases/latest",
+      apiUrl: "https://api.github.com/repos/TaterTotterson/tater-tube-server/releases/latest",
+      readyMessage: "Server release information is ready.",
+      missingFileMessage: "Open release to download",
+      downloadText: "Download server",
+      matchers: {},
+    },
   };
 
   const formatBytes = (bytes) => {
@@ -74,32 +90,41 @@
     });
   };
 
-  const setReleaseStatus = (message) => {
-    const status = latestRelease?.querySelector("[data-release-status]");
+  const releaseRepoFor = (element) => element?.getAttribute("data-release-repo") || "TaterTotterson/Tater-Tube";
+
+  const setReleaseStatus = (panel, message) => {
+    const status = panel?.querySelector("[data-release-status]");
     if (status) status.textContent = message;
   };
 
-  const hydrateImageDownloads = async () => {
-    if (!latestRelease) return;
+  const hydrateRelease = async (repo) => {
+    const config = releaseConfigs[repo] || releaseConfigs["TaterTotterson/Tater-Tube"];
+    const panels = [...document.querySelectorAll("[data-latest-release]")].filter((panel) => releaseRepoFor(panel) === repo);
+    const cards = [...document.querySelectorAll("[data-release-card]")].filter((card) => releaseRepoFor(card) === repo);
+    if (!panels.length && !cards.length) return;
 
     try {
-      const response = await fetch("https://api.github.com/repos/TaterTotterson/Tater-Tube/releases/latest", {
+      const response = await fetch(config.apiUrl, {
         headers: { Accept: "application/vnd.github+json" },
       });
       if (!response.ok) throw new Error(`GitHub release lookup failed: ${response.status}`);
 
       const release = await response.json();
-      const releaseUrl = release.html_url || "https://github.com/TaterTotterson/Tater-Tube/releases/latest";
+      const releaseUrl = release.html_url || config.latestUrl;
       const releaseName = release.name || release.tag_name || "Latest release";
       const releaseDate = formatDate(release.published_at);
 
-      latestRelease.querySelector("[data-release-tag]").textContent = releaseName;
-      latestRelease.querySelector("[data-release-link]").href = releaseUrl;
-      setReleaseStatus(releaseDate ? `Published ${releaseDate}. Direct image links are ready.` : "Direct image links are ready.");
+      panels.forEach((panel) => {
+        const tag = panel.querySelector("[data-release-tag]");
+        const link = panel.querySelector("[data-release-link]");
+        if (tag) tag.textContent = releaseName;
+        if (link) link.href = releaseUrl;
+        setReleaseStatus(panel, releaseDate ? `Published ${releaseDate}. ${config.readyMessage}` : config.readyMessage);
+      });
 
-      document.querySelectorAll("[data-release-card]").forEach((card) => {
+      cards.forEach((card) => {
         const assetKey = card.getAttribute("data-release-asset");
-        const matcher = imageAssetMatchers[assetKey];
+        const matcher = config.matchers[assetKey];
         const asset = Array.isArray(release.assets) && matcher
           ? release.assets.find((item) => matcher.test(item.name || ""))
           : null;
@@ -115,7 +140,7 @@
 
         if (!asset) {
           card.classList.add("is-missing-asset");
-          if (filename) filename.textContent = "Open release to download";
+          if (filename) filename.textContent = config.missingFileMessage;
           if (size) size.textContent = "--";
           if (downloadLink) {
             downloadLink.href = releaseUrl;
@@ -128,14 +153,23 @@
         if (size) size.textContent = formatBytes(asset.size);
         if (downloadLink) {
           downloadLink.href = asset.browser_download_url;
-          downloadLink.textContent = "Download image";
+          downloadLink.textContent = config.downloadText;
         }
       });
     } catch (error) {
-      latestRelease.querySelector("[data-release-tag]").textContent = "Latest release";
-      setReleaseStatus("GitHub could not be reached. Use the release page link.");
+      panels.forEach((panel) => {
+        const tag = panel.querySelector("[data-release-tag]");
+        if (tag) tag.textContent = "Latest release";
+        setReleaseStatus(panel, "GitHub could not be reached. Use the release page link.");
+      });
     }
   };
 
-  hydrateImageDownloads();
+  const repos = new Set([
+    ...[...document.querySelectorAll("[data-latest-release]")].map(releaseRepoFor),
+    ...[...document.querySelectorAll("[data-release-card]")].map(releaseRepoFor),
+  ]);
+  repos.forEach((repo) => {
+    hydrateRelease(repo);
+  });
 })();

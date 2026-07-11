@@ -1,0 +1,232 @@
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <meta name="description" content="Tater Tube Server setup, Docker install, local media mapping, downloads, player pairing, and hardware transcoding information.">
+          <title>Server | Tater Tube</title>
+          <link rel="icon" type="image/png" href="../assets/images/tater-tube-logo.png">
+          <link rel="stylesheet" href="../assets/site.css">
+          <script src="../assets/site.js" defer></script>
+        </head>
+        <body data-page="server">
+          <header class="site-header">
+            <a class="brand" href="../index.html" aria-label="Tater Tube home">
+              <img src="../assets/images/tater-tube-logo.png" alt="Tater Tube">
+            </a>
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+            <nav class="site-nav" id="site-nav">
+              <a class="nav-link" href="../index.html">Home</a>
+<a class="nav-link" href="../modules/index.html">Modules</a>
+<a class="nav-link" href="../images/index.html">Images</a>
+<a class="nav-link is-active" href="../server/index.html">Server</a>
+<a class="nav-link" href="../setup/index.html">Setup</a>
+<a class="nav-link" href="../api/index.html">API</a>
+<a class="nav-link" href="../wiki/index.html">Docs</a>
+<a class="nav-link nav-link-github" href="https://github.com/TaterTotterson/Tater-Tube" target="_blank" rel="noreferrer">GitHub</a>
+            </nav>
+          </header>
+          <main>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="eyebrow">Backend for The Tube</span>
+        <h1>Tater Tube Server</h1>
+        <p>The server gives Tater Tube players a central backend for Newznab Stream browsing, local media libraries, player pairing, dashboard stats, and optional FFmpeg transcoding.</p>
+        <div class="latest-release-panel" data-latest-release data-release-repo="TaterTotterson/tater-tube-server">
+          <div>
+            <span class="release-label">Latest server release</span>
+            <strong data-release-tag>Checking...</strong>
+            <span data-release-status>Server release information loads from GitHub.</span>
+          </div>
+          <a class="button button-secondary" href="https://github.com/TaterTotterson/tater-tube-server/releases/latest" target="_blank" rel="noreferrer" data-release-link>Open release</a>
+        </div>
+      </div>
+      <div class="grid grid-3">
+        <article class="info-card">
+  <h3>Docker First</h3>
+  <p>Run the server as a container with one persistent /config volume. Add local media mounts only when you need Local Media.</p>
+  <div class="chip-row"><span class="chip">Docker</span><span class="chip">GHCR</span><span class="chip">/config</span></div>
+</article>
+
+        <article class="info-card">
+  <h3>Pair Players</h3>
+  <p>Create short-lived PINs in the web UI, give players friendly names, and revoke or rename them later.</p>
+  <div class="chip-row"><span class="chip">PIN</span><span class="chip">Rename</span><span class="chip">Dashboard</span></div>
+</article>
+
+        <article class="info-card">
+  <h3>Stream + Local</h3>
+  <p>Use Newznab Stream for releases and Local Media for mapped folders. Both can use the same transcoding profiles.</p>
+  <div class="chip-row"><span class="chip">Newznab</span><span class="chip">Local Media</span><span class="chip">FFmpeg</span></div>
+</article>
+
+      </div>
+    </section>
+
+    <section class="section split-section">
+      <div class="split-copy">
+        <span class="eyebrow">Docker install</span>
+        <h2>Start with the latest container image.</h2>
+        <p>The web UI runs on port 8080. Login is disabled by default so setup is quick on a trusted home network.</p>
+        <div class="command-box">
+  <div class="command-head">
+    <span>Docker pull</span>
+    <button type="button" data-copy-code>Copy</button>
+  </div>
+  <pre><code>docker pull ghcr.io/tatertotterson/tater-tube-server:latest</code></pre>
+</div>
+
+        <div class="command-box">
+  <div class="command-head">
+    <span>docker-compose.yml</span>
+    <button type="button" data-copy-code>Copy</button>
+  </div>
+  <pre><code>services:
+  tater-tube-server:
+    image: ghcr.io/tatertotterson/tater-tube-server:latest
+    container_name: tater-tube-server
+    ports:
+      - &quot;8080:8080&quot;
+    volumes:
+      - /mnt/user/appdata/tater-tube-server/config:/config
+      - /mnt/user/media/movies:/media/movies:ro
+      - /mnt/user/media/tv:/media/tv:ro
+    restart: unless-stopped</code></pre>
+</div>
+
+      </div>
+      <figure class="image-panel">
+        <img src="../assets/images/tater-tube-logo.png" alt="Tater Tube logo">
+        <figcaption>Open <code>http://SERVER-IP:8080</code> after the container starts.</figcaption>
+      </figure>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="eyebrow">Downloads</span>
+        <h2>Install the server from the Docker image.</h2>
+        <p>The release publishes one multi-architecture container image tagged <code>latest</code>. Use the GitHub release for notes and the package page for container details.</p>
+      </div>
+      <div class="grid download-grid">
+        <article class="download-card">
+          <div>
+            <span class="eyebrow">Recommended</span>
+            <h3>Docker Image</h3>
+            <p>Multi-architecture container image for amd64 and arm64 hosts.</p>
+            <div class="chip-row"><span class="chip">Docker</span><span class="chip">amd64</span><span class="chip">arm64</span></div>
+          </div>
+          <div class="command-box">
+  <div class="command-head">
+    <span>Pull latest</span>
+    <button type="button" data-copy-code>Copy</button>
+  </div>
+  <pre><code>docker pull ghcr.io/tatertotterson/tater-tube-server:latest</code></pre>
+</div>
+
+          <div class="release-actions">
+            <a class="button" href="https://github.com/users/TaterTotterson/packages/container/package/tater-tube-server" target="_blank" rel="noreferrer">Open package</a>
+          </div>
+        </article>
+        <article class="download-card">
+          <div>
+            <span class="eyebrow">Release</span>
+            <h3>Server Release Notes</h3>
+            <p>View the current release notes, changelog, and source archives.</p>
+            <div class="chip-row"><span class="chip">v1.0.0+</span><span class="chip">Changelog</span><span class="chip">Source</span></div>
+          </div>
+          <div class="release-actions">
+            <a class="button" href="https://github.com/TaterTotterson/tater-tube-server/releases/latest" target="_blank" rel="noreferrer">Open release</a>
+            <a class="button button-secondary" href="https://github.com/TaterTotterson/tater-tube-server" target="_blank" rel="noreferrer">GitHub</a>
+          </div>
+        </article>
+        <article class="download-card">
+          <div>
+            <span class="eyebrow">Persistent data</span>
+            <h3>Config Volume</h3>
+            <p>Map one host folder to <code>/config</code>. This stores settings, player tokens, metadata, and segment cache.</p>
+            <div class="chip-row"><span class="chip">/config</span><span class="chip">Settings</span><span class="chip">Cache</span></div>
+          </div>
+          <div class="command-box">
+  <div class="command-head">
+    <span>Volume</span>
+    <button type="button" data-copy-code>Copy</button>
+  </div>
+  <pre><code>- /mnt/user/appdata/tater-tube-server/config:/config</code></pre>
+</div>
+
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="eyebrow">Local Media</span>
+        <h2>Map host folders, then add container paths in the UI.</h2>
+        <p>Mount host media folders read-only into the container. In <code>Configuration -> Local Media</code>, use the container paths like <code>/media/movies</code>, not the host paths.</p>
+      </div>
+      <div class="grid grid-3">
+        <article class="info-card">
+  <h3>Movies</h3>
+  <p>Scans a folder into a clean movie title list for The Tube.</p>
+  <div class="chip-row"><span class="chip">Library Type</span><span class="chip">Movies</span></div>
+</article>
+
+        <article class="info-card">
+  <h3>TV Shows</h3>
+  <p>Browses as show, season, then episode.</p>
+  <div class="chip-row"><span class="chip">Library Type</span><span class="chip">TV Shows</span></div>
+</article>
+
+        <article class="info-card">
+  <h3>Folders</h3>
+  <p>Keeps your original directory structure intact.</p>
+  <div class="chip-row"><span class="chip">Library Type</span><span class="chip">Folders</span></div>
+</article>
+
+      </div>
+    </section>
+
+    <section class="section split-section">
+      <div class="split-copy">
+        <span class="eyebrow">Hardware transcoding</span>
+        <h2>Enable FFmpeg profiles when the player needs a lighter stream.</h2>
+        <p>The server includes CRT 480p, HDMI 1080p, and HDMI 4K profiles. The dashboard shows detected encoders and each active player card shows direct play, software transcode, or hardware transcode.</p>
+        <div class="command-box">
+  <div class="command-head">
+    <span>Intel/AMD/Pi device mapping</span>
+    <button type="button" data-copy-code>Copy</button>
+  </div>
+  <pre><code>services:
+  tater-tube-server:
+    image: ghcr.io/tatertotterson/tater-tube-server:latest
+    devices:
+      - /dev/dri:/dev/dri
+    volumes:
+      - /path/to/tater-tube-server/config:/config</code></pre>
+</div>
+
+      </div>
+      <div class="grid">
+        <article class="info-card">
+  <h3>Hardware Detection</h3>
+  <p>The server checks FFmpeg and available encoders from the Hardware Transcoding tab.</p>
+  <div class="chip-row"><span class="chip">VAAPI</span><span class="chip">QSV</span><span class="chip">NVENC</span></div>
+</article>
+
+        <article class="info-card">
+  <h3>Player Stats</h3>
+  <p>The dashboard shows what each paired player is watching and whether hardware acceleration is active.</p>
+  <div class="chip-row"><span class="chip">Now Playing</span><span class="chip">HW Status</span></div>
+</article>
+
+      </div>
+    </section>
+
+          </main>
+          <footer class="site-footer">
+            <p>Tater Tube website pages are generated from this website project and the Tater Tube source docs.</p>
+            <p><a href="https://github.com/TaterTotterson/Tater-Tube" target="_blank" rel="noreferrer">View Tater Tube on GitHub</a></p>
+          </footer>
+        </body>
+        </html>

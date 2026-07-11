@@ -19,6 +19,7 @@
               <a class="nav-link" href="../index.html">Home</a>
 <a class="nav-link" href="../modules/index.html">Modules</a>
 <a class="nav-link" href="../images/index.html">Images</a>
+<a class="nav-link" href="../server/index.html">Server</a>
 <a class="nav-link" href="../setup/index.html">Setup</a>
 <a class="nav-link is-active" href="../api/index.html">API</a>
 <a class="nav-link" href="../wiki/index.html">Docs</a>
@@ -48,12 +49,12 @@
         <span class="eyebrow">Useful endpoints</span>
         <h2>Player, key, search, and launch calls.</h2>
       </div>
-              <div class="command-box">
-          <div class="command-head">
-            <span>API surface</span>
-            <button type="button" data-copy-code>Copy</button>
-          </div>
-          <pre><code>GET  /api/v1/status
+      <div class="command-box">
+  <div class="command-head">
+    <span>API surface</span>
+    <button type="button" data-copy-code>Copy</button>
+  </div>
+  <pre><code>GET  /api/v1/status
 POST /api/v1/player/play-pause
 POST /api/v1/player/pause
 POST /api/v1/player/resume
@@ -67,9 +68,29 @@ POST /api/v1/player/mute
 POST /api/v1/player/key           {&quot;key&quot;: &quot;LEFT&quot;, &quot;repeat&quot;: 1}
 POST /api/v1/library/search       {&quot;query&quot;: &quot;batman&quot;, &quot;types&quot;: [&quot;movie&quot;, &quot;show&quot;, &quot;game&quot;], &quot;limit&quot;: 10}
 POST /api/v1/library/launch       {&quot;id&quot;: &quot;vod:movie:ITEM_ID&quot;}</code></pre>
-        </div>
+</div>
 
       <p>Set <code>TATER_TUBE_API_TOKEN</code> to require <code>Authorization: Bearer &lt;token&gt;</code> or <code>X-TaterTube-Token: &lt;token&gt;</code>.</p>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="eyebrow">Server API</span>
+        <h2>Tater Tube Server exposes player-facing endpoints on port 8080.</h2>
+        <p>The player uses the server API for pairing, The Tube catalog, Newznab search/trending, local media libraries, stream launch, and local playback URLs.</p>
+      </div>
+      <div class="command-box">
+  <div class="command-head">
+    <span>Server status</span>
+    <button type="button" data-copy-code>Copy</button>
+  </div>
+  <pre><code>curl http://SERVER-IP:8080/api/tater/server</code></pre>
+</div>
+
+      <div class="action-row">
+        <a class="button" href="../server/index.html">Server setup</a>
+        <a class="button button-secondary" href="https://github.com/TaterTotterson/tater-tube-server">Server GitHub</a>
+      </div>
     </section>
 
           </main>

@@ -20,11 +20,14 @@ SOURCE_DOC_DIR = WEBSITE_DIR / "docs" / "source"
 SOURCE_CACHE_DIR = WEBSITE_DIR / ".cache" / "tater-tube-source"
 GITHUB_REPO = "https://github.com/TaterTotterson/Tater-Tube"
 LATEST_RELEASE = f"{GITHUB_REPO}/releases/latest"
+SERVER_GITHUB_REPO = "https://github.com/TaterTotterson/tater-tube-server"
+SERVER_LATEST_RELEASE = f"{SERVER_GITHUB_REPO}/releases/latest"
 
 NAV_ITEMS = [
     ("home", "Home", "index.html"),
     ("modules", "Modules", "modules/index.html"),
     ("images", "Images", "images/index.html"),
+    ("server", "Server", "server/index.html"),
     ("setup", "Setup", "setup/index.html"),
     ("api", "API", "api/index.html"),
     ("docs", "Docs", "wiki/index.html"),
@@ -56,10 +59,10 @@ MODULES = [
         "chips": ["YouTube Playlists", "yt-dlp", "Commercials"],
     },
     {
-        "title": "Usenet",
+        "title": "The Tube",
         "image": "usenet.png",
-        "text": "Browse media-only Newznab categories, search releases, view provider-supported trending, and hand selected NZBs to an AltMount/Stremio-compatible streamer.",
-        "chips": ["Newznab", "Trending", "Streaming"],
+        "text": "Connect to Tater Tube Server for Newznab Stream browsing, trending, search, local media libraries, and server-side transcoding.",
+        "chips": ["Server", "Newznab", "Local Media"],
     },
     {
         "title": "Tape Deck",
@@ -108,7 +111,6 @@ IMAGE_DOWNLOADS = [
     },
 ]
 
-
 def escape(value: object) -> str:
     return html.escape(str(value), quote=True)
 
@@ -120,6 +122,7 @@ def ensure_dirs() -> None:
         IMAGE_DIR,
         PUBLIC_ROOT / "modules",
         PUBLIC_ROOT / "images",
+        PUBLIC_ROOT / "server",
         PUBLIC_ROOT / "setup",
         PUBLIC_ROOT / "api",
         PUBLIC_ROOT / "wiki",
@@ -195,16 +198,14 @@ def action_link(label: str, href: str, *, secondary: bool = False) -> str:
 
 
 def command_box(command: str, label: str = "Terminal") -> str:
-    return textwrap.dedent(
-        f"""\
-        <div class="command-box">
-          <div class="command-head">
-            <span>{escape(label)}</span>
-            <button type="button" data-copy-code>Copy</button>
-          </div>
-          <pre><code>{escape(command.strip())}</code></pre>
-        </div>
-        """
+    return (
+        '<div class="command-box">\n'
+        '  <div class="command-head">\n'
+        f"    <span>{escape(label)}</span>\n"
+        '    <button type="button" data-copy-code>Copy</button>\n'
+        "  </div>\n"
+        f"  <pre><code>{escape(command.strip())}</code></pre>\n"
+        "</div>\n"
     )
 
 
@@ -283,9 +284,9 @@ def render_home_page() -> str:
                 ["HDMI auto", "Pi 5", "4K displays"],
             ),
             simple_card(
-                "Built-In Updates",
-                "Use Settings, System, Check For Updates to refresh the app, helpers, runtime packages, RetroArch cores, Moonlight, Bluetooth, and boot assets.",
-                ["Updater", "Progress UI", "No reflash"],
+                "Tater Tube Server",
+                "Run the Docker server for Newznab Stream, local media libraries, player pairing, dashboard stats, and optional transcoding.",
+                ["Docker", "The Tube", "Transcoding"],
             ),
         ]
     )
@@ -299,6 +300,7 @@ def render_home_page() -> str:
         <p>A VCR-style frontend for CRT and HDMI Pi builds with Video on Demand, OTA TV, Public Access playlists, Usenet streaming, Tape Deck music, Game Center, PC Link, local commercials, and local files.</p>
         <div class="hero-actions">
           {action_link("Download images", "images/index.html")}
+          {action_link("Set up server", "server/index.html", secondary=True)}
           {action_link("View modules", "modules/index.html", secondary=True)}
         </div>
         <div class="hero-facts" aria-label="Tater Tube highlights">
@@ -428,6 +430,139 @@ def render_images_page() -> str:
     )
 
 
+def render_server_page() -> str:
+    docker_compose = """services:
+  tater-tube-server:
+    image: ghcr.io/tatertotterson/tater-tube-server:latest
+    container_name: tater-tube-server
+    ports:
+      - "8080:8080"
+    volumes:
+      - /mnt/user/appdata/tater-tube-server/config:/config
+      - /mnt/user/media/movies:/media/movies:ro
+      - /mnt/user/media/tv:/media/tv:ro
+    restart: unless-stopped"""
+    hw_compose = """services:
+  tater-tube-server:
+    image: ghcr.io/tatertotterson/tater-tube-server:latest
+    devices:
+      - /dev/dri:/dev/dri
+    volumes:
+      - /path/to/tater-tube-server/config:/config"""
+    body = f"""
+    <section class="section">
+      <div class="section-head">
+        <span class="eyebrow">Backend for The Tube</span>
+        <h1>Tater Tube Server</h1>
+        <p>The server gives Tater Tube players a central backend for Newznab Stream browsing, local media libraries, player pairing, dashboard stats, and optional FFmpeg transcoding.</p>
+        <div class="latest-release-panel" data-latest-release data-release-repo="TaterTotterson/tater-tube-server">
+          <div>
+            <span class="release-label">Latest server release</span>
+            <strong data-release-tag>Checking...</strong>
+            <span data-release-status>Server release information loads from GitHub.</span>
+          </div>
+          <a class="button button-secondary" href="{SERVER_LATEST_RELEASE}" target="_blank" rel="noreferrer" data-release-link>Open release</a>
+        </div>
+      </div>
+      <div class="grid grid-3">
+        {simple_card("Docker First", "Run the server as a container with one persistent /config volume. Add local media mounts only when you need Local Media.", ["Docker", "GHCR", "/config"])}
+        {simple_card("Pair Players", "Create short-lived PINs in the web UI, give players friendly names, and revoke or rename them later.", ["PIN", "Rename", "Dashboard"])}
+        {simple_card("Stream + Local", "Use Newznab Stream for releases and Local Media for mapped folders. Both can use the same transcoding profiles.", ["Newznab", "Local Media", "FFmpeg"])}
+      </div>
+    </section>
+
+    <section class="section split-section">
+      <div class="split-copy">
+        <span class="eyebrow">Docker install</span>
+        <h2>Start with the latest container image.</h2>
+        <p>The web UI runs on port 8080. Login is disabled by default so setup is quick on a trusted home network.</p>
+        {command_box("docker pull ghcr.io/tatertotterson/tater-tube-server:latest", "Docker pull")}
+        {command_box(docker_compose, "docker-compose.yml")}
+      </div>
+      <figure class="image-panel">
+        <img src="../assets/images/tater-tube-logo.png" alt="Tater Tube logo">
+        <figcaption>Open <code>http://SERVER-IP:8080</code> after the container starts.</figcaption>
+      </figure>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="eyebrow">Downloads</span>
+        <h2>Install the server from the Docker image.</h2>
+        <p>The release publishes one multi-architecture container image tagged <code>latest</code>. Use the GitHub release for notes and the package page for container details.</p>
+      </div>
+      <div class="grid download-grid">
+        <article class="download-card">
+          <div>
+            <span class="eyebrow">Recommended</span>
+            <h3>Docker Image</h3>
+            <p>Multi-architecture container image for amd64 and arm64 hosts.</p>
+            <div class="chip-row">{chip("Docker")}{chip("amd64")}{chip("arm64")}</div>
+          </div>
+          {command_box("docker pull ghcr.io/tatertotterson/tater-tube-server:latest", "Pull latest")}
+          <div class="release-actions">
+            <a class="button" href="https://github.com/users/TaterTotterson/packages/container/package/tater-tube-server" target="_blank" rel="noreferrer">Open package</a>
+          </div>
+        </article>
+        <article class="download-card">
+          <div>
+            <span class="eyebrow">Release</span>
+            <h3>Server Release Notes</h3>
+            <p>View the current release notes, changelog, and source archives.</p>
+            <div class="chip-row">{chip("v1.0.0+")}{chip("Changelog")}{chip("Source")}</div>
+          </div>
+          <div class="release-actions">
+            <a class="button" href="{SERVER_LATEST_RELEASE}" target="_blank" rel="noreferrer">Open release</a>
+            <a class="button button-secondary" href="{SERVER_GITHUB_REPO}" target="_blank" rel="noreferrer">GitHub</a>
+          </div>
+        </article>
+        <article class="download-card">
+          <div>
+            <span class="eyebrow">Persistent data</span>
+            <h3>Config Volume</h3>
+            <p>Map one host folder to <code>/config</code>. This stores settings, player tokens, metadata, and segment cache.</p>
+            <div class="chip-row">{chip("/config")}{chip("Settings")}{chip("Cache")}</div>
+          </div>
+          {command_box("- /mnt/user/appdata/tater-tube-server/config:/config", "Volume")}
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="eyebrow">Local Media</span>
+        <h2>Map host folders, then add container paths in the UI.</h2>
+        <p>Mount host media folders read-only into the container. In <code>Configuration -> Local Media</code>, use the container paths like <code>/media/movies</code>, not the host paths.</p>
+      </div>
+      <div class="grid grid-3">
+        {simple_card("Movies", "Scans a folder into a clean movie title list for The Tube.", ["Library Type", "Movies"])}
+        {simple_card("TV Shows", "Browses as show, season, then episode.", ["Library Type", "TV Shows"])}
+        {simple_card("Folders", "Keeps your original directory structure intact.", ["Library Type", "Folders"])}
+      </div>
+    </section>
+
+    <section class="section split-section">
+      <div class="split-copy">
+        <span class="eyebrow">Hardware transcoding</span>
+        <h2>Enable FFmpeg profiles when the player needs a lighter stream.</h2>
+        <p>The server includes CRT 480p, HDMI 1080p, and HDMI 4K profiles. The dashboard shows detected encoders and each active player card shows direct play, software transcode, or hardware transcode.</p>
+        {command_box(hw_compose, "Intel/AMD/Pi device mapping")}
+      </div>
+      <div class="grid">
+        {simple_card("Hardware Detection", "The server checks FFmpeg and available encoders from the Hardware Transcoding tab.", ["VAAPI", "QSV", "NVENC"])}
+        {simple_card("Player Stats", "The dashboard shows what each paired player is watching and whether hardware acceleration is active.", ["Now Playing", "HW Status"])}
+      </div>
+    </section>
+    """
+    return page_template(
+        "Server | Tater Tube",
+        "Tater Tube Server setup, Docker install, local media mapping, downloads, player pairing, and hardware transcoding information.",
+        body,
+        nav_key="server",
+        depth=1,
+    )
+
+
 def render_setup_page() -> str:
     flash_steps = "\n".join(
         [
@@ -445,6 +580,18 @@ def render_setup_page() -> str:
       </div>
       <div class="grid grid-3">
         {flash_steps}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="eyebrow">The Tube backend</span>
+        <h2>Use Tater Tube Server for Stream and Local libraries.</h2>
+        <p>Install the server on a NAS, PC, or small Linux host. It handles Newznab Stream, local media folders, player pairing, dashboard stats, and optional transcoding.</p>
+        <div class="action-row">
+          {action_link("Server setup", "../server/index.html")}
+          {action_link("Server downloads", SERVER_LATEST_RELEASE, secondary=True)}
+        </div>
       </div>
     </section>
 
@@ -515,6 +662,19 @@ POST /api/v1/library/launch       {"id": "vod:movie:ITEM_ID"}"""
       </div>
       {command_box(endpoints, "API surface")}
       <p>Set <code>TATER_TUBE_API_TOKEN</code> to require <code>Authorization: Bearer &lt;token&gt;</code> or <code>X-TaterTube-Token: &lt;token&gt;</code>.</p>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="eyebrow">Server API</span>
+        <h2>Tater Tube Server exposes player-facing endpoints on port 8080.</h2>
+        <p>The player uses the server API for pairing, The Tube catalog, Newznab search/trending, local media libraries, stream launch, and local playback URLs.</p>
+      </div>
+      {command_box("curl http://SERVER-IP:8080/api/tater/server", "Server status")}
+      <div class="action-row">
+        {action_link("Server setup", "../server/index.html")}
+        {action_link("Server GitHub", SERVER_GITHUB_REPO, secondary=True)}
+      </div>
     </section>
     """
     return page_template(
@@ -748,6 +908,7 @@ def main() -> None:
     write_page(PUBLIC_ROOT / "index.html", render_home_page())
     write_page(PUBLIC_ROOT / "modules" / "index.html", render_modules_page())
     write_page(PUBLIC_ROOT / "images" / "index.html", render_images_page())
+    write_page(PUBLIC_ROOT / "server" / "index.html", render_server_page())
     write_page(PUBLIC_ROOT / "setup" / "index.html", render_setup_page())
     write_page(PUBLIC_ROOT / "api" / "index.html", render_api_page())
     write_page(PUBLIC_ROOT / "wiki" / "index.html", render_wiki_index())
