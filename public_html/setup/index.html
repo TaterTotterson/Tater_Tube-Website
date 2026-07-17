@@ -59,8 +59,8 @@
     <section class="section">
       <div class="section-head">
         <span class="eyebrow">The Tube backend</span>
-        <h2>Use Tater Tube Server for Stream and Local libraries.</h2>
-        <p>Install the server on a NAS, PC, or small Linux host. It handles Newznab Stream, local media folders, player pairing, dashboard stats, and optional transcoding.</p>
+        <h2>Use Tater Tube Server for Tube TV, Stream, and Local libraries.</h2>
+        <p>Install the server on a NAS, PC, or small Linux host. It handles the shared Tube TV schedule, Newznab Stream, local media folders, music, player pairing, activity history, and optional transcoding.</p>
         <div class="action-row">
           <a class="button" href="../server/index.html">Server setup</a>
           <a class="button button-secondary" href="https://github.com/TaterTotterson/tater-tube-server/releases/latest">Server downloads</a>
@@ -90,15 +90,21 @@
 
     <section class="section">
       <div class="section-head">
-        <span class="eyebrow">Web Setup</span>
-        <h2>Configure long-form settings from another device.</h2>
-        <p>Open <code>http://tatertube.local:24024/setup</code> from a phone or computer on the same network to enter logins, API keys, RetroNAS paths, Sunshine pairing details, local commercials, and custom VoD TV channels.</p>
+        <span class="eyebrow">Player Web Setup</span>
+        <h2>Configure Pi-side modules from another device.</h2>
+        <p>Open <code>http://tatertube.local:24024/setup</code> from a phone or computer on the same network. Pair The Tube to its server first, then configure VoD, Public Access, Tape Deck, Game Center, PC Link, local commercials, and custom VoD channels.</p>
       </div>
       <div class="grid grid-3">
         <article class="info-card">
-  <h3>Local Commercials</h3>
-  <p>Create commercial categories and upload local video files. Public Access TV Mode and VoD TV Mode rotate commercials without repeating until the selected pool has played.</p>
-  <div class="chip-row"><span class="chip">Uploads</span><span class="chip">No Repeat</span><span class="chip">TV Mode</span></div>
+  <h3>The Tube</h3>
+  <p>Enter the server address and short-lived pairing PIN. Tube TV, Stream, Local, server music, guide data, and TaterText then arrive from the server.</p>
+  <div class="chip-row"><span class="chip">Server URL</span><span class="chip">Pairing PIN</span><span class="chip">First Module</span></div>
+</article>
+
+        <article class="info-card">
+  <h3>Player Commercials</h3>
+  <p>Create local commercial categories for Public Access and VoD TV Mode. Tube TV commercials are managed separately by Tater Tube Server.</p>
+  <div class="chip-row"><span class="chip">VoD</span><span class="chip">Public Access</span><span class="chip">No Repeat</span></div>
 </article>
 
         <article class="info-card">
@@ -107,10 +113,32 @@
   <div class="chip-row"><span class="chip">Movies</span><span class="chip">Series</span><span class="chip">Categories</span></div>
 </article>
 
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="eyebrow">Server Web UI</span>
+        <h2>Build The Tube from <code>http://SERVER-IP:8080</code>.</h2>
+        <p>Use the server UI to pair and name players, add Newznab and NNTP providers, scan local movies, series, and music, configure transcoding, upload Tube TV commercials, create channels, choose logos, and inspect the TV Guide and Activity history.</p>
+      </div>
+      <div class="grid grid-3">
         <article class="info-card">
-  <h3>Module Settings</h3>
-  <p>Update provider URLs, API keys, module settings, controller-related setup, and other appliance settings without typing them on the TV.</p>
-  <div class="chip-row"><span class="chip">Mobile</span><span class="chip">Settings</span><span class="chip">Setup</span></div>
+  <h3>1. Add Libraries</h3>
+  <p>Map folders into Docker, add their container paths under Local Media, and scan metadata.</p>
+  <div class="chip-row"><span class="chip">Movies</span><span class="chip">Series</span><span class="chip">Music</span></div>
+</article>
+
+        <article class="info-card">
+  <h3>2. Build Tube TV</h3>
+  <p>Enable automatic channels or create your own from genres, movies, series, seasons, and episodes.</p>
+  <div class="chip-row"><span class="chip">Custom Channels</span><span class="chip">Commercials</span><span class="chip">Logos</span></div>
+</article>
+
+        <article class="info-card">
+  <h3>3. Pair Players</h3>
+  <p>Create a setup PIN, enter the server URL and PIN on each Pi, and give every box a room name.</p>
+  <div class="chip-row"><span class="chip">Short-Lived PIN</span><span class="chip">Named Players</span></div>
 </article>
 
       </div>

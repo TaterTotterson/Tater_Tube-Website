@@ -3,7 +3,7 @@
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1">
-          <meta name="description" content="Tater Tube local HTTP API endpoints for player control, key input, media search, and media launch.">
+          <meta name="description" content="Tater Tube player and server APIs for controls, pairing, Tube TV, library state, search, and media launch.">
           <title>API | Tater Tube</title>
           <link rel="icon" type="image/png" href="../assets/images/tater-tube-logo.png">
           <link rel="stylesheet" href="../assets/site.css">
@@ -77,16 +77,39 @@ POST /api/v1/library/launch       {&quot;id&quot;: &quot;vod:movie:ITEM_ID&quot;
       <div class="section-head">
         <span class="eyebrow">Server API</span>
         <h2>Tater Tube Server exposes player-facing endpoints on port 8080.</h2>
-        <p>The player uses the server API for pairing, The Tube catalog, Newznab search/trending, local media libraries, stream launch, and local playback URLs.</p>
+        <p>The player uses the server API for pairing, The Tube catalog, Tube TV lineup and guide data, Newznab discovery, local libraries, resume state, playback activity, stream launch, and local playback URLs.</p>
       </div>
       <div class="command-box">
   <div class="command-head">
-    <span>Server status</span>
+    <span>Player-facing server API</span>
     <button type="button" data-copy-code>Copy</button>
   </div>
-  <pre><code>curl http://SERVER-IP:8080/api/tater/server</code></pre>
+  <pre><code>GET  /api/tater/server
+POST /api/tater/players/pair
+GET  /api/tater/tv/lineup
+GET  /api/tater/streams/active</code></pre>
 </div>
 
+      <div class="grid grid-3">
+        <article class="info-card">
+  <h3>Tube TV</h3>
+  <p>Players request the shared lineup and guide, then tune the scheduled item at its current timeline position.</p>
+  <div class="chip-row"><span class="chip">Lineup</span><span class="chip">Guide</span><span class="chip">Tune</span></div>
+</article>
+
+        <article class="info-card">
+  <h3>Library State</h3>
+  <p>The server supplies local metadata, durations, Continue Watching, next episodes, and playback progress.</p>
+  <div class="chip-row"><span class="chip">Local</span><span class="chip">Resume</span><span class="chip">Duration</span></div>
+</article>
+
+        <article class="info-card">
+  <h3>Authorized Players</h3>
+  <p>Pairing exchanges a short-lived PIN for a revocable player token used by later server requests.</p>
+  <div class="chip-row"><span class="chip">PIN</span><span class="chip">Token</span><span class="chip">Revoke</span></div>
+</article>
+
+      </div>
       <div class="action-row">
         <a class="button" href="../server/index.html">Server setup</a>
         <a class="button button-secondary" href="https://github.com/TaterTotterson/tater-tube-server">Server GitHub</a>

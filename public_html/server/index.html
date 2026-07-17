@@ -3,7 +3,7 @@
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1">
-          <meta name="description" content="Tater Tube Server setup, Docker install, local media mapping, downloads, player pairing, and hardware transcoding information.">
+          <meta name="description" content="Tater Tube Server setup for Tube TV, Docker, local libraries, Newznab Stream, player pairing, activity, and hardware transcoding.">
           <title>Server | Tater Tube</title>
           <link rel="icon" type="image/png" href="../assets/images/tater-tube-logo.png">
           <link rel="stylesheet" href="../assets/site.css">
@@ -32,7 +32,7 @@
       <div class="section-head">
         <span class="eyebrow">Backend for The Tube</span>
         <h1>Tater Tube Server</h1>
-        <p>The server gives Tater Tube players a central backend for Newznab Stream browsing, local media libraries, player pairing, dashboard stats, and optional FFmpeg transcoding.</p>
+        <p>The server gives every paired player the same Tube TV lineup plus Newznab Stream discovery, local movie, TV, and music libraries, resume history, activity tracking, and optional FFmpeg transcoding.</p>
         <div class="latest-release-panel" data-latest-release data-release-repo="TaterTotterson/tater-tube-server">
           <div>
             <span class="release-label">Latest server release</span>
@@ -44,21 +44,21 @@
       </div>
       <div class="grid grid-3">
         <article class="info-card">
-  <h3>Docker First</h3>
-  <p>Run the server as a container with one persistent /config volume. Add local media mounts only when you need Local Media.</p>
-  <div class="chip-row"><span class="chip">Docker</span><span class="chip">GHCR</span><span class="chip">/config</span></div>
+  <h3>Tube TV</h3>
+  <p>Build automatic and custom channels from local media, then tune the same scheduled lineup from every paired Tater Tube player.</p>
+  <div class="chip-row"><span class="chip">Shared Schedule</span><span class="chip">Guide</span><span class="chip">TaterText</span></div>
+</article>
+
+        <article class="info-card">
+  <h3>Stream + Local</h3>
+  <p>Use Newznab Stream for releases and Local Media for movies, series, music, resume playback, and category browsing.</p>
+  <div class="chip-row"><span class="chip">Newznab</span><span class="chip">Local Media</span><span class="chip">Music</span></div>
 </article>
 
         <article class="info-card">
   <h3>Pair Players</h3>
   <p>Create short-lived PINs in the web UI, give players friendly names, and revoke or rename them later.</p>
   <div class="chip-row"><span class="chip">PIN</span><span class="chip">Rename</span><span class="chip">Dashboard</span></div>
-</article>
-
-        <article class="info-card">
-  <h3>Stream + Local</h3>
-  <p>Use Newznab Stream for releases and Local Media for mapped folders. Both can use the same transcoding profiles.</p>
-  <div class="chip-row"><span class="chip">Newznab</span><span class="chip">Local Media</span><span class="chip">FFmpeg</span></div>
 </article>
 
       </div>
@@ -100,6 +100,51 @@
         <img src="../assets/images/tater-tube-logo.png" alt="Tater Tube logo">
         <figcaption>Open <code>http://SERVER-IP:8080</code> after the container starts.</figcaption>
       </figure>
+    </section>
+
+    <section class="section split-section">
+      <div class="split-copy">
+        <span class="eyebrow">Tube TV</span>
+        <h2>A shared, scheduled channel lineup built from your library.</h2>
+        <p>The server plans the timeline ahead so every paired player sees the same program or commercial at the same moment. Automatic channels use library metadata for genres, decades, movies, and series; custom channels can include movies, entire series, seasons, or individual episodes and can claim a specific VCR-style channel number.</p>
+        <div class="chip-row">
+          <span class="chip">Automatic channels</span>
+          <span class="chip">Editable custom channels</span>
+          <span class="chip">Assigned channel numbers</span>
+          <span class="chip">Shared timeline</span>
+        </div>
+      </div>
+      <figure class="image-panel">
+        <img src="../assets/images/usenet.png" alt="Tater mascot for The Tube">
+        <figcaption>Tube TV appears above Stream and Local when enabled on the server.</figcaption>
+      </figure>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="eyebrow">Station details</span>
+        <h2>Commercial breaks, channel logos, a guide, and TaterText are part of the schedule.</h2>
+      </div>
+      <div class="grid grid-3">
+        <article class="info-card">
+  <h3>Commercial Library</h3>
+  <p>Upload local commercial videos into server categories. Tube TV selects only enabled categories, avoids repeats until the pool is exhausted, and keeps logos off during breaks.</p>
+  <div class="chip-row"><span class="chip">Local Uploads</span><span class="chip">Categories</span><span class="chip">No Repeat</span></div>
+</article>
+
+        <article class="info-card">
+  <h3>Channel Logos</h3>
+  <p>Choose a logo and its screen corner for each custom channel. Automatic channels can select fitting station marks from the bundled TV logo catalog.</p>
+  <div class="chip-row"><span class="chip">Watermark</span><span class="chip">Four Corners</span><span class="chip">Per Channel</span></div>
+</article>
+
+        <article class="info-card">
+  <h3>Guide + TaterText</h3>
+  <p>Channel 999 is a time-synced scrolling guide. High channel pages provide authentic blocky TaterText screens for status, now playing, server information, and controls.</p>
+  <div class="chip-row"><span class="chip">CH 999</span><span class="chip">Pages 100-888</span><span class="chip">VCR Style</span></div>
+</article>
+
+      </div>
     </section>
 
     <section class="section">
@@ -144,8 +189,8 @@
           <div>
             <span class="eyebrow">Persistent data</span>
             <h3>Config Volume</h3>
-            <p>Map one host folder to <code>/config</code>. This stores settings, player tokens, metadata, and segment cache.</p>
-            <div class="chip-row"><span class="chip">/config</span><span class="chip">Settings</span><span class="chip">Cache</span></div>
+            <p>Map one host folder to <code>/config</code>. It stores settings, player tokens, metadata, playback history, Tube TV schedules, commercial uploads, and working cache.</p>
+            <div class="chip-row"><span class="chip">/config</span><span class="chip">Settings</span><span class="chip">TV Data</span></div>
           </div>
           <div class="command-box">
   <div class="command-head">
@@ -163,25 +208,53 @@
       <div class="section-head">
         <span class="eyebrow">Local Media</span>
         <h2>Map host folders, then add container paths in the UI.</h2>
-        <p>Mount host media folders read-only into the container. In <code>Configuration -> Local Media</code>, use the container paths like <code>/media/movies</code>, not the host paths.</p>
+        <p>Mount host media folders read-only into the container. In <code>Configuration -> Local Media</code>, use container paths like <code>/media/movies</code>, not host paths. Scanned metadata powers library browsing, Continue Watching, Tape Deck music, automatic channels, and the custom channel builder.</p>
       </div>
       <div class="grid grid-3">
         <article class="info-card">
   <h3>Movies</h3>
-  <p>Scans a folder into a clean movie title list for The Tube.</p>
-  <div class="chip-row"><span class="chip">Library Type</span><span class="chip">Movies</span></div>
+  <p>Scans titles, dates, genres, duration, and artwork into a browsable movie library.</p>
+  <div class="chip-row"><span class="chip">Movies</span><span class="chip">Metadata</span><span class="chip">Resume</span></div>
 </article>
 
         <article class="info-card">
   <h3>TV Shows</h3>
-  <p>Browses as show, season, then episode.</p>
-  <div class="chip-row"><span class="chip">Library Type</span><span class="chip">TV Shows</span></div>
+  <p>Browses by series, season, and episode while tracking the next episode and current resume point.</p>
+  <div class="chip-row"><span class="chip">Series</span><span class="chip">Seasons</span><span class="chip">Continue Watching</span></div>
 </article>
 
         <article class="info-card">
-  <h3>Folders</h3>
-  <p>Keeps your original directory structure intact.</p>
-  <div class="chip-row"><span class="chip">Library Type</span><span class="chip">Folders</span></div>
+  <h3>Music + Folders</h3>
+  <p>Provides server albums to Tape Deck and can also preserve a source folder&#x27;s directory structure.</p>
+  <div class="chip-row"><span class="chip">Music</span><span class="chip">Tape Deck</span><span class="chip">Folders</span></div>
+</article>
+
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="eyebrow">Dashboard + Activity</span>
+        <h2>See what every player is doing.</h2>
+        <p>The dashboard shows paired players and active streams. Activity keeps playback history for Tube TV, Stream, and Local with the player name, media title, time, duration, progress, and direct, software, or hardware-transcode details.</p>
+      </div>
+      <div class="grid grid-3">
+        <article class="info-card">
+  <h3>Named Players</h3>
+  <p>Name each paired box for its room, then rename or revoke it from the server.</p>
+  <div class="chip-row"><span class="chip">PIN Pairing</span><span class="chip">Friendly Names</span></div>
+</article>
+
+        <article class="info-card">
+  <h3>Active Streams</h3>
+  <p>See what is playing now, current progress, throughput, selected profile, and acceleration engine.</p>
+  <div class="chip-row"><span class="chip">Now Playing</span><span class="chip">Live Stats</span></div>
+</article>
+
+        <article class="info-card">
+  <h3>Playback Activity</h3>
+  <p>Review completed and interrupted local, Tube TV, and Newznab playback in one VCR-themed history view.</p>
+  <div class="chip-row"><span class="chip">History</span><span class="chip">Player</span><span class="chip">HW Engine</span></div>
 </article>
 
       </div>

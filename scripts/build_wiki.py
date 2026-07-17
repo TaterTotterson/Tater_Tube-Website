@@ -41,6 +41,12 @@ DOC_SOURCES = [
 
 MODULES = [
     {
+        "title": "The Tube",
+        "image": "usenet.png",
+        "text": "Connect to Tater Tube Server for Tube TV channels, Newznab Stream discovery, local movie and TV libraries, music, resume history, and server-side transcoding.",
+        "chips": ["Tube TV", "Stream + Local", "Server"],
+    },
+    {
         "title": "Over The Air",
         "image": "over-the-air.png",
         "text": "Direct HDHomeRun playback with no guide screen. Pick OTA and it tunes like an old TV, with up/down channel changes and a channel OSD.",
@@ -49,7 +55,7 @@ MODULES = [
     {
         "title": "Video on Demand",
         "image": "video-on-demand.png",
-        "text": "Browse Emby, Jellyfin, or Plex libraries from a VCR-style interface with TV Mode, custom channels, no-repeat local commercials, and optional mid-roll breaks.",
+        "text": "Browse Emby, Jellyfin, or Plex libraries from a VCR-style interface with resume playback, TV Mode, editable custom channels, no-repeat local commercials, and optional mid-roll breaks.",
         "chips": ["Emby/Jellyfin", "Mid-Roll", "Custom Channels"],
     },
     {
@@ -59,16 +65,10 @@ MODULES = [
         "chips": ["YouTube Playlists", "yt-dlp", "Commercials"],
     },
     {
-        "title": "The Tube",
-        "image": "usenet.png",
-        "text": "Connect to Tater Tube Server for Newznab Stream browsing, trending, search, local media libraries, and server-side transcoding.",
-        "chips": ["Server", "Newznab", "Local Media"],
-    },
-    {
         "title": "Tape Deck",
         "image": "tape-deck.png",
-        "text": "A cassette-deck music player for Emby/Jellyfin or Plex albums, complete with album-as-mixtape browsing, VU visuals, and tape-style fast-forward.",
-        "chips": ["Music", "Albums", "VU Meter"],
+        "text": "A cassette-deck music player for Tater Tube Server, Emby/Jellyfin, or Plex albums, complete with album-as-tape browsing, audio-reactive VU visuals, and tape-style fast-forward.",
+        "chips": ["Server Music", "Albums", "VU Meter"],
     },
     {
         "title": "Game Center",
@@ -285,8 +285,8 @@ def render_home_page() -> str:
             ),
             simple_card(
                 "Tater Tube Server",
-                "Run the Docker server for Newznab Stream, local media libraries, player pairing, dashboard stats, and optional transcoding.",
-                ["Docker", "The Tube", "Transcoding"],
+                "Run the Docker server for shared Tube TV channels, Newznab Stream, local libraries, player pairing, playback history, and optional transcoding.",
+                ["Tube TV", "Docker", "Transcoding"],
             ),
         ]
     )
@@ -297,7 +297,7 @@ def render_home_page() -> str:
       <div class="hero-copy">
         <span class="eyebrow">Retro media appliance for Raspberry Pi</span>
         <h1>Tater Tube</h1>
-        <p>A VCR-style frontend for CRT and HDMI Pi builds with Video on Demand, OTA TV, Public Access playlists, Usenet streaming, Tape Deck music, Game Center, PC Link, local commercials, and local files.</p>
+        <p>A VCR-style frontend for CRT and HDMI Pi builds, led by The Tube: shared server-built TV channels, local libraries, and Newznab streaming alongside Video on Demand, OTA, Public Access, Tape Deck, Game Center, PC Link, and local files.</p>
         <div class="hero-actions">
           {action_link("Download images", "images/index.html")}
           {action_link("Set up server", "server/index.html", secondary=True)}
@@ -309,6 +309,29 @@ def render_home_page() -> str:
           <span>Boots straight into the app</span>
         </div>
       </div>
+    </section>
+
+    <section class="section split-section">
+      <div class="split-copy">
+        <span class="eyebrow">The Tube + Tube TV</span>
+        <h2>Build the station once, then tune it from every Tater Tube box.</h2>
+        <p>Tater Tube Server scans local movies, series, and music; builds a shared TV schedule; and serves the same channel timeline to every paired player. Automatic genre and decade channels sit beside custom channels made from movies, series, seasons, or individual episodes.</p>
+        <div class="chip-row">
+          {chip("Shared schedule")}
+          {chip("Custom channels")}
+          {chip("Commercial breaks")}
+          {chip("Channel logos")}
+          {chip("TaterText")}
+          {chip("Guide CH 999")}
+        </div>
+        <div class="action-row">
+          {action_link("Explore Tater Tube Server", "server/index.html")}
+        </div>
+      </div>
+      <figure class="image-panel">
+        <img src="assets/images/usenet.png" alt="Tater mascot for The Tube">
+        <figcaption>The Tube is the first module in the Tater Tube menu.</figcaption>
+      </figure>
     </section>
 
     <section class="section">
@@ -358,6 +381,33 @@ def render_modules_page() -> str:
       </div>
     </section>
 
+    <section class="section">
+      <div class="section-head">
+        <span class="eyebrow">TV Mode</span>
+        <h2>Three ways to turn a library into channels.</h2>
+        <p>Each TV Mode keeps the same channel-up, channel-down, VCR overlay, and commercial-break feel while using the source that best fits the module.</p>
+      </div>
+      <div class="grid grid-3">
+        {simple_card("Tube TV", "Tater Tube Server plans one shared timeline for every paired player. It creates category channels, honors custom channel numbers, inserts server-hosted commercials, and keeps every box tuned to the same point in the schedule.", ["Server Scheduled", "Shared Channels", "Guide CH 999"])}
+        {simple_card("VoD TV Mode", "Turn Plex, Emby, or Jellyfin movies and series into automatic or custom channels. Playback stays local to that Tater Tube box and supports selected commercial categories and optional mid-rolls.", ["Plex/Emby/Jellyfin", "Custom Channels", "Mid-Roll"])}
+        {simple_card("Public Access TV Mode", "Turn saved YouTube playlists into shuffled public-access channels and mix in selected local commercial categories between videos.", ["YouTube", "Playlist Channels", "Commercials"])}
+      </div>
+    </section>
+
+    <section class="section flow-section">
+      <div class="section-head">
+        <span class="eyebrow">Tube TV dial</span>
+        <h2>A complete little cable system inside The Tube.</h2>
+        <p>Custom channel 01 appears only when it is explicitly created. Automatic channels begin at 02, TaterText occupies the high channel pages, and the continuously scrolling Tater Guide lives on channel 999.</p>
+      </div>
+      <div class="flow-strip">
+        <div><strong>CH 01</strong><span>Optional custom channel</span></div>
+        <div><strong>CH 02+</strong><span>Custom + automatic channels</span></div>
+        <div><strong>100-888</strong><span>TaterText pages</span></div>
+        <div><strong>CH 999</strong><span>Scrolling Tater Guide</span></div>
+      </div>
+    </section>
+
     <section class="section split-section">
       <div class="split-copy">
         <span class="eyebrow">Shared controls</span>
@@ -378,7 +428,7 @@ def render_modules_page() -> str:
     """
     return page_template(
         "Modules | Tater Tube",
-        "Overview of every Tater Tube module, including VOD, OTA, Public Access, Usenet, Tape Deck, Game Center, PC Link, and Local Files.",
+        "Overview of The Tube, Tube TV, VOD, OTA, Public Access, Tape Deck, Game Center, PC Link, and Local Files.",
         body,
         nav_key="modules",
         depth=1,
@@ -454,7 +504,7 @@ def render_server_page() -> str:
       <div class="section-head">
         <span class="eyebrow">Backend for The Tube</span>
         <h1>Tater Tube Server</h1>
-        <p>The server gives Tater Tube players a central backend for Newznab Stream browsing, local media libraries, player pairing, dashboard stats, and optional FFmpeg transcoding.</p>
+        <p>The server gives every paired player the same Tube TV lineup plus Newznab Stream discovery, local movie, TV, and music libraries, resume history, activity tracking, and optional FFmpeg transcoding.</p>
         <div class="latest-release-panel" data-latest-release data-release-repo="TaterTotterson/tater-tube-server">
           <div>
             <span class="release-label">Latest server release</span>
@@ -465,9 +515,9 @@ def render_server_page() -> str:
         </div>
       </div>
       <div class="grid grid-3">
-        {simple_card("Docker First", "Run the server as a container with one persistent /config volume. Add local media mounts only when you need Local Media.", ["Docker", "GHCR", "/config"])}
+        {simple_card("Tube TV", "Build automatic and custom channels from local media, then tune the same scheduled lineup from every paired Tater Tube player.", ["Shared Schedule", "Guide", "TaterText"])}
+        {simple_card("Stream + Local", "Use Newznab Stream for releases and Local Media for movies, series, music, resume playback, and category browsing.", ["Newznab", "Local Media", "Music"])}
         {simple_card("Pair Players", "Create short-lived PINs in the web UI, give players friendly names, and revoke or rename them later.", ["PIN", "Rename", "Dashboard"])}
-        {simple_card("Stream + Local", "Use Newznab Stream for releases and Local Media for mapped folders. Both can use the same transcoding profiles.", ["Newznab", "Local Media", "FFmpeg"])}
       </div>
     </section>
 
@@ -483,6 +533,36 @@ def render_server_page() -> str:
         <img src="../assets/images/tater-tube-logo.png" alt="Tater Tube logo">
         <figcaption>Open <code>http://SERVER-IP:8080</code> after the container starts.</figcaption>
       </figure>
+    </section>
+
+    <section class="section split-section">
+      <div class="split-copy">
+        <span class="eyebrow">Tube TV</span>
+        <h2>A shared, scheduled channel lineup built from your library.</h2>
+        <p>The server plans the timeline ahead so every paired player sees the same program or commercial at the same moment. Automatic channels use library metadata for genres, decades, movies, and series; custom channels can include movies, entire series, seasons, or individual episodes and can claim a specific VCR-style channel number.</p>
+        <div class="chip-row">
+          {chip("Automatic channels")}
+          {chip("Editable custom channels")}
+          {chip("Assigned channel numbers")}
+          {chip("Shared timeline")}
+        </div>
+      </div>
+      <figure class="image-panel">
+        <img src="../assets/images/usenet.png" alt="Tater mascot for The Tube">
+        <figcaption>Tube TV appears above Stream and Local when enabled on the server.</figcaption>
+      </figure>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="eyebrow">Station details</span>
+        <h2>Commercial breaks, channel logos, a guide, and TaterText are part of the schedule.</h2>
+      </div>
+      <div class="grid grid-3">
+        {simple_card("Commercial Library", "Upload local commercial videos into server categories. Tube TV selects only enabled categories, avoids repeats until the pool is exhausted, and keeps logos off during breaks.", ["Local Uploads", "Categories", "No Repeat"])}
+        {simple_card("Channel Logos", "Choose a logo and its screen corner for each custom channel. Automatic channels can select fitting station marks from the bundled TV logo catalog.", ["Watermark", "Four Corners", "Per Channel"])}
+        {simple_card("Guide + TaterText", "Channel 999 is a time-synced scrolling guide. High channel pages provide authentic blocky TaterText screens for status, now playing, server information, and controls.", ["CH 999", "Pages 100-888", "VCR Style"])}
+      </div>
     </section>
 
     <section class="section">
@@ -520,8 +600,8 @@ def render_server_page() -> str:
           <div>
             <span class="eyebrow">Persistent data</span>
             <h3>Config Volume</h3>
-            <p>Map one host folder to <code>/config</code>. This stores settings, player tokens, metadata, and segment cache.</p>
-            <div class="chip-row">{chip("/config")}{chip("Settings")}{chip("Cache")}</div>
+            <p>Map one host folder to <code>/config</code>. It stores settings, player tokens, metadata, playback history, Tube TV schedules, commercial uploads, and working cache.</p>
+            <div class="chip-row">{chip("/config")}{chip("Settings")}{chip("TV Data")}</div>
           </div>
           {command_box("- /mnt/user/appdata/tater-tube-server/config:/config", "Volume")}
         </article>
@@ -532,12 +612,25 @@ def render_server_page() -> str:
       <div class="section-head">
         <span class="eyebrow">Local Media</span>
         <h2>Map host folders, then add container paths in the UI.</h2>
-        <p>Mount host media folders read-only into the container. In <code>Configuration -> Local Media</code>, use the container paths like <code>/media/movies</code>, not the host paths.</p>
+        <p>Mount host media folders read-only into the container. In <code>Configuration -> Local Media</code>, use container paths like <code>/media/movies</code>, not host paths. Scanned metadata powers library browsing, Continue Watching, Tape Deck music, automatic channels, and the custom channel builder.</p>
       </div>
       <div class="grid grid-3">
-        {simple_card("Movies", "Scans a folder into a clean movie title list for The Tube.", ["Library Type", "Movies"])}
-        {simple_card("TV Shows", "Browses as show, season, then episode.", ["Library Type", "TV Shows"])}
-        {simple_card("Folders", "Keeps your original directory structure intact.", ["Library Type", "Folders"])}
+        {simple_card("Movies", "Scans titles, dates, genres, duration, and artwork into a browsable movie library.", ["Movies", "Metadata", "Resume"])}
+        {simple_card("TV Shows", "Browses by series, season, and episode while tracking the next episode and current resume point.", ["Series", "Seasons", "Continue Watching"])}
+        {simple_card("Music + Folders", "Provides server albums to Tape Deck and can also preserve a source folder's directory structure.", ["Music", "Tape Deck", "Folders"])}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="eyebrow">Dashboard + Activity</span>
+        <h2>See what every player is doing.</h2>
+        <p>The dashboard shows paired players and active streams. Activity keeps playback history for Tube TV, Stream, and Local with the player name, media title, time, duration, progress, and direct, software, or hardware-transcode details.</p>
+      </div>
+      <div class="grid grid-3">
+        {simple_card("Named Players", "Name each paired box for its room, then rename or revoke it from the server.", ["PIN Pairing", "Friendly Names"])}
+        {simple_card("Active Streams", "See what is playing now, current progress, throughput, selected profile, and acceleration engine.", ["Now Playing", "Live Stats"])}
+        {simple_card("Playback Activity", "Review completed and interrupted local, Tube TV, and Newznab playback in one VCR-themed history view.", ["History", "Player", "HW Engine"])}
       </div>
     </section>
 
@@ -556,7 +649,7 @@ def render_server_page() -> str:
     """
     return page_template(
         "Server | Tater Tube",
-        "Tater Tube Server setup, Docker install, local media mapping, downloads, player pairing, and hardware transcoding information.",
+        "Tater Tube Server setup for Tube TV, Docker, local libraries, Newznab Stream, player pairing, activity, and hardware transcoding.",
         body,
         nav_key="server",
         depth=1,
@@ -586,8 +679,8 @@ def render_setup_page() -> str:
     <section class="section">
       <div class="section-head">
         <span class="eyebrow">The Tube backend</span>
-        <h2>Use Tater Tube Server for Stream and Local libraries.</h2>
-        <p>Install the server on a NAS, PC, or small Linux host. It handles Newznab Stream, local media folders, player pairing, dashboard stats, and optional transcoding.</p>
+        <h2>Use Tater Tube Server for Tube TV, Stream, and Local libraries.</h2>
+        <p>Install the server on a NAS, PC, or small Linux host. It handles the shared Tube TV schedule, Newznab Stream, local media folders, music, player pairing, activity history, and optional transcoding.</p>
         <div class="action-row">
           {action_link("Server setup", "../server/index.html")}
           {action_link("Server downloads", SERVER_LATEST_RELEASE, secondary=True)}
@@ -610,14 +703,27 @@ def render_setup_page() -> str:
 
     <section class="section">
       <div class="section-head">
-        <span class="eyebrow">Web Setup</span>
-        <h2>Configure long-form settings from another device.</h2>
-        <p>Open <code>http://tatertube.local:24024/setup</code> from a phone or computer on the same network to enter logins, API keys, RetroNAS paths, Sunshine pairing details, local commercials, and custom VoD TV channels.</p>
+        <span class="eyebrow">Player Web Setup</span>
+        <h2>Configure Pi-side modules from another device.</h2>
+        <p>Open <code>http://tatertube.local:24024/setup</code> from a phone or computer on the same network. Pair The Tube to its server first, then configure VoD, Public Access, Tape Deck, Game Center, PC Link, local commercials, and custom VoD channels.</p>
       </div>
       <div class="grid grid-3">
-        {simple_card("Local Commercials", "Create commercial categories and upload local video files. Public Access TV Mode and VoD TV Mode rotate commercials without repeating until the selected pool has played.", ["Uploads", "No Repeat", "TV Mode"])}
+        {simple_card("The Tube", "Enter the server address and short-lived pairing PIN. Tube TV, Stream, Local, server music, guide data, and TaterText then arrive from the server.", ["Server URL", "Pairing PIN", "First Module"])}
+        {simple_card("Player Commercials", "Create local commercial categories for Public Access and VoD TV Mode. Tube TV commercials are managed separately by Tater Tube Server.", ["VoD", "Public Access", "No Repeat"])}
         {simple_card("Custom VoD Channels", "Build named TV Mode channels from Plex, Emby, or Jellyfin movies and series. Custom channels appear first and can use a specific commercial category.", ["Movies", "Series", "Categories"])}
-        {simple_card("Module Settings", "Update provider URLs, API keys, module settings, controller-related setup, and other appliance settings without typing them on the TV.", ["Mobile", "Settings", "Setup"])}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="eyebrow">Server Web UI</span>
+        <h2>Build The Tube from <code>http://SERVER-IP:8080</code>.</h2>
+        <p>Use the server UI to pair and name players, add Newznab and NNTP providers, scan local movies, series, and music, configure transcoding, upload Tube TV commercials, create channels, choose logos, and inspect the TV Guide and Activity history.</p>
+      </div>
+      <div class="grid grid-3">
+        {simple_card("1. Add Libraries", "Map folders into Docker, add their container paths under Local Media, and scan metadata.", ["Movies", "Series", "Music"])}
+        {simple_card("2. Build Tube TV", "Enable automatic channels or create your own from genres, movies, series, seasons, and episodes.", ["Custom Channels", "Commercials", "Logos"])}
+        {simple_card("3. Pair Players", "Create a setup PIN, enter the server URL and PIN on each Pi, and give every box a room name.", ["Short-Lived PIN", "Named Players"])}
       </div>
     </section>
     """
@@ -645,6 +751,10 @@ POST /api/v1/player/mute
 POST /api/v1/player/key           {"key": "LEFT", "repeat": 1}
 POST /api/v1/library/search       {"query": "batman", "types": ["movie", "show", "game"], "limit": 10}
 POST /api/v1/library/launch       {"id": "vod:movie:ITEM_ID"}"""
+    server_endpoints = """GET  /api/tater/server
+POST /api/tater/players/pair
+GET  /api/tater/tv/lineup
+GET  /api/tater/streams/active"""
     body = f"""
     <section class="section">
       <div class="section-head">
@@ -668,9 +778,14 @@ POST /api/v1/library/launch       {"id": "vod:movie:ITEM_ID"}"""
       <div class="section-head">
         <span class="eyebrow">Server API</span>
         <h2>Tater Tube Server exposes player-facing endpoints on port 8080.</h2>
-        <p>The player uses the server API for pairing, The Tube catalog, Newznab search/trending, local media libraries, stream launch, and local playback URLs.</p>
+        <p>The player uses the server API for pairing, The Tube catalog, Tube TV lineup and guide data, Newznab discovery, local libraries, resume state, playback activity, stream launch, and local playback URLs.</p>
       </div>
-      {command_box("curl http://SERVER-IP:8080/api/tater/server", "Server status")}
+      {command_box(server_endpoints, "Player-facing server API")}
+      <div class="grid grid-3">
+        {simple_card("Tube TV", "Players request the shared lineup and guide, then tune the scheduled item at its current timeline position.", ["Lineup", "Guide", "Tune"])}
+        {simple_card("Library State", "The server supplies local metadata, durations, Continue Watching, next episodes, and playback progress.", ["Local", "Resume", "Duration"])}
+        {simple_card("Authorized Players", "Pairing exchanges a short-lived PIN for a revocable player token used by later server requests.", ["PIN", "Token", "Revoke"])}
+      </div>
       <div class="action-row">
         {action_link("Server setup", "../server/index.html")}
         {action_link("Server GitHub", SERVER_GITHUB_REPO, secondary=True)}
@@ -679,7 +794,7 @@ POST /api/v1/library/launch       {"id": "vod:movie:ITEM_ID"}"""
     """
     return page_template(
         "API | Tater Tube",
-        "Tater Tube local HTTP API endpoints for player control, key input, media search, and media launch.",
+        "Tater Tube player and server APIs for controls, pairing, Tube TV, library state, search, and media launch.",
         body,
         nav_key="api",
         depth=1,

@@ -3,7 +3,7 @@
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1">
-          <meta name="description" content="Overview of every Tater Tube module, including VOD, OTA, Public Access, Usenet, Tape Deck, Game Center, PC Link, and Local Files.">
+          <meta name="description" content="Overview of The Tube, Tube TV, VOD, OTA, Public Access, Tape Deck, Game Center, PC Link, and Local Files.">
           <title>Modules | Tater Tube</title>
           <link rel="icon" type="image/png" href="../assets/images/tater-tube-logo.png">
           <link rel="stylesheet" href="../assets/site.css">
@@ -36,6 +36,13 @@
       </div>
       <div class="grid module-grid">
         <article class="module-card">
+  <img src="../assets/images/usenet.png" alt="">
+  <h3>The Tube</h3>
+  <p>Connect to Tater Tube Server for Tube TV channels, Newznab Stream discovery, local movie and TV libraries, music, resume history, and server-side transcoding.</p>
+  <div class="chip-row"><span class="chip">Tube TV</span><span class="chip">Stream + Local</span><span class="chip">Server</span></div>
+</article>
+
+<article class="module-card">
   <img src="../assets/images/over-the-air.png" alt="">
   <h3>Over The Air</h3>
   <p>Direct HDHomeRun playback with no guide screen. Pick OTA and it tunes like an old TV, with up/down channel changes and a channel OSD.</p>
@@ -45,7 +52,7 @@
 <article class="module-card">
   <img src="../assets/images/video-on-demand.png" alt="">
   <h3>Video on Demand</h3>
-  <p>Browse Emby, Jellyfin, or Plex libraries from a VCR-style interface with TV Mode, custom channels, no-repeat local commercials, and optional mid-roll breaks.</p>
+  <p>Browse Emby, Jellyfin, or Plex libraries from a VCR-style interface with resume playback, TV Mode, editable custom channels, no-repeat local commercials, and optional mid-roll breaks.</p>
   <div class="chip-row"><span class="chip">Emby/Jellyfin</span><span class="chip">Mid-Roll</span><span class="chip">Custom Channels</span></div>
 </article>
 
@@ -57,17 +64,10 @@
 </article>
 
 <article class="module-card">
-  <img src="../assets/images/usenet.png" alt="">
-  <h3>The Tube</h3>
-  <p>Connect to Tater Tube Server for Newznab Stream browsing, trending, search, local media libraries, and server-side transcoding.</p>
-  <div class="chip-row"><span class="chip">Server</span><span class="chip">Newznab</span><span class="chip">Local Media</span></div>
-</article>
-
-<article class="module-card">
   <img src="../assets/images/tape-deck.png" alt="">
   <h3>Tape Deck</h3>
-  <p>A cassette-deck music player for Emby/Jellyfin or Plex albums, complete with album-as-mixtape browsing, VU visuals, and tape-style fast-forward.</p>
-  <div class="chip-row"><span class="chip">Music</span><span class="chip">Albums</span><span class="chip">VU Meter</span></div>
+  <p>A cassette-deck music player for Tater Tube Server, Emby/Jellyfin, or Plex albums, complete with album-as-tape browsing, audio-reactive VU visuals, and tape-style fast-forward.</p>
+  <div class="chip-row"><span class="chip">Server Music</span><span class="chip">Albums</span><span class="chip">VU Meter</span></div>
 </article>
 
 <article class="module-card">
@@ -91,6 +91,48 @@
   <div class="chip-row"><span class="chip">Local Video</span><span class="chip">M3U</span><span class="chip">Shuffle</span></div>
 </article>
 
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="eyebrow">TV Mode</span>
+        <h2>Three ways to turn a library into channels.</h2>
+        <p>Each TV Mode keeps the same channel-up, channel-down, VCR overlay, and commercial-break feel while using the source that best fits the module.</p>
+      </div>
+      <div class="grid grid-3">
+        <article class="info-card">
+  <h3>Tube TV</h3>
+  <p>Tater Tube Server plans one shared timeline for every paired player. It creates category channels, honors custom channel numbers, inserts server-hosted commercials, and keeps every box tuned to the same point in the schedule.</p>
+  <div class="chip-row"><span class="chip">Server Scheduled</span><span class="chip">Shared Channels</span><span class="chip">Guide CH 999</span></div>
+</article>
+
+        <article class="info-card">
+  <h3>VoD TV Mode</h3>
+  <p>Turn Plex, Emby, or Jellyfin movies and series into automatic or custom channels. Playback stays local to that Tater Tube box and supports selected commercial categories and optional mid-rolls.</p>
+  <div class="chip-row"><span class="chip">Plex/Emby/Jellyfin</span><span class="chip">Custom Channels</span><span class="chip">Mid-Roll</span></div>
+</article>
+
+        <article class="info-card">
+  <h3>Public Access TV Mode</h3>
+  <p>Turn saved YouTube playlists into shuffled public-access channels and mix in selected local commercial categories between videos.</p>
+  <div class="chip-row"><span class="chip">YouTube</span><span class="chip">Playlist Channels</span><span class="chip">Commercials</span></div>
+</article>
+
+      </div>
+    </section>
+
+    <section class="section flow-section">
+      <div class="section-head">
+        <span class="eyebrow">Tube TV dial</span>
+        <h2>A complete little cable system inside The Tube.</h2>
+        <p>Custom channel 01 appears only when it is explicitly created. Automatic channels begin at 02, TaterText occupies the high channel pages, and the continuously scrolling Tater Guide lives on channel 999.</p>
+      </div>
+      <div class="flow-strip">
+        <div><strong>CH 01</strong><span>Optional custom channel</span></div>
+        <div><strong>CH 02+</strong><span>Custom + automatic channels</span></div>
+        <div><strong>100-888</strong><span>TaterText pages</span></div>
+        <div><strong>CH 999</strong><span>Scrolling Tater Guide</span></div>
       </div>
     </section>
 
