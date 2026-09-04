@@ -3,8 +3,8 @@
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1">
-          <meta name="description" content="Tater Tube ready-to-flash Raspberry Pi image options for NTSC CRT, PAL CRT, and Pi 5 HDMI auto displays.">
-          <title>Images | Tater Tube</title>
+          <meta name="description" content="Download Tater Tube for Steam Deck and Linux with the one-click installer, or choose a ready-to-flash Raspberry Pi image.">
+          <title>Downloads | Tater Tube</title>
           <link rel="icon" type="image/png" href="../assets/images/tater-tube-logo.png">
           <link rel="stylesheet" href="../assets/site.css">
           <script src="../assets/site.js" defer></script>
@@ -18,7 +18,7 @@
             <nav class="site-nav" id="site-nav">
               <a class="nav-link" href="../index.html">Home</a>
 <a class="nav-link" href="../modules/index.html">Modules</a>
-<a class="nav-link is-active" href="../images/index.html">Images</a>
+<a class="nav-link is-active" href="../images/index.html">Downloads</a>
 <a class="nav-link" href="../server/index.html">Server</a>
 <a class="nav-link" href="../setup/index.html">Setup</a>
 <a class="nav-link" href="../api/index.html">API</a>
@@ -30,16 +30,73 @@
 
     <section class="section">
       <div class="section-head">
-        <span class="eyebrow">Ready-to-flash builds</span>
-        <h1>Images</h1>
-        <p>The easiest path is to download the image for your display, flash it to an SD card, and boot the Pi. Tater Tube starts automatically.</p>
+        <span class="eyebrow">Choose your platform</span>
+        <h1>Downloads</h1>
+        <p>Use the one-click installer for Steam Deck or Linux. For Raspberry Pi, choose the ready-to-flash image that matches your display.</p>
+      </div>
+      <div class="section-head section-head-subsection">
+        <span class="eyebrow">Desktop edition</span>
+        <h2>Steam Deck &amp; Linux</h2>
+        <p>On Steam Deck, switch to Desktop Mode before downloading. Open the installer, approve the execution prompt, and leave it open while it downloads the complete release.</p>
+        <div class="latest-release-panel" data-latest-release data-release-repo="TaterTotterson/Tater-Tube-Steam">
+          <div>
+            <span class="release-label">Latest Steam release</span>
+            <strong data-release-tag>Checking...</strong>
+            <span data-release-status>The one-click installer loads from GitHub.</span>
+          </div>
+          <a class="button button-secondary" href="https://github.com/TaterTotterson/Tater-Tube-Steam/releases/latest" target="_blank" rel="noreferrer" data-release-link>Open Steam release</a>
+        </div>
+      </div>
+      <div class="grid download-grid download-grid-featured">
+        <article class="download-card download-card-featured" data-release-card data-release-repo="TaterTotterson/Tater-Tube-Steam" data-release-asset="steam-installer">
+  <div>
+    <span class="eyebrow">One-click setup</span>
+    <h3>Steam Deck &amp; Linux</h3>
+    <p>Run the desktop installer once. It downloads the complete Tater Tube release without <code>sudo</code> and asks Steam to add Tater Tube to your non-Steam library.</p>
+    <div class="chip-row"><span class="chip">Steam Deck</span><span class="chip">Linux x86_64</span><span class="chip">No sudo</span></div>
+  </div>
+  <dl class="download-meta">
+    <div>
+      <dt>Version</dt>
+      <dd data-release-version>Latest</dd>
+    </div>
+    <div>
+      <dt>File</dt>
+      <dd data-release-file>Install-Tater-Tube.desktop</dd>
+    </div>
+    <div>
+      <dt>Size</dt>
+      <dd data-release-size>Checking latest release...</dd>
+    </div>
+  </dl>
+  <div class="release-actions">
+    <a class="button" href="https://github.com/TaterTotterson/Tater-Tube-Steam/releases/latest/download/Install-Tater-Tube.desktop" data-download-link>Download one-click installer</a>
+    <a class="button button-secondary" href="https://github.com/TaterTotterson/Tater-Tube-Steam/blob/main/INSTALL.md" target="_blank" rel="noreferrer">Setup guide</a>
+    <a class="button button-secondary" href="https://github.com/TaterTotterson/Tater-Tube-Steam/releases/latest" target="_blank" rel="noreferrer" data-release-card-link>Release notes</a>
+  </div>
+</article>
+
+      </div>
+      <div class="flow-strip flow-strip-four install-flow">
+        <div><strong>1. Desktop Mode</strong><span>Open Steam Deck's desktop</span></div>
+        <div><strong>2. Download</strong><span>Grab the one-click installer</span></div>
+        <div><strong>3. Run Once</strong><span>Approve and let it finish</span></div>
+        <div><strong>4. Play</strong><span>Launch Tater Tube from Steam</span></div>
+      </div>
+    </section>
+
+    <section class="section" id="pi-images">
+      <div class="section-head">
+        <span class="eyebrow">Raspberry Pi edition</span>
+        <h2>Ready-to-flash Pi images</h2>
+        <p>Pick the image for your display, flash it to an SD card, and boot the Pi. Tater Tube starts automatically.</p>
         <div class="latest-release-panel" data-latest-release>
           <div>
-            <span class="release-label">Latest GitHub release</span>
+            <span class="release-label">Latest Pi release</span>
             <strong data-release-tag>Checking...</strong>
             <span data-release-status>Direct image links load from GitHub.</span>
           </div>
-          <a class="button button-secondary" href="https://github.com/TaterTotterson/Tater-Tube/releases/latest" target="_blank" rel="noreferrer" data-release-link>Open release</a>
+          <a class="button button-secondary" href="https://github.com/TaterTotterson/Tater-Tube/releases/latest" target="_blank" rel="noreferrer" data-release-link>Open Pi release</a>
         </div>
       </div>
       <div class="grid download-grid">
@@ -129,8 +186,8 @@
 
     <section class="section flow-section">
       <div class="section-head">
-        <span class="eyebrow">Pick the display first</span>
-        <h2>The image profile controls the video output.</h2>
+        <span class="eyebrow">Pi display profiles</span>
+        <h2>The Pi image controls the video output.</h2>
       </div>
       <div class="flow-strip">
         <div><strong>CRT NTSC</strong><span>Pi 4 composite image</span></div>

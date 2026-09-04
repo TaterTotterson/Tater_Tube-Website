@@ -44,6 +44,16 @@
   });
 
   const releaseConfigs = {
+    "TaterTotterson/Tater-Tube-Steam": {
+      latestUrl: "https://github.com/TaterTotterson/Tater-Tube-Steam/releases/latest",
+      apiUrl: "https://api.github.com/repos/TaterTotterson/Tater-Tube-Steam/releases/latest",
+      readyMessage: "The one-click installer is ready.",
+      missingFileMessage: "Open release to download",
+      downloadText: "Download one-click installer",
+      matchers: {
+        "steam-installer": /^Install-Tater-Tube\.desktop$/i,
+      },
+    },
     "TaterTotterson/Tater-Tube": {
       latestUrl: "https://github.com/TaterTotterson/Tater-Tube/releases/latest",
       apiUrl: "https://api.github.com/repos/TaterTotterson/Tater-Tube/releases/latest",

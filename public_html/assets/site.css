@@ -316,6 +316,10 @@ p {
   margin-bottom: 2rem;
 }
 
+.section-head-subsection {
+  margin-top: 3rem;
+}
+
 .section-head p {
   font-size: 1.05rem;
 }
@@ -342,6 +346,10 @@ p {
   align-items: stretch;
 }
 
+.download-grid-featured {
+  grid-template-columns: minmax(0, 760px);
+}
+
 .info-card,
 .module-card,
 .image-card,
@@ -361,6 +369,12 @@ p {
 .doc-card,
 .download-card {
   padding: 1.1rem;
+}
+
+.download-card-featured {
+  background:
+    linear-gradient(110deg, rgba(255, 116, 24, 0.16), transparent 52%),
+    linear-gradient(180deg, rgba(39, 36, 33, 0.96), rgba(19, 18, 17, 0.96));
 }
 
 .module-card {
@@ -530,6 +544,14 @@ p {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 0.75rem;
+}
+
+.flow-strip-four {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.install-flow {
+  margin-top: 1rem;
 }
 
 .flow-strip div {

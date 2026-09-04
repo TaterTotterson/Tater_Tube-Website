@@ -20,13 +20,17 @@ SOURCE_DOC_DIR = WEBSITE_DIR / "docs" / "source"
 SOURCE_CACHE_DIR = WEBSITE_DIR / ".cache" / "tater-tube-source"
 GITHUB_REPO = "https://github.com/TaterTotterson/Tater-Tube"
 LATEST_RELEASE = f"{GITHUB_REPO}/releases/latest"
+STEAM_GITHUB_REPO = "https://github.com/TaterTotterson/Tater-Tube-Steam"
+STEAM_LATEST_RELEASE = f"{STEAM_GITHUB_REPO}/releases/latest"
+STEAM_ONE_CLICK_INSTALLER = f"{STEAM_LATEST_RELEASE}/download/Install-Tater-Tube.desktop"
+STEAM_INSTALL_GUIDE = f"{STEAM_GITHUB_REPO}/blob/main/INSTALL.md"
 SERVER_GITHUB_REPO = "https://github.com/TaterTotterson/tater-tube-server"
 SERVER_LATEST_RELEASE = f"{SERVER_GITHUB_REPO}/releases/latest"
 
 NAV_ITEMS = [
     ("home", "Home", "index.html"),
     ("modules", "Modules", "modules/index.html"),
-    ("images", "Images", "images/index.html"),
+    ("images", "Downloads", "images/index.html"),
     ("server", "Server", "server/index.html"),
     ("setup", "Setup", "setup/index.html"),
     ("api", "API", "api/index.html"),
@@ -270,18 +274,52 @@ def image_download_card(image: dict[str, object]) -> str:
     )
 
 
+def steam_download_card() -> str:
+    return textwrap.dedent(
+        f"""\
+        <article class="download-card download-card-featured" data-release-card data-release-repo="TaterTotterson/Tater-Tube-Steam" data-release-asset="steam-installer">
+          <div>
+            <span class="eyebrow">One-click setup</span>
+            <h3>Steam Deck &amp; Linux</h3>
+            <p>Run the desktop installer once. It downloads the complete Tater Tube release without <code>sudo</code> and asks Steam to add Tater Tube to your non-Steam library.</p>
+            <div class="chip-row">{chip("Steam Deck")}{chip("Linux x86_64")}{chip("No sudo")}</div>
+          </div>
+          <dl class="download-meta">
+            <div>
+              <dt>Version</dt>
+              <dd data-release-version>Latest</dd>
+            </div>
+            <div>
+              <dt>File</dt>
+              <dd data-release-file>Install-Tater-Tube.desktop</dd>
+            </div>
+            <div>
+              <dt>Size</dt>
+              <dd data-release-size>Checking latest release...</dd>
+            </div>
+          </dl>
+          <div class="release-actions">
+            <a class="button" href="{STEAM_ONE_CLICK_INSTALLER}" data-download-link>Download one-click installer</a>
+            <a class="button button-secondary" href="{STEAM_INSTALL_GUIDE}" target="_blank" rel="noreferrer">Setup guide</a>
+            <a class="button button-secondary" href="{STEAM_LATEST_RELEASE}" target="_blank" rel="noreferrer" data-release-card-link>Release notes</a>
+          </div>
+        </article>
+        """
+    )
+
+
 def render_home_page() -> str:
     cards = "\n".join(
         [
             simple_card(
-                "Pi 4 CRT Appliance",
-                "Flash the NTSC or PAL composite image, wire the Pi to a CRT through the 3.5mm AV jack, and boot directly into the VCR-style UI.",
-                ["Composite", "Argon IR", "Analog audio"],
+                "Steam Deck & Linux",
+                "Download the one-click desktop installer. It installs without sudo and adds Tater Tube to Steam as a non-Steam game.",
+                ["One-click install", "Steam Deck", "Linux x86_64"],
             ),
             simple_card(
-                "Pi 5 HDMI Appliance",
-                "Use the HDMI auto image for modern screens. The image lets KMS choose the display's preferred EDID mode.",
-                ["HDMI auto", "Pi 5", "4K displays"],
+                "Raspberry Pi Appliance",
+                "Flash the Pi 4 CRT image or Pi 5 HDMI image to an SD card and boot directly into the VCR-style interface.",
+                ["Pi 4 CRT", "Pi 5 HDMI", "Ready-to-flash"],
             ),
             simple_card(
                 "Tater Tube Server",
@@ -295,18 +333,18 @@ def render_home_page() -> str:
     <section class="hero">
       <img class="hero-bg" src="assets/images/tater-tube-boot.png" alt="" aria-hidden="true">
       <div class="hero-copy">
-        <span class="eyebrow">Retro media appliance for Raspberry Pi</span>
+        <span class="eyebrow">Retro media frontend for Steam Deck, Linux &amp; Raspberry Pi</span>
         <h1>Tater Tube</h1>
-        <p>A VCR-style frontend for CRT and HDMI Pi builds, led by The Tube: shared server-built TV channels, local libraries, and Newznab streaming alongside Video on Demand, OTA, Public Access, Tape Deck, Game Center, PC Link, and local files.</p>
+        <p>A VCR-style frontend for Steam Deck, Linux, and CRT or HDMI Raspberry Pi builds, led by The Tube: shared server-built TV channels, local libraries, and Newznab streaming alongside Video on Demand, OTA, Public Access, Tape Deck, Game Center, PC Link, and local files.</p>
         <div class="hero-actions">
-          {action_link("Download images", "images/index.html")}
+          {action_link("Get Tater Tube", "images/index.html")}
           {action_link("Set up server", "server/index.html", secondary=True)}
           {action_link("View modules", "modules/index.html", secondary=True)}
         </div>
         <div class="hero-facts" aria-label="Tater Tube highlights">
+          <span>Steam Deck one-click install</span>
           <span>Pi 4 CRT composite</span>
           <span>Pi 5 HDMI auto</span>
-          <span>Boots straight into the app</span>
         </div>
       </div>
     </section>
@@ -360,8 +398,8 @@ def render_home_page() -> str:
     </section>
     """
     return page_template(
-        "Tater Tube | Retro media appliance for Raspberry Pi",
-        "Tater Tube is a VCR-style Raspberry Pi media frontend for CRT composite and Pi 5 HDMI appliance images.",
+        "Tater Tube | Retro media frontend for Steam Deck, Linux & Raspberry Pi",
+        "Tater Tube is a VCR-style media frontend for Steam Deck, Linux x86_64, Raspberry Pi CRT composite, and Pi 5 HDMI builds.",
         body,
         nav_key="home",
     )
@@ -440,16 +478,46 @@ def render_images_page() -> str:
     body = f"""
     <section class="section">
       <div class="section-head">
-        <span class="eyebrow">Ready-to-flash builds</span>
-        <h1>Images</h1>
-        <p>The easiest path is to download the image for your display, flash it to an SD card, and boot the Pi. Tater Tube starts automatically.</p>
+        <span class="eyebrow">Choose your platform</span>
+        <h1>Downloads</h1>
+        <p>Use the one-click installer for Steam Deck or Linux. For Raspberry Pi, choose the ready-to-flash image that matches your display.</p>
+      </div>
+      <div class="section-head section-head-subsection">
+        <span class="eyebrow">Desktop edition</span>
+        <h2>Steam Deck &amp; Linux</h2>
+        <p>On Steam Deck, switch to Desktop Mode before downloading. Open the installer, approve the execution prompt, and leave it open while it downloads the complete release.</p>
+        <div class="latest-release-panel" data-latest-release data-release-repo="TaterTotterson/Tater-Tube-Steam">
+          <div>
+            <span class="release-label">Latest Steam release</span>
+            <strong data-release-tag>Checking...</strong>
+            <span data-release-status>The one-click installer loads from GitHub.</span>
+          </div>
+          <a class="button button-secondary" href="{STEAM_LATEST_RELEASE}" target="_blank" rel="noreferrer" data-release-link>Open Steam release</a>
+        </div>
+      </div>
+      <div class="grid download-grid download-grid-featured">
+        {steam_download_card()}
+      </div>
+      <div class="flow-strip flow-strip-four install-flow">
+        <div><strong>1. Desktop Mode</strong><span>Open Steam Deck's desktop</span></div>
+        <div><strong>2. Download</strong><span>Grab the one-click installer</span></div>
+        <div><strong>3. Run Once</strong><span>Approve and let it finish</span></div>
+        <div><strong>4. Play</strong><span>Launch Tater Tube from Steam</span></div>
+      </div>
+    </section>
+
+    <section class="section" id="pi-images">
+      <div class="section-head">
+        <span class="eyebrow">Raspberry Pi edition</span>
+        <h2>Ready-to-flash Pi images</h2>
+        <p>Pick the image for your display, flash it to an SD card, and boot the Pi. Tater Tube starts automatically.</p>
         <div class="latest-release-panel" data-latest-release>
           <div>
-            <span class="release-label">Latest GitHub release</span>
+            <span class="release-label">Latest Pi release</span>
             <strong data-release-tag>Checking...</strong>
             <span data-release-status>Direct image links load from GitHub.</span>
           </div>
-          <a class="button button-secondary" href="{LATEST_RELEASE}" target="_blank" rel="noreferrer" data-release-link>Open release</a>
+          <a class="button button-secondary" href="{LATEST_RELEASE}" target="_blank" rel="noreferrer" data-release-link>Open Pi release</a>
         </div>
       </div>
       <div class="grid download-grid">
@@ -459,8 +527,8 @@ def render_images_page() -> str:
 
     <section class="section flow-section">
       <div class="section-head">
-        <span class="eyebrow">Pick the display first</span>
-        <h2>The image profile controls the video output.</h2>
+        <span class="eyebrow">Pi display profiles</span>
+        <h2>The Pi image controls the video output.</h2>
       </div>
       <div class="flow-strip">
         <div><strong>CRT NTSC</strong><span>Pi 4 composite image</span></div>
@@ -472,8 +540,8 @@ def render_images_page() -> str:
     </section>
     """
     return page_template(
-        "Images | Tater Tube",
-        "Tater Tube ready-to-flash Raspberry Pi image options for NTSC CRT, PAL CRT, and Pi 5 HDMI auto displays.",
+        "Downloads | Tater Tube",
+        "Download Tater Tube for Steam Deck and Linux with the one-click installer, or choose a ready-to-flash Raspberry Pi image.",
         body,
         nav_key="images",
         depth=1,
@@ -669,7 +737,32 @@ def render_setup_page() -> str:
       <div class="section-head">
         <span class="eyebrow">Start here</span>
         <h1>Setup</h1>
-        <p>Tater Tube is intended to run as an appliance image. Flash first, then configure modules from Settings inside the app.</p>
+        <p>Choose the Steam Deck/Linux installer or a ready-to-flash Raspberry Pi image, then configure modules from Settings inside Tater Tube.</p>
+      </div>
+      <div class="section-head section-head-subsection">
+        <span class="eyebrow">Steam Deck &amp; Linux</span>
+        <h2>Install Tater Tube into Steam in one pass.</h2>
+        <p>On Steam Deck, switch to Desktop Mode first. Download and open <code>Install-Tater-Tube.desktop</code>, approve the execution prompt, and leave it open while the full release downloads. The installer runs without <code>sudo</code> and asks Steam to add Tater Tube to the non-Steam library.</p>
+        <div class="action-row">
+          {action_link("Download one-click installer", STEAM_ONE_CLICK_INSTALLER)}
+          {action_link("Full Steam setup guide", STEAM_INSTALL_GUIDE, secondary=True)}
+        </div>
+      </div>
+      <div class="grid grid-3">
+        {simple_card("1. Desktop Mode", "On Steam Deck, press the Steam button, choose Power, then Switch to Desktop.")}
+        {simple_card("2. Run Installer", "Download and open Install-Tater-Tube.desktop, then approve the prompt to run it.")}
+        {simple_card("3. Launch in Steam", "Let the installer finish, return to Gaming Mode, and open Tater Tube from the non-Steam library.")}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="eyebrow">Raspberry Pi</span>
+        <h2>Flash the image for your display.</h2>
+        <p>Choose the NTSC, PAL, or Pi 5 HDMI image. The Pi boots directly into Tater Tube as a dedicated appliance.</p>
+        <div class="action-row">
+          {action_link("Choose a Pi image", "../images/index.html#pi-images")}
+        </div>
       </div>
       <div class="grid grid-3">
         {flash_steps}
@@ -691,8 +784,8 @@ def render_setup_page() -> str:
     <section class="section split-section">
       <div class="split-copy">
         <span class="eyebrow">Normal update path</span>
-        <h2>Existing images update from inside Tater Tube.</h2>
-        <p>Use Settings, System, Check For Updates. The updater refreshes the app, helpers, runtime packages, RetroArch cores, Moonlight, Bluetooth support, boot splash, IR, fan control, and display setup. The update splash keeps the logo visible and uses one compact bottom status line.</p>
+        <h2>Existing installs update from inside Tater Tube.</h2>
+        <p>On Steam Deck, Linux, or Pi, use Settings, System, Check For Updates. The Pi updater also refreshes appliance helpers, runtime packages, RetroArch cores, Moonlight, Bluetooth support, boot splash, IR, fan control, and display setup.</p>
         {command_box("bash <(curl -fsSL https://github.com/TaterTotterson/Tater-Tube/releases/latest/download/install.sh)", "SSH update fallback")}
       </div>
       <figure class="image-panel">
@@ -729,7 +822,7 @@ def render_setup_page() -> str:
     """
     return page_template(
         "Setup | Tater Tube",
-        "Tater Tube setup information for flashing images, updating existing installs, and configuring modules.",
+        "Tater Tube setup information for the Steam Deck and Linux one-click installer, Raspberry Pi images, updates, and module configuration.",
         body,
         nav_key="setup",
         depth=1,
