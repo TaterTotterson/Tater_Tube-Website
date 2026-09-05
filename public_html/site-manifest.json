@@ -1,12 +1,14 @@
 {
   "name": "Tater Tube Website",
-  "generated_at": "2026-09-04T12:31:54+00:00",
+  "generated_at": "2026-09-05T12:00:52+00:00",
   "repo": "https://github.com/TaterTotterson/Tater-Tube",
   "pages": [
     "index.html",
+    "player/index.html",
+    "server/index.html",
+    "retro/index.html",
     "modules/index.html",
     "images/index.html",
-    "server/index.html",
     "setup/index.html",
     "api/index.html",
     "wiki/index.html"

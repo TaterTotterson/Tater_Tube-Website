@@ -26,15 +26,13 @@ STEAM_ONE_CLICK_INSTALLER = f"{STEAM_LATEST_RELEASE}/download/Install-Tater-Tube
 STEAM_INSTALL_GUIDE = f"{STEAM_GITHUB_REPO}/blob/main/INSTALL.md"
 SERVER_GITHUB_REPO = "https://github.com/TaterTotterson/tater-tube-server"
 SERVER_LATEST_RELEASE = f"{SERVER_GITHUB_REPO}/releases/latest"
+GITHUB_ORG = "https://github.com/TaterTotterson"
 
 NAV_ITEMS = [
     ("home", "Home", "index.html"),
-    ("modules", "Modules", "modules/index.html"),
-    ("images", "Downloads", "images/index.html"),
+    ("player", "Player", "player/index.html"),
     ("server", "Server", "server/index.html"),
-    ("setup", "Setup", "setup/index.html"),
-    ("api", "API", "api/index.html"),
-    ("docs", "Docs", "wiki/index.html"),
+    ("retro", "Retro", "retro/index.html"),
 ]
 
 DOC_SOURCES = [
@@ -47,8 +45,8 @@ MODULES = [
     {
         "title": "The Tube",
         "image": "usenet.png",
-        "text": "Connect to Tater Tube Server for Tube TV channels, Newznab Stream discovery, local movie and TV libraries, music, resume history, and server-side transcoding.",
-        "chips": ["Tube TV", "Stream + Local", "Server"],
+        "text": "Connect to Tater Tube Server for Tube TV channels, Discovery, local movie and TV libraries, music, resume history, and server-side transcoding.",
+        "chips": ["Tube TV", "Discovery + Local", "Server"],
     },
     {
         "title": "Over The Air",
@@ -124,6 +122,8 @@ def ensure_dirs() -> None:
         PUBLIC_ROOT,
         ASSET_DIR,
         IMAGE_DIR,
+        PUBLIC_ROOT / "player",
+        PUBLIC_ROOT / "retro",
         PUBLIC_ROOT / "modules",
         PUBLIC_ROOT / "images",
         PUBLIC_ROOT / "server",
@@ -144,13 +144,49 @@ def nav_html(base: str, active: str) -> str:
         class_name = "nav-link is-active" if key == active else "nav-link"
         links.append(f'<a class="{class_name}" href="{base}{href}">{escape(label)}</a>')
     links.append(
-        f'<a class="nav-link nav-link-github" href="{GITHUB_REPO}" target="_blank" rel="noreferrer">GitHub</a>'
+        f'<a class="nav-link nav-link-github" href="{GITHUB_ORG}" target="_blank" rel="noreferrer">GitHub</a>'
     )
     return "\n".join(links)
 
 
-def page_template(title: str, description: str, body: str, *, nav_key: str, depth: int = 0) -> str:
+def page_template(
+    title: str,
+    description: str,
+    body: str,
+    *,
+    nav_key: str,
+    depth: int = 0,
+    theme: str = "retro",
+) -> str:
     base = page_base(depth)
+    favicon_name = "player-mascot.png" if theme == "modern" else "tater-tube-logo.png"
+    social_image = (
+        "https://tatertube.tv/assets/images/og-modern.png"
+        if theme == "modern"
+        else "https://tatertube.tv/assets/images/tater-tube-boot.png"
+    )
+    if theme == "modern":
+        brand_html = f'<img class="modern-wordmark" src="{base}assets/images/tater-tube-logo-modern.png" alt="Tater Tube">'
+    else:
+        brand_html = f'<img src="{base}assets/images/tater-tube-logo.png" alt="Tater Tube">'
+    if theme == "modern":
+        footer_html = f"""
+          <div>
+            <strong>Tater Tube</strong>
+            <p>Your media, your channels, every screen.</p>
+          </div>
+          <div class="footer-links">
+            <a href="{base}player/index.html">Player</a>
+            <a href="{base}server/index.html">Server</a>
+            <a href="{base}retro/index.html">Tater Tube Retro</a>
+            <a href="{SERVER_GITHUB_REPO}" target="_blank" rel="noreferrer">GitHub</a>
+          </div>
+        """
+    else:
+        footer_html = f"""
+          <p>Tater Tube Retro is the VCR-style way to play, with dedicated apps, appliance images, and documentation.</p>
+          <p><a href="{base}index.html">Explore Tater Tube Player + Server</a> · <a href="{GITHUB_REPO}" target="_blank" rel="noreferrer">Retro project on GitHub</a></p>
+        """
     return textwrap.dedent(
         f"""\
         <!DOCTYPE html>
@@ -159,15 +195,23 @@ def page_template(title: str, description: str, body: str, *, nav_key: str, dept
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1">
           <meta name="description" content="{escape(description)}">
+          <meta property="og:type" content="website">
+          <meta property="og:title" content="{escape(title)}">
+          <meta property="og:description" content="{escape(description)}">
+          <meta property="og:image" content="{social_image}">
+          <meta name="twitter:card" content="summary_large_image">
+          <meta name="twitter:title" content="{escape(title)}">
+          <meta name="twitter:description" content="{escape(description)}">
+          <meta name="twitter:image" content="{social_image}">
           <title>{escape(title)}</title>
-          <link rel="icon" type="image/png" href="{base}assets/images/tater-tube-logo.png">
+          <link rel="icon" type="image/png" href="{base}assets/images/{favicon_name}">
           <link rel="stylesheet" href="{base}assets/site.css">
           <script src="{base}assets/site.js" defer></script>
         </head>
-        <body data-page="{escape(nav_key)}">
+        <body class="{escape(theme)}-page" data-page="{escape(nav_key)}">
           <header class="site-header">
             <a class="brand" href="{base}index.html" aria-label="Tater Tube home">
-              <img src="{base}assets/images/tater-tube-logo.png" alt="Tater Tube">
+              {brand_html}
             </a>
             <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
             <nav class="site-nav" id="site-nav">
@@ -178,8 +222,7 @@ def page_template(title: str, description: str, body: str, *, nav_key: str, dept
             {body}
           </main>
           <footer class="site-footer">
-            <p>Tater Tube website pages are generated from this website project and the Tater Tube source docs.</p>
-            <p><a href="{GITHUB_REPO}" target="_blank" rel="noreferrer">View Tater Tube on GitHub</a></p>
+            {footer_html}
           </footer>
         </body>
         </html>
@@ -309,6 +352,219 @@ def steam_download_card() -> str:
 
 
 def render_home_page() -> str:
+    body = f"""
+    <section class="modern-hero">
+      <div class="modern-hero-copy">
+        <span class="eyebrow">Tater Tube Player + Server</span>
+        <h1>Everything good, right where you left it.</h1>
+        <p class="modern-hero-lede">A modern, self-hosted home for your movies, shows, and live channels—served by Tater Tube Server and made for the biggest screen in the room.</p>
+        <div class="hero-actions">
+          {action_link("Explore the player", "player/index.html")}
+          {action_link("Explore the server", "server/index.html", secondary=True)}
+          {action_link("Tater Tube Retro", "retro/index.html", secondary=True)}
+        </div>
+        <div class="platform-status" aria-label="Planned player platforms">
+          <span><strong>Steam + Steam Deck</strong> First client</span>
+          <span><strong>Apple TV</strong> Planned</span>
+          <span><strong>Google TV</strong> Planned</span>
+        </div>
+      </div>
+      <figure class="player-showcase">
+        <div class="player-showcase-head">
+          <span>Player preview</span>
+          <span class="status-dot">In development</span>
+        </div>
+        <img src="assets/images/player-steam-home.webp" alt="Development preview of the Tater Tube Player home screen on Steam Deck">
+      </figure>
+    </section>
+
+    <section class="section modern-player-intro" id="player-preview">
+      <div class="section-head">
+        <span class="eyebrow">Playback comes first</span>
+        <h2>Your library feels at home on the TV.</h2>
+        <p>Tater Tube Player keeps the things you watch most within a few controller clicks, with artwork-forward browsing and clean playback controls built for the couch.</p>
+      </div>
+      <div class="grid grid-3 modern-feature-grid">
+        {simple_card("Pick up where you left off", "Resume movies and episodes across paired screens with progress stored by your server.", ["Continue Watching", "Playback history"])}
+        {simple_card("Browse everything", "Move through movies, TV shows, folders, seasons, and episodes without leaving the player.", ["Local libraries", "Search"])}
+        {simple_card("Tune into your own TV", "Watch server-built Tube TV channels with guide data, bumpers, station IDs, and commercial breaks intact.", ["Live TV", "Channel guide"])}
+      </div>
+    </section>
+
+    <section class="section modern-media-section">
+      <div class="section-head">
+        <span class="eyebrow">Made for watching</span>
+        <h2>Less dashboard. More play.</h2>
+        <p>Artwork, progress, live schedules, and search stay clear from across the room. Every surface is designed for a controller or TV remote first.</p>
+      </div>
+      <div class="modern-screenshot-grid">
+        <figure class="media-window media-window-large">
+          <div class="media-window-label"><span>Library</span><span>Movies + TV</span></div>
+          <img src="assets/images/player-steam-library.webp" alt="Development preview of the Tater Tube Player movie and television library">
+        </figure>
+        <figure class="media-window">
+          <div class="media-window-label"><span>Live TV</span><span>Now + Next</span></div>
+          <img src="assets/images/player-steam-live-tv-guide.webp" alt="Development preview of the Tater Tube Player Live TV guide">
+        </figure>
+      </div>
+    </section>
+
+    <section class="section modern-server-highlight">
+      <div class="modern-server-copy">
+        <span class="eyebrow">One system, end to end</span>
+        <h2>Your server does the heavy lifting.</h2>
+        <p>Tater Tube Server scans your movies and shows, resolves artwork, remembers playback, builds your Tube TV schedule, and chooses direct play or transcoding for each screen.</p>
+        <p>It is a complete self-hosted media platform—not another skin over Plex, Emby, or Jellyfin.</p>
+        <div class="grid grid-2 compact-feature-grid">
+          {simple_card("Keep your library yours", "Map local media into Docker and serve it directly from your own hardware.")}
+          {simple_card("Build your own live TV", "Turn movies and series into scheduled channels with guides, bumpers, station IDs, and commercial breaks.")}
+          {simple_card("Play the best stream", "Use direct playback when the device supports it and server transcoding when it does not.")}
+          {simple_card("Pair every screen", "Connect players with a short PIN and keep progress synchronized by the server.")}
+        </div>
+        <div class="action-row">
+          {action_link("Set up Tater Tube Server", "server/index.html")}
+        </div>
+      </div>
+      <figure class="server-mascot-panel">
+        <img src="assets/images/server-mascot-modern-v6.png" alt="Tater mascot standing beside a modern Tater Tube home media server">
+      </figure>
+    </section>
+
+    <section class="section platform-section">
+      <div class="section-head">
+        <span class="eyebrow">From handheld to living room</span>
+        <h2>One Tater Tube experience across every screen.</h2>
+        <p>The shared server contract keeps libraries, playback, and live channels consistent while each client feels native to its platform.</p>
+      </div>
+      <div class="grid grid-3 platform-grid">
+        <article class="platform-card">
+          <span class="platform-badge is-first">First client</span>
+          <h3>Steam + Steam Deck</h3>
+          <p>The Qt player is in active development with controller-first browsing, playback, search, and Live TV.</p>
+        </article>
+        <article class="platform-card">
+          <span class="platform-badge">Planned</span>
+          <h3>Apple TV</h3>
+          <p>A native SwiftUI and AVKit client will use the same Tater Tube Server library and playback contract.</p>
+        </article>
+        <article class="platform-card">
+          <span class="platform-badge">Planned</span>
+          <h3>Google TV</h3>
+          <p>A native Compose TV and Media3 client will bring Tater Tube to Android-powered living rooms.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section retro-gateway">
+      <div class="retro-gateway-copy">
+        <span class="eyebrow">Another way to play</span>
+        <h2>Tater Tube Retro</h2>
+        <p>Choose the VCR-style 240-MP interface on Steam/Linux, a Pi 4 CRT, or a Pi 5 HDMI setup. Tater Tube Retro brings together Game Center, PC Link, Public Access, Tape Deck, and the complete retro module lineup.</p>
+        <div class="action-row">
+          {action_link("Explore Tater Tube Retro", "retro/index.html")}
+          {action_link("Retro downloads", "images/index.html", secondary=True)}
+        </div>
+      </div>
+    </section>
+    """
+    return page_template(
+        "Tater Tube | Your media, your channels, every screen",
+        "Tater Tube is a modern self-hosted media player and server for movies, shows, and personal live TV channels.",
+        body,
+        nav_key="home",
+        theme="modern",
+    )
+
+
+def render_player_page() -> str:
+    body = f"""
+    <section class="section modern-subhero">
+      <div class="modern-subhero-copy">
+        <span class="eyebrow">Tater Tube Player</span>
+        <h1>The shortest path from your library to play.</h1>
+        <p>A modern, artwork-first player built around Tater Tube Server. Browse, resume, search, tune into Live TV, and control playback without fighting a desktop interface from the couch.</p>
+        <div class="hero-actions">
+          {action_link("See what works today", "#player-today")}
+          {action_link("Set up the server", "../server/index.html", secondary=True)}
+        </div>
+        <div class="platform-status">
+          <span><strong>Steam + Steam Deck</strong> In development</span>
+          <span><strong>Apple TV</strong> Planned</span>
+          <span><strong>Google TV</strong> Planned</span>
+        </div>
+      </div>
+      <figure class="player-showcase">
+        <div class="player-showcase-head"><span>Steam Deck preview</span><span class="status-dot">In development</span></div>
+        <img src="../assets/images/player-steam-home.webp" alt="Development preview of the Tater Tube Player home screen on Steam Deck">
+      </figure>
+    </section>
+
+    <section class="section" id="player-today">
+      <div class="section-head">
+        <span class="eyebrow">Working today</span>
+        <h2>Everything a focused player needs.</h2>
+        <p>The Steam prototype already connects to a real Tater Tube Server and covers the main living-room journey.</p>
+      </div>
+      <div class="grid grid-3 modern-feature-grid">
+        {simple_card("Pair in a few steps", "Enter the server address and six-digit PIN, then keep the paired player ready for the next session.", ["Six-digit PIN", "Named players"])}
+        {simple_card("Find something quickly", "Browse local collections, folders, shows, seasons, and discovery feeds with incremental results.", ["Library", "Search", "Discovery"])}
+        {simple_card("Resume without guessing", "Load saved positions and report progress while movies and episodes play.", ["Continue Watching", "Progress"])}
+        {simple_card("Watch your channels", "Tune into server-built Tube TV with now/next information and scheduled breaks preserved.", ["Live TV", "HLS", "Guide"])}
+        {simple_card("Direct play first", "Play compatible media directly, then fall back to audio-only or full H.264 transcoding when needed.", ["Direct play", "Transcoding"])}
+        {simple_card("Made for the couch", "Use controller, keyboard, remote-style focus, or touch with clear states and auto-hiding playback controls.", ["Controller", "Remote", "Touch"])}
+      </div>
+    </section>
+
+    <section class="section player-gallery">
+      <div class="section-head">
+        <span class="eyebrow">Latest Steam Deck previews</span>
+        <h2>The current Player journey.</h2>
+        <p>These in-development previews show the latest controller-first navigation, local library, Discovery, and Live TV guide running in the Steam build.</p>
+      </div>
+      <div class="player-gallery-grid">
+        <figure class="media-window">
+          <div class="media-window-label"><span>Navigation</span><span>Controller first</span></div>
+          <img src="../assets/images/player-steam-navigation.webp" alt="Development preview of the Tater Tube Player controller navigation drawer">
+        </figure>
+        <figure class="media-window">
+          <div class="media-window-label"><span>Your library</span><span>Movies + TV</span></div>
+          <img src="../assets/images/player-steam-library.webp" alt="Development preview of the Tater Tube Player library">
+        </figure>
+        <figure class="media-window">
+          <div class="media-window-label"><span>Discovery</span><span>Popular movies</span></div>
+          <img src="../assets/images/player-steam-discover.webp" alt="Development preview of movie Discovery in Tater Tube Player">
+        </figure>
+        <figure class="media-window">
+          <div class="media-window-label"><span>Your channels</span><span>Live TV guide</span></div>
+          <img src="../assets/images/player-steam-live-tv-guide.webp" alt="Development preview of the Tater Tube Player Live TV guide">
+        </figure>
+      </div>
+    </section>
+
+    <section class="section player-connection">
+      <div class="section-head">
+        <span class="eyebrow">One shared contract</span>
+        <h2>Native clients, one consistent media home.</h2>
+        <p>Steam, Apple TV, and Google TV use platform-specific interfaces while Tater Tube Server remains the source of truth for catalogs, artwork, playback plans, streams, live schedules, and progress.</p>
+      </div>
+      <div class="connection-flow" aria-label="Tater Tube playback flow">
+        <div><strong>Your media</strong><span>Movies, shows, and channels</span></div>
+        <div><strong>Tater Tube Server</strong><span>Catalog, artwork, playback, and history</span></div>
+        <div><strong>Tater Tube Player</strong><span>The right experience for every screen</span></div>
+      </div>
+    </section>
+    """
+    return page_template(
+        "Tater Tube Player | Modern self-hosted media playback",
+        "Meet Tater Tube Player, a modern artwork-first client for movies, shows, and personal live TV from Tater Tube Server.",
+        body,
+        nav_key="player",
+        depth=1,
+        theme="modern",
+    )
+
+
+def render_retro_page() -> str:
     cards = "\n".join(
         [
             simple_card(
@@ -323,23 +579,23 @@ def render_home_page() -> str:
             ),
             simple_card(
                 "Tater Tube Server",
-                "Run the Docker server for shared Tube TV channels, Newznab Stream, local libraries, player pairing, playback history, and optional transcoding.",
+                "Run the Docker server for shared Tube TV channels, Discovery, local libraries, player pairing, playback history, and optional transcoding.",
                 ["Tube TV", "Docker", "Transcoding"],
             ),
         ]
     )
-    featured = "\n".join(module_card(module) for module in MODULES[:4])
+    featured = "\n".join(module_card(module, "../") for module in MODULES[:4])
     body = f"""
     <section class="hero">
-      <img class="hero-bg" src="assets/images/tater-tube-boot.png" alt="" aria-hidden="true">
+      <img class="hero-bg" src="../assets/images/tater-tube-boot.png" alt="" aria-hidden="true">
       <div class="hero-copy">
-        <span class="eyebrow">Retro media frontend for Steam Deck, Linux &amp; Raspberry Pi</span>
-        <h1>Tater Tube</h1>
-        <p>A VCR-style frontend for Steam Deck, Linux, and CRT or HDMI Raspberry Pi builds, led by The Tube: shared server-built TV channels, local libraries, and Newznab streaming alongside Video on Demand, OTA, Public Access, Tape Deck, Game Center, PC Link, and local files.</p>
+        <span class="eyebrow">The VCR-style 240-MP interface</span>
+        <h1>Tater Tube Retro</h1>
+        <p>A VCR-style frontend for Steam Deck, Linux, and CRT or HDMI Raspberry Pi builds, led by The Tube: shared server-built TV channels, local libraries, and Discovery alongside Video on Demand, OTA, Public Access, Tape Deck, Game Center, PC Link, and local files.</p>
         <div class="hero-actions">
-          {action_link("Get Tater Tube", "images/index.html")}
-          {action_link("Set up server", "server/index.html", secondary=True)}
-          {action_link("View modules", "modules/index.html", secondary=True)}
+          {action_link("Retro downloads", "../images/index.html")}
+          {action_link("Setup guide", "../setup/index.html", secondary=True)}
+          {action_link("View modules", "../modules/index.html", secondary=True)}
         </div>
         <div class="hero-facts" aria-label="Tater Tube highlights">
           <span>Steam Deck one-click install</span>
@@ -348,6 +604,14 @@ def render_home_page() -> str:
         </div>
       </div>
     </section>
+
+    <nav class="retro-subnav" aria-label="Tater Tube Retro sections">
+      <a href="../modules/index.html">Modules</a>
+      <a href="../images/index.html">Downloads</a>
+      <a href="../setup/index.html">Setup</a>
+      <a href="../api/index.html">API</a>
+      <a href="../wiki/index.html">Docs</a>
+    </nav>
 
     <section class="section split-section">
       <div class="split-copy">
@@ -363,11 +627,11 @@ def render_home_page() -> str:
           {chip("Guide CH 999")}
         </div>
         <div class="action-row">
-          {action_link("Explore Tater Tube Server", "server/index.html")}
+          {action_link("Explore Tater Tube Server", "../server/index.html")}
         </div>
       </div>
       <figure class="image-panel">
-        <img src="assets/images/usenet.png" alt="Tater mascot for The Tube">
+        <img src="../assets/images/usenet.png" alt="Tater mascot for The Tube">
         <figcaption>The Tube is the first module in the Tater Tube menu.</figcaption>
       </figure>
     </section>
@@ -393,15 +657,16 @@ def render_home_page() -> str:
         {featured}
       </div>
       <div class="action-row">
-        {action_link("See every module", "modules/index.html")}
+        {action_link("See every module", "../modules/index.html")}
       </div>
     </section>
     """
     return page_template(
-        "Tater Tube | Retro media frontend for Steam Deck, Linux & Raspberry Pi",
+        "Tater Tube Retro | VCR-style media frontend",
         "Tater Tube is a VCR-style media frontend for Steam Deck, Linux x86_64, Raspberry Pi CRT composite, and Pi 5 HDMI builds.",
         body,
-        nav_key="home",
+        nav_key="retro",
+        depth=1,
     )
 
 
@@ -410,8 +675,8 @@ def render_modules_page() -> str:
     body = f"""
     <section class="section">
       <div class="section-head">
-        <span class="eyebrow">Module guide</span>
-        <h1>Modules</h1>
+        <span class="eyebrow">Tater Tube Retro</span>
+        <h1>Retro Modules</h1>
         <p>Tater Tube keeps media, games, PC streaming, and local playback in separate focused modules. The main menu can show a matching Tater mascot for each one.</p>
       </div>
       <div class="grid module-grid">
@@ -465,10 +730,10 @@ def render_modules_page() -> str:
     </section>
     """
     return page_template(
-        "Modules | Tater Tube",
+        "Retro Modules | Tater Tube",
         "Overview of The Tube, Tube TV, VOD, OTA, Public Access, Tape Deck, Game Center, PC Link, and Local Files.",
         body,
-        nav_key="modules",
+        nav_key="retro",
         depth=1,
     )
 
@@ -478,8 +743,8 @@ def render_images_page() -> str:
     body = f"""
     <section class="section">
       <div class="section-head">
-        <span class="eyebrow">Choose your platform</span>
-        <h1>Downloads</h1>
+        <span class="eyebrow">Tater Tube Retro</span>
+        <h1>Retro Downloads</h1>
         <p>Use the one-click installer for Steam Deck or Linux. For Raspberry Pi, choose the ready-to-flash image that matches your display.</p>
       </div>
       <div class="section-head section-head-subsection">
@@ -540,10 +805,10 @@ def render_images_page() -> str:
     </section>
     """
     return page_template(
-        "Downloads | Tater Tube",
-        "Download Tater Tube for Steam Deck and Linux with the one-click installer, or choose a ready-to-flash Raspberry Pi image.",
+        "Retro Downloads | Tater Tube",
+        "Download Tater Tube Retro for Steam Deck and Linux with the one-click installer, or choose a ready-to-flash Raspberry Pi image.",
         body,
-        nav_key="images",
+        nav_key="retro",
         depth=1,
     )
 
@@ -570,9 +835,9 @@ def render_server_page() -> str:
     body = f"""
     <section class="section">
       <div class="section-head">
-        <span class="eyebrow">Backend for The Tube</span>
+        <span class="eyebrow">Your self-hosted media foundation</span>
         <h1>Tater Tube Server</h1>
-        <p>The server gives every paired player the same Tube TV lineup plus Newznab Stream discovery, local movie, TV, and music libraries, resume history, activity tracking, and optional FFmpeg transcoding.</p>
+        <p>Bring your movies, shows, music, discovery feeds, and personal live channels into one server. Every paired Tater Tube Player gets the same library, watch progress, Tube TV lineup, and playback options.</p>
         <div class="latest-release-panel" data-latest-release data-release-repo="TaterTotterson/tater-tube-server">
           <div>
             <span class="release-label">Latest server release</span>
@@ -721,6 +986,7 @@ def render_server_page() -> str:
         body,
         nav_key="server",
         depth=1,
+        theme="modern",
     )
 
 
@@ -735,8 +1001,8 @@ def render_setup_page() -> str:
     body = f"""
     <section class="section">
       <div class="section-head">
-        <span class="eyebrow">Start here</span>
-        <h1>Setup</h1>
+        <span class="eyebrow">Tater Tube Retro</span>
+        <h1>Retro Setup</h1>
         <p>Choose the Steam Deck/Linux installer or a ready-to-flash Raspberry Pi image, then configure modules from Settings inside Tater Tube.</p>
       </div>
       <div class="section-head section-head-subsection">
@@ -821,10 +1087,10 @@ def render_setup_page() -> str:
     </section>
     """
     return page_template(
-        "Setup | Tater Tube",
+        "Retro Setup | Tater Tube",
         "Tater Tube setup information for the Steam Deck and Linux one-click installer, Raspberry Pi images, updates, and module configuration.",
         body,
-        nav_key="setup",
+        nav_key="retro",
         depth=1,
     )
 
@@ -851,8 +1117,8 @@ GET  /api/tater/streams/active"""
     body = f"""
     <section class="section">
       <div class="section-head">
-        <span class="eyebrow">Companion app control</span>
-        <h1>API</h1>
+        <span class="eyebrow">Tater Tube Retro</span>
+        <h1>Retro API</h1>
         <p>The Pi image exposes a small local HTTP API on port 24024. It is meant for companion apps, remote controls, and future voice-assistant bridges.</p>
       </div>
       {command_box("curl http://tatertube.local:24024/api/v1/status", "Status check")}
@@ -886,10 +1152,10 @@ GET  /api/tater/streams/active"""
     </section>
     """
     return page_template(
-        "API | Tater Tube",
+        "Retro API | Tater Tube",
         "Tater Tube player and server APIs for controls, pairing, Tube TV, library state, search, and media launch.",
         body,
-        nav_key="api",
+        nav_key="retro",
         depth=1,
     )
 
@@ -1054,8 +1320,8 @@ def render_wiki_index() -> str:
     body = f"""
     <section class="section">
       <div class="section-head">
-        <span class="eyebrow">Generated docs</span>
-        <h1>Docs</h1>
+        <span class="eyebrow">Tater Tube Retro</span>
+        <h1>Retro Docs</h1>
         <p>This wiki section is generated from the Tater Tube source documentation so the website stays aligned with the app repo.</p>
       </div>
       <div class="grid grid-3">
@@ -1064,10 +1330,10 @@ def render_wiki_index() -> str:
     </section>
     """
     return page_template(
-        "Docs | Tater Tube",
+        "Retro Docs | Tater Tube",
         "Generated Tater Tube documentation wiki.",
         body,
-        nav_key="docs",
+        nav_key="retro",
         depth=1,
     )
 
@@ -1095,7 +1361,7 @@ def render_doc_page(slug: str, title: str, source_name: str) -> str:
         f"{title} | Tater Tube Docs",
         f"Generated Tater Tube documentation page for {title}.",
         body,
-        nav_key="docs",
+        nav_key="retro",
         depth=1,
     )
 
@@ -1105,7 +1371,17 @@ def build_site_manifest() -> None:
         "name": "Tater Tube Website",
         "generated_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
         "repo": GITHUB_REPO,
-        "pages": [item[2] for item in NAV_ITEMS],
+        "pages": [
+            "index.html",
+            "player/index.html",
+            "server/index.html",
+            "retro/index.html",
+            "modules/index.html",
+            "images/index.html",
+            "setup/index.html",
+            "api/index.html",
+            "wiki/index.html",
+        ],
         "docs": [f"wiki/{slug}.html" for slug, _, _ in DOC_SOURCES],
     }
     write_page(PUBLIC_ROOT / "site-manifest.json", json.dumps(manifest, indent=2) + "\n")
@@ -1114,6 +1390,8 @@ def build_site_manifest() -> None:
 def main() -> None:
     ensure_dirs()
     write_page(PUBLIC_ROOT / "index.html", render_home_page())
+    write_page(PUBLIC_ROOT / "player" / "index.html", render_player_page())
+    write_page(PUBLIC_ROOT / "retro" / "index.html", render_retro_page())
     write_page(PUBLIC_ROOT / "modules" / "index.html", render_modules_page())
     write_page(PUBLIC_ROOT / "images" / "index.html", render_images_page())
     write_page(PUBLIC_ROOT / "server" / "index.html", render_server_page())
