@@ -356,7 +356,7 @@ def render_home_page() -> str:
     <section class="modern-hero">
       <div class="modern-hero-copy">
         <span class="eyebrow">Tater Tube Player + Server</span>
-        <h1>Everything good, right where you left it.</h1>
+        <h1>Your library. Your channels. Just press play.</h1>
         <p class="modern-hero-lede">A modern, self-hosted home for your movies, shows, and live channels—served by Tater Tube Server and made for the biggest screen in the room.</p>
         <div class="hero-actions">
           {action_link("Explore the player", "player/index.html")}
@@ -481,8 +481,8 @@ def render_player_page() -> str:
     <section class="section modern-subhero">
       <div class="modern-subhero-copy">
         <span class="eyebrow">Tater Tube Player</span>
-        <h1>The shortest path from your library to play.</h1>
-        <p>A modern, artwork-first player built around Tater Tube Server. Browse, resume, search, tune into Live TV, and control playback without fighting a desktop interface from the couch.</p>
+        <h1>Made for the couch. Built around your media.</h1>
+        <p>Browse your library, pick up where you left off, discover something new, or tune into Live TV—all through a controller-first player powered by Tater Tube Server.</p>
         <div class="hero-actions">
           {action_link("See what works today", "#player-today")}
           {action_link("Set up the server", "../server/index.html", secondary=True)}
@@ -519,24 +519,32 @@ def render_player_page() -> str:
       <div class="section-head">
         <span class="eyebrow">Latest Steam Deck previews</span>
         <h2>The current Player journey.</h2>
-        <p>These in-development previews show the latest controller-first navigation, local library, Discovery, and Live TV guide running in the Steam build.</p>
+        <p>These in-development previews show the latest library, details, Discovery, Tater Picks, Live TV, and search experience running in the Steam build.</p>
       </div>
       <div class="player-gallery-grid">
-        <figure class="media-window">
-          <div class="media-window-label"><span>Navigation</span><span>Controller first</span></div>
-          <img src="../assets/images/player-steam-navigation.webp" alt="Development preview of the Tater Tube Player controller navigation drawer">
-        </figure>
         <figure class="media-window">
           <div class="media-window-label"><span>Your library</span><span>Movies + TV</span></div>
           <img src="../assets/images/player-steam-library.webp" alt="Development preview of the Tater Tube Player library">
         </figure>
         <figure class="media-window">
-          <div class="media-window-label"><span>Discovery</span><span>Popular movies</span></div>
-          <img src="../assets/images/player-steam-discover.webp" alt="Development preview of movie Discovery in Tater Tube Player">
+          <div class="media-window-label"><span>Details</span><span>Resume or restart</span></div>
+          <img src="../assets/images/player-steam-details.webp" alt="Development preview of movie details and resume controls in Tater Tube Player">
+        </figure>
+        <figure class="media-window">
+          <div class="media-window-label"><span>Discovery</span><span>Movies + TV</span></div>
+          <img src="../assets/images/player-steam-discover.webp" alt="Development preview of Discovery in Tater Tube Player">
+        </figure>
+        <figure class="media-window">
+          <div class="media-window-label"><span>Tater Picks</span><span>Picked for you</span></div>
+          <img src="../assets/images/player-steam-tater-picks.webp" alt="Development preview of Tater Picks recommendations in Tater Tube Player">
         </figure>
         <figure class="media-window">
           <div class="media-window-label"><span>Your channels</span><span>Live TV guide</span></div>
           <img src="../assets/images/player-steam-live-tv-guide.webp" alt="Development preview of the Tater Tube Player Live TV guide">
+        </figure>
+        <figure class="media-window">
+          <div class="media-window-label"><span>Search</span><span>Loaded titles</span></div>
+          <img src="../assets/images/player-steam-search.webp" alt="Development preview of search results in Tater Tube Player">
         </figure>
       </div>
     </section>
