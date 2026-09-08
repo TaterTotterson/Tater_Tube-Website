@@ -864,6 +864,11 @@ p {
   display: block;
 }
 
+.modern-hero-title strong {
+  color: var(--accent);
+  font-weight: inherit;
+}
+
 .modern-hero-lede {
   max-width: 620px;
   margin: 1.5rem 0 0;
