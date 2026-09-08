@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import hashlib
 import html
 import json
 import os
@@ -117,6 +118,10 @@ def escape(value: object) -> str:
     return html.escape(str(value), quote=True)
 
 
+def asset_version(filename: str) -> str:
+    return hashlib.sha256((ASSET_DIR / filename).read_bytes()).hexdigest()[:12]
+
+
 def ensure_dirs() -> None:
     for path in [
         PUBLIC_ROOT,
@@ -159,6 +164,8 @@ def page_template(
     theme: str = "retro",
 ) -> str:
     base = page_base(depth)
+    css_version = asset_version("site.css")
+    js_version = asset_version("site.js")
     favicon_name = "player-mascot.png" if theme == "modern" else "tater-tube-logo.png"
     social_image = (
         "https://tatertube.tv/assets/images/og-modern.png"
@@ -205,8 +212,8 @@ def page_template(
           <meta name="twitter:image" content="{social_image}">
           <title>{escape(title)}</title>
           <link rel="icon" type="image/png" href="{base}assets/images/{favicon_name}">
-          <link rel="stylesheet" href="{base}assets/site.css">
-          <script src="{base}assets/site.js" defer></script>
+          <link rel="stylesheet" href="{base}assets/site.css?v={css_version}">
+          <script src="{base}assets/site.js?v={js_version}" defer></script>
         </head>
         <body class="{escape(theme)}-page" data-page="{escape(nav_key)}">
           <header class="site-header">
