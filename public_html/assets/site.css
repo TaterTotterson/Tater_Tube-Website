@@ -842,7 +842,7 @@ p {
 
 .modern-hero {
   display: grid;
-  grid-template-columns: minmax(0, 0.78fr) minmax(520px, 1.22fr);
+  grid-template-columns: minmax(0, 0.95fr) minmax(520px, 1.05fr);
   gap: clamp(2.5rem, 5vw, 5rem);
   align-items: center;
   width: var(--content);
@@ -853,6 +853,15 @@ p {
 
 .modern-hero-copy {
   min-width: 0;
+}
+
+.modern-page .modern-hero-title {
+  max-width: none;
+  font-size: clamp(3.1rem, 5.3vw, 4.75rem);
+}
+
+.modern-hero-title span {
+  display: block;
 }
 
 .modern-hero-lede {
@@ -1459,6 +1468,10 @@ p {
 
   .modern-page h1 {
     font-size: clamp(3rem, 14vw, 4.8rem);
+  }
+
+  .modern-page .modern-hero-title {
+    font-size: clamp(2.55rem, 13vw, 3.6rem);
   }
 
   .modern-page .modern-brand-copy strong {

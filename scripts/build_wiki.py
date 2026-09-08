@@ -356,7 +356,11 @@ def render_home_page() -> str:
     <section class="modern-hero">
       <div class="modern-hero-copy">
         <span class="eyebrow">Tater Tube Player + Server</span>
-        <h1>Your library. Your channels. Just press play.</h1>
+        <h1 class="modern-hero-title">
+          <span>Your library.</span>
+          <span>Your channels.</span>
+          <span>Just press play.</span>
+        </h1>
         <p class="modern-hero-lede">A modern, self-hosted home for your movies, shows, and live channels—served by Tater Tube Server and made for the biggest screen in the room.</p>
         <div class="hero-actions">
           {action_link("Explore the player", "player/index.html")}
