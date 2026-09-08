@@ -364,10 +364,10 @@ def render_home_page() -> str:
       <div class="modern-hero-copy">
         <span class="eyebrow">Tater Tube Player + Server</span>
         <h1 class="modern-hero-title">
-          <span>Your <strong>library.</strong></span>
-          <span>Your <strong>channels.</strong></span>
+          <span>Your <strong class="title-accent">library.</strong></span>
+          <span>Your <strong class="title-accent">channels.</strong></span>
           <span>Just press</span>
-          <span><strong>play.</strong></span>
+          <span><strong class="title-accent">play.</strong></span>
         </h1>
         <p class="modern-hero-lede">A modern, self-hosted home for your movies, shows, and live channels—served by Tater Tube Server and made for the biggest screen in the room.</p>
         <div class="hero-actions">
@@ -493,7 +493,7 @@ def render_player_page() -> str:
     <section class="section modern-subhero">
       <div class="modern-subhero-copy">
         <span class="eyebrow">Tater Tube Player</span>
-        <h1>Made for the couch. Built around your media.</h1>
+        <h1>Made for the <strong class="title-accent">couch.</strong> Built around your <strong class="title-accent">media.</strong></h1>
         <p>Browse your library, pick up where you left off, discover something new, or tune into Live TV—all through a controller-first player powered by Tater Tube Server.</p>
         <div class="hero-actions">
           {action_link("See what works today", "#player-today")}

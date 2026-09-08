@@ -864,7 +864,7 @@ p {
   display: block;
 }
 
-.modern-hero-title strong {
+.modern-page .title-accent {
   color: var(--accent);
   font-weight: inherit;
 }
