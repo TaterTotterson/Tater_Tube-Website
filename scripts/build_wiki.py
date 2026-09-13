@@ -25,6 +25,7 @@ STEAM_GITHUB_REPO = "https://github.com/TaterTotterson/Tater-Tube-Steam"
 STEAM_LATEST_RELEASE = f"{STEAM_GITHUB_REPO}/releases/latest"
 STEAM_ONE_CLICK_INSTALLER = f"{STEAM_LATEST_RELEASE}/download/Install-Tater-Tube.desktop"
 STEAM_INSTALL_GUIDE = f"{STEAM_GITHUB_REPO}/blob/main/INSTALL.md"
+STEAM_PLAYER_STORE = "https://store.steampowered.com/app/5239420/Tater_Tube_Player/"
 SERVER_GITHUB_REPO = "https://github.com/TaterTotterson/tater-tube-server"
 SERVER_LATEST_RELEASE = f"{SERVER_GITHUB_REPO}/releases/latest"
 GITHUB_ORG = "https://github.com/TaterTotterson"
@@ -251,6 +252,15 @@ def action_link(label: str, href: str, *, secondary: bool = False) -> str:
     return f'<a class="{class_name}" href="{escape(href)}">{escape(label)}</a>'
 
 
+def steam_store_button(label: str = "Wishlist on Steam") -> str:
+    return (
+        f'<a class="button button-steam" href="{STEAM_PLAYER_STORE}" target="_blank" rel="noreferrer">'
+        '<span class="steam-button-brand" aria-hidden="true">Steam</span>'
+        f'<span>{escape(label)}</span>'
+        "</a>"
+    )
+
+
 def command_box(command: str, label: str = "Terminal") -> str:
     return (
         '<div class="command-box">\n'
@@ -371,20 +381,20 @@ def render_home_page() -> str:
         </h1>
         <p class="modern-hero-lede">A modern, self-hosted home for your movies, shows, and live channels—served by Tater Tube Server and made for the biggest screen in the room.</p>
         <div class="hero-actions">
-          {action_link("Explore the player", "player/index.html")}
+          {steam_store_button()}
+          {action_link("Explore the player", "player/index.html", secondary=True)}
           {action_link("Explore the server", "server/index.html", secondary=True)}
-          {action_link("Tater Tube Retro", "retro/index.html", secondary=True)}
         </div>
-        <div class="platform-status" aria-label="Planned player platforms">
-          <span><strong>Steam + Steam Deck</strong> First client</span>
-          <span><strong>Apple TV</strong> Planned</span>
+        <div class="platform-status" aria-label="Player platform availability">
+          <span class="is-steam"><strong>Steam + Steam Deck</strong> Wishlist now</span>
+          <span class="is-progress"><strong>Apple TV</strong> In progress</span>
           <span><strong>Google TV</strong> Planned</span>
         </div>
       </div>
       <figure class="player-showcase">
         <div class="player-showcase-head">
           <span>Player preview</span>
-          <span class="status-dot">In development</span>
+          <span class="status-dot is-steam">Coming to Steam</span>
         </div>
         <img src="assets/images/player-steam-home.webp" alt="Development preview of the Tater Tube Player home screen on Steam Deck">
       </figure>
@@ -450,14 +460,15 @@ def render_home_page() -> str:
       </div>
       <div class="grid grid-3 platform-grid">
         <article class="platform-card">
-          <span class="platform-badge is-first">First client</span>
+          <span class="platform-badge is-steam">Wishlist now</span>
           <h3>Steam + Steam Deck</h3>
-          <p>The Qt player is in active development with controller-first browsing, playback, search, and Live TV.</p>
+          <p>The controller-first Qt player is coming to Steam. Wishlist it now and follow the Steam page for release updates.</p>
+          <div class="action-row">{steam_store_button()}</div>
         </article>
         <article class="platform-card">
-          <span class="platform-badge">Planned</span>
+          <span class="platform-badge is-progress">In progress</span>
           <h3>Apple TV</h3>
-          <p>A native SwiftUI and AVKit client will use the same Tater Tube Server library and playback contract.</p>
+          <p>The native SwiftUI and AVKit client is in active development around the same Tater Tube Server library and playback contract.</p>
         </article>
         <article class="platform-card">
           <span class="platform-badge">Planned</span>
@@ -496,17 +507,18 @@ def render_player_page() -> str:
         <h1>Made for the <strong class="title-accent">couch.</strong> Built around your <strong class="title-accent">media.</strong></h1>
         <p>Browse your library, pick up where you left off, discover something new, or tune into Live TV—all through a controller-first player powered by Tater Tube Server.</p>
         <div class="hero-actions">
-          {action_link("See what works today", "#player-today")}
+          {steam_store_button()}
+          {action_link("See what works today", "#player-today", secondary=True)}
           {action_link("Set up the server", "../server/index.html", secondary=True)}
         </div>
         <div class="platform-status">
-          <span><strong>Steam + Steam Deck</strong> In development</span>
-          <span><strong>Apple TV</strong> Planned</span>
+          <span class="is-steam"><strong>Steam + Steam Deck</strong> Wishlist now</span>
+          <span class="is-progress"><strong>Apple TV</strong> In progress</span>
           <span><strong>Google TV</strong> Planned</span>
         </div>
       </div>
       <figure class="player-showcase">
-        <div class="player-showcase-head"><span>Steam Deck preview</span><span class="status-dot">In development</span></div>
+        <div class="player-showcase-head"><span>Steam Deck preview</span><span class="status-dot is-steam">Coming to Steam</span></div>
         <img src="../assets/images/player-steam-home.webp" alt="Development preview of the Tater Tube Player home screen on Steam Deck">
       </figure>
     </section>
@@ -515,7 +527,7 @@ def render_player_page() -> str:
       <div class="section-head">
         <span class="eyebrow">Working today</span>
         <h2>Everything a focused player needs.</h2>
-        <p>The Steam prototype already connects to a real Tater Tube Server and covers the main living-room journey.</p>
+        <p>The Steam build connects to a real Tater Tube Server and covers the complete living-room journey.</p>
       </div>
       <div class="grid grid-3 modern-feature-grid">
         {simple_card("Pair in a few steps", "Enter the server address and six-digit PIN, then keep the paired player ready for the next session.", ["Six-digit PIN", "Named players"])}
@@ -529,9 +541,9 @@ def render_player_page() -> str:
 
     <section class="section player-gallery">
       <div class="section-head">
-        <span class="eyebrow">Latest Steam Deck previews</span>
+        <span class="eyebrow">Steam Player previews</span>
         <h2>The current Player journey.</h2>
-        <p>These in-development previews show the latest library, details, Discovery, Tater Picks, Live TV, and search experience running in the Steam build.</p>
+        <p>See the library, details, Discovery, Tater Picks, Live TV, and search experience running in the current Steam build.</p>
       </div>
       <div class="player-gallery-grid">
         <figure class="media-window">
@@ -576,7 +588,7 @@ def render_player_page() -> str:
     """
     return page_template(
         "Tater Tube Player | Modern self-hosted media playback",
-        "Meet Tater Tube Player, a modern artwork-first client for movies, shows, and personal live TV from Tater Tube Server.",
+        "Wishlist Tater Tube Player on Steam, a modern artwork-first client for movies, shows, and personal live TV from Tater Tube Server.",
         body,
         nav_key="player",
         depth=1,
