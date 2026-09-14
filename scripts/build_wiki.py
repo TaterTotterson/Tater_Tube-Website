@@ -28,6 +28,8 @@ STEAM_INSTALL_GUIDE = f"{STEAM_GITHUB_REPO}/blob/main/INSTALL.md"
 STEAM_PLAYER_STORE = "https://store.steampowered.com/app/5239420/Tater_Tube_Player/"
 SERVER_GITHUB_REPO = "https://github.com/TaterTotterson/tater-tube-server"
 SERVER_LATEST_RELEASE = f"{SERVER_GITHUB_REPO}/releases/latest"
+PLAYER_GITHUB_REPO = "https://github.com/TaterTotterson/Tater-Tube-Player"
+PLAYER_SUPPORT = f"{PLAYER_GITHUB_REPO}/issues"
 GITHUB_ORG = "https://github.com/TaterTotterson"
 
 NAV_ITEMS = [
@@ -135,6 +137,7 @@ def ensure_dirs() -> None:
         PUBLIC_ROOT / "server",
         PUBLIC_ROOT / "setup",
         PUBLIC_ROOT / "api",
+        PUBLIC_ROOT / "privacy",
         PUBLIC_ROOT / "wiki",
     ]:
         path.mkdir(parents=True, exist_ok=True)
@@ -187,13 +190,14 @@ def page_template(
             <a href="{base}player/index.html">Player</a>
             <a href="{base}server/index.html">Server</a>
             <a href="{base}retro/index.html">Tater Tube Retro</a>
+            <a href="{base}privacy/index.html">Privacy</a>
             <a href="{SERVER_GITHUB_REPO}" target="_blank" rel="noreferrer">GitHub</a>
           </div>
         """
     else:
         footer_html = f"""
           <p>Tater Tube Retro is the VCR-style way to play, with dedicated apps, appliance images, and documentation.</p>
-          <p><a href="{base}index.html">Explore Tater Tube Player + Server</a> · <a href="{GITHUB_REPO}" target="_blank" rel="noreferrer">Retro project on GitHub</a></p>
+          <p><a href="{base}index.html">Explore Tater Tube Player + Server</a> · <a href="{base}privacy/index.html">Privacy</a> · <a href="{GITHUB_REPO}" target="_blank" rel="noreferrer">Retro project on GitHub</a></p>
         """
     return textwrap.dedent(
         f"""\
@@ -591,6 +595,117 @@ def render_player_page() -> str:
         "Wishlist Tater Tube Player on Steam, a modern artwork-first client for movies, shows, and personal live TV from Tater Tube Server.",
         body,
         nav_key="player",
+        depth=1,
+        theme="modern",
+    )
+
+
+def render_privacy_page() -> str:
+    body = f"""
+    <section class="section privacy-hero">
+      <div class="privacy-hero-copy">
+        <span class="eyebrow">Privacy at Tater Tube</span>
+        <h1>Your media stays <strong class="title-accent">yours.</strong></h1>
+        <p>Tater Tube Player connects to the Tater Tube Server you choose. Tater Totterson AI LLC does not receive your media library, viewing activity, or pairing credential.</p>
+        <div class="privacy-principles" aria-label="Privacy summary">
+          <span>No Tater account</span>
+          <span>No advertising</span>
+          <span>No analytics or tracking</span>
+        </div>
+      </div>
+      <aside class="privacy-summary" aria-labelledby="privacy-summary-title">
+        <span class="privacy-date">Effective September 13, 2026</span>
+        <h2 id="privacy-summary-title">The short version</h2>
+        <ul class="privacy-checklist">
+          <li>Your player talks directly to your server.</li>
+          <li>Settings and artwork caches remain on your device.</li>
+          <li>Optional services are chosen and configured by the server owner.</li>
+          <li>Tater Tube Player does not sell personal information.</li>
+        </ul>
+      </aside>
+    </section>
+
+    <section class="section privacy-layout">
+      <nav class="privacy-nav" aria-label="Privacy policy sections">
+        <strong>On this page</strong>
+        <a href="#scope">Scope</a>
+        <a href="#local-data">Data on your device</a>
+        <a href="#server">Your server</a>
+        <a href="#optional-services">Optional services</a>
+        <a href="#media">Your media</a>
+        <a href="#platforms">Platform services</a>
+        <a href="#choices">Your choices</a>
+        <a href="#contact">Questions</a>
+      </nav>
+
+      <article class="privacy-policy">
+        <section id="scope">
+          <span class="privacy-section-number">01</span>
+          <h2>Scope</h2>
+          <p>This policy describes how Tater Tube Player handles information on supported platforms, including Apple TV and Steam. Tater Tube Player is a client for a Tater Tube Server selected and operated by the user.</p>
+          <p>The Player does not require a Tater account and does not include advertising, behavioral analytics, or tracking technology. Tater Totterson AI LLC does not collect personal information through the Player.</p>
+        </section>
+
+        <section id="local-data">
+          <span class="privacy-section-number">02</span>
+          <h2>Data kept on your device</h2>
+          <p>To remain paired and load quickly, the Player stores the server address, player name, server-issued pairing credential, artwork, catalog responses, and viewing state on the device.</p>
+          <p>Apple TV pairing credentials are stored in the system Keychain. Other supported platforms use operating-system-protected application settings. These records are not sent to Tater Totterson AI LLC.</p>
+        </section>
+
+        <section id="server">
+          <span class="privacy-section-number">03</span>
+          <h2>Communication with your server</h2>
+          <p>The Player sends its pairing credential, playback capabilities, catalog requests, playback requests, and viewing progress directly to the Tater Tube Server selected by the user. That server may record normal network and playback logs under the server owner's control.</p>
+          <p>Authenticated requests are not forwarded to a different host or port during a redirect. Private-network servers may use local HTTP; servers outside the local network must use HTTPS.</p>
+        </section>
+
+        <section id="optional-services">
+          <span class="privacy-section-number">04</span>
+          <h2>Optional services</h2>
+          <p>Features such as Discover, metadata matching, and Tater Picks appear only when the server owner configures their related services. Requests for those features are handled by the user's Tater Tube Server according to the settings chosen by its owner.</p>
+          <p>Tater Picks may use a local AI model or an external AI provider configured by the server owner. The Player communicates with the user's server, not directly with an AI provider. Any independently configured provider is governed by its own privacy policy.</p>
+        </section>
+
+        <section id="media">
+          <span class="privacy-section-number">05</span>
+          <h2>Your media</h2>
+          <p>Tater Tube Player does not upload, host, or redistribute the user's media. Video, audio, artwork, metadata, and live-channel information are requested from the user's Tater Tube Server. The server owner controls that server, its media, its logs, and any services connected to it.</p>
+        </section>
+
+        <section id="platforms">
+          <span class="privacy-section-number">06</span>
+          <h2>Platform services</h2>
+          <p>Apple, Valve, and other distribution platforms may independently process account, installation, device, purchase, or usage information under their own privacy policies. Tater Tube Player does not use platform account information for advertising or analytics.</p>
+        </section>
+
+        <section id="choices">
+          <span class="privacy-section-number">07</span>
+          <h2>Your choices and local data</h2>
+          <p>Choose Disconnect or Forget Server in the Player to remove its saved pairing information and cached content. Uninstalling the app removes its remaining application data according to the platform's normal behavior.</p>
+          <p>Information retained by the user's server or an optional service must be managed by the server owner or through that service.</p>
+        </section>
+
+        <section id="changes">
+          <span class="privacy-section-number">08</span>
+          <h2>Changes to this policy</h2>
+          <p>If Tater Tube Player's privacy practices change, this page will be updated and the effective date above will be revised. App-store privacy disclosures will also be updated when required.</p>
+        </section>
+
+        <section id="contact" class="privacy-contact">
+          <span class="privacy-section-number">09</span>
+          <h2>Questions</h2>
+          <p>For privacy or support questions, contact Tater Totterson AI LLC through the Tater Tube Player issue tracker.</p>
+          <a class="button button-secondary" href="{PLAYER_SUPPORT}" target="_blank" rel="noreferrer">Open the support tracker</a>
+        </section>
+      </article>
+    </section>
+    """
+    return page_template(
+        "Privacy | Tater Tube Player",
+        "Learn how Tater Tube Player handles pairing information, local caches, playback activity, and connections to your own Tater Tube Server.",
+        body,
+        nav_key="privacy",
         depth=1,
         theme="modern",
     )
@@ -1412,6 +1527,7 @@ def build_site_manifest() -> None:
             "images/index.html",
             "setup/index.html",
             "api/index.html",
+            "privacy/index.html",
             "wiki/index.html",
         ],
         "docs": [f"wiki/{slug}.html" for slug, _, _ in DOC_SOURCES],
@@ -1429,6 +1545,7 @@ def main() -> None:
     write_page(PUBLIC_ROOT / "server" / "index.html", render_server_page())
     write_page(PUBLIC_ROOT / "setup" / "index.html", render_setup_page())
     write_page(PUBLIC_ROOT / "api" / "index.html", render_api_page())
+    write_page(PUBLIC_ROOT / "privacy" / "index.html", render_privacy_page())
     write_page(PUBLIC_ROOT / "wiki" / "index.html", render_wiki_index())
     for slug, title, source in DOC_SOURCES:
         write_page(PUBLIC_ROOT / "wiki" / f"{slug}.html", render_doc_page(slug, title, source))

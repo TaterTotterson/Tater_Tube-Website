@@ -1365,6 +1365,186 @@ p {
   line-height: 1.5;
 }
 
+.privacy-hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(360px, 0.85fr);
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: center;
+  min-height: 620px;
+  isolation: isolate;
+}
+
+.privacy-hero::before {
+  content: "";
+  position: absolute;
+  inset: 5% -12% auto auto;
+  z-index: -1;
+  width: min(660px, 66vw);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 120, 31, 0.16), rgba(255, 120, 31, 0) 68%);
+  filter: blur(18px);
+}
+
+.privacy-hero-copy {
+  max-width: 720px;
+}
+
+.modern-page .privacy-hero h1 {
+  max-width: 10ch;
+  font-size: clamp(3.5rem, 7vw, 6.8rem);
+}
+
+.privacy-hero-copy > p {
+  max-width: 660px;
+  margin: 1.4rem 0 0;
+  font-size: 1.14rem;
+}
+
+.privacy-principles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 1.6rem;
+}
+
+.privacy-principles span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0.45rem 0.72rem;
+  border: 1px solid rgba(255, 120, 31, 0.28);
+  border-radius: 999px;
+  color: #ffd4ac;
+  background: rgba(255, 120, 31, 0.09);
+  font-size: 0.84rem;
+  font-weight: 750;
+}
+
+.privacy-summary,
+.privacy-nav,
+.privacy-policy > section {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(145deg, rgba(34, 36, 39, 0.82), rgba(18, 19, 21, 0.92));
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(20px);
+}
+
+.privacy-summary {
+  padding: clamp(1.6rem, 4vw, 2.5rem);
+  border-color: rgba(255, 120, 31, 0.22);
+  border-radius: 24px;
+}
+
+.privacy-summary h2 {
+  margin-top: 0.85rem;
+  font-size: clamp(2rem, 4vw, 3.35rem);
+}
+
+.privacy-date,
+.privacy-section-number {
+  color: var(--accent-soft);
+  font-size: 0.76rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.privacy-checklist {
+  display: grid;
+  gap: 0.9rem;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.privacy-checklist li {
+  position: relative;
+  padding-left: 1.55rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.privacy-checklist li::before {
+  content: "";
+  position: absolute;
+  top: 0.48rem;
+  left: 0;
+  width: 0.58rem;
+  height: 0.58rem;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 16px rgba(255, 120, 31, 0.55);
+}
+
+.privacy-layout {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  align-items: start;
+  padding-top: 2rem;
+}
+
+.privacy-nav {
+  position: sticky;
+  top: 118px;
+  display: grid;
+  gap: 0.25rem;
+  padding: 1.1rem;
+  border-radius: 18px;
+}
+
+.privacy-nav strong {
+  padding: 0.55rem 0.65rem 0.8rem;
+  color: var(--text);
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.privacy-nav a {
+  padding: 0.58rem 0.65rem;
+  border-radius: 9px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.privacy-nav a:hover {
+  color: var(--text);
+  background: rgba(255, 120, 31, 0.12);
+}
+
+.privacy-policy {
+  display: grid;
+  gap: 1rem;
+}
+
+.privacy-policy > section {
+  scroll-margin-top: 120px;
+  padding: clamp(1.5rem, 4vw, 2.4rem);
+  border-radius: 20px;
+}
+
+.privacy-policy h2 {
+  margin-top: 0.55rem;
+  font-size: clamp(1.85rem, 4vw, 3rem);
+}
+
+.privacy-policy p {
+  max-width: 790px;
+  margin: 1rem 0 0;
+  font-size: 1rem;
+}
+
+.privacy-contact {
+  border-color: rgba(255, 120, 31, 0.28) !important;
+}
+
+.privacy-contact .button {
+  margin-top: 1.2rem;
+}
+
 .retro-subnav {
   position: relative;
   z-index: 2;
@@ -1462,8 +1642,24 @@ p {
   .player-gallery-grid,
   .modern-server-highlight,
   .modern-subhero,
+  .privacy-hero,
+  .privacy-layout,
   .connection-flow {
     grid-template-columns: 1fr;
+  }
+
+  .privacy-hero {
+    min-height: auto;
+    padding-top: 4.5rem;
+  }
+
+  .privacy-nav {
+    position: static;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .privacy-nav strong {
+    grid-column: 1 / -1;
   }
 
   .doc-nav {
@@ -1542,6 +1738,14 @@ p {
 
   .modern-page .modern-hero-title {
     font-size: clamp(2.55rem, 13vw, 3.6rem);
+  }
+
+  .modern-page .privacy-hero h1 {
+    font-size: clamp(3rem, 14vw, 4.4rem);
+  }
+
+  .privacy-nav {
+    grid-template-columns: 1fr;
   }
 
   .modern-page .modern-brand-copy strong {
