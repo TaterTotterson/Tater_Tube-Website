@@ -3,18 +3,18 @@
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1">
-          <meta name="description" content="Tater Tube Server setup for Tube TV, Docker, local libraries, Newznab Stream, player pairing, activity, and hardware transcoding.">
+          <meta name="description" content="Tater Tube Server setup for the native macOS app, Docker, Tube TV, local libraries, Newznab Stream, player pairing, activity, and hardware transcoding.">
           <meta property="og:type" content="website">
           <meta property="og:title" content="Server | Tater Tube">
-          <meta property="og:description" content="Tater Tube Server setup for Tube TV, Docker, local libraries, Newznab Stream, player pairing, activity, and hardware transcoding.">
+          <meta property="og:description" content="Tater Tube Server setup for the native macOS app, Docker, Tube TV, local libraries, Newznab Stream, player pairing, activity, and hardware transcoding.">
           <meta property="og:image" content="https://tatertube.tv/assets/images/og-modern.png">
           <meta name="twitter:card" content="summary_large_image">
           <meta name="twitter:title" content="Server | Tater Tube">
-          <meta name="twitter:description" content="Tater Tube Server setup for Tube TV, Docker, local libraries, Newznab Stream, player pairing, activity, and hardware transcoding.">
+          <meta name="twitter:description" content="Tater Tube Server setup for the native macOS app, Docker, Tube TV, local libraries, Newznab Stream, player pairing, activity, and hardware transcoding.">
           <meta name="twitter:image" content="https://tatertube.tv/assets/images/og-modern.png">
           <title>Server | Tater Tube</title>
           <link rel="icon" type="image/png" href="../assets/images/player-mascot.png">
-          <link rel="stylesheet" href="../assets/site.css?v=a7e49d897c02">
+          <link rel="stylesheet" href="../assets/site.css?v=1fb195e68772">
           <script src="../assets/site.js?v=31f441f3871a" defer></script>
         </head>
         <body class="modern-page" data-page="server">
@@ -69,11 +69,41 @@
       </div>
     </section>
 
+    <section class="section split-section" id="macos-server">
+      <div class="split-copy">
+        <span class="eyebrow">Native macOS app</span>
+        <h2>Run the server from your Mac's menu bar.</h2>
+        <p>On an Apple Silicon Mac with macOS 14 or newer, download the DMG, drag Tater Tube Server to Applications, and open it. The app starts the server, opens the dashboard the first time, and keeps everyday controls in its own menu bar icon—no Docker or Terminal setup required.</p>
+        <div class="chip-row">
+          <span class="chip">Apple Silicon</span>
+          <span class="chip">macOS 14+</span>
+          <span class="chip">VideoToolbox</span>
+          <span class="chip">Automatic Updates</span>
+        </div>
+        <div class="action-row">
+          <a class="button" href="https://github.com/TaterTotterson/tater-tube-server/releases/latest">Download the macOS app</a>
+          <a class="button button-secondary" href="#server-downloads">Compare install options</a>
+        </div>
+        <div class="command-box">
+  <div class="command-head">
+    <span>Persistent server data</span>
+    <button type="button" data-copy-code>Copy</button>
+  </div>
+  <pre><code>~/Library/Application Support/Tater Tube Server</code></pre>
+</div>
+
+      </div>
+      <figure class="mac-server-panel">
+        <img src="../assets/images/server-mascot-modern-v6.png" alt="Tater mascot beside a home media server representing the native Tater Tube Server Mac app">
+        <figcaption>The app bundles the dashboard, FFmpeg, ffprobe, and Apple VideoToolbox hardware encoding.</figcaption>
+      </figure>
+    </section>
+
     <section class="section split-section">
       <div class="split-copy">
-        <span class="eyebrow">Docker install</span>
-        <h2>Start with the latest container image.</h2>
-        <p>The web UI runs on port 8080. Login is disabled by default so setup is quick on a trusted home network.</p>
+        <span class="eyebrow">Docker + Unraid</span>
+        <h2>Prefer a container? Start with the latest image.</h2>
+        <p>Docker remains the recommended path for Linux servers and NAS systems. The web UI runs on port 8080, and login is disabled by default so setup is quick on a trusted home network.</p>
         <div class="command-box">
   <div class="command-head">
     <span>Docker pull</span>
@@ -152,16 +182,28 @@
       </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="server-downloads">
       <div class="section-head">
         <span class="eyebrow">Downloads</span>
-        <h2>Install the server from the Docker image.</h2>
-        <p>The release publishes one multi-architecture container image tagged <code>latest</code>. Use the GitHub release for notes and the package page for container details.</p>
+        <h2>Choose the native Mac app or Docker.</h2>
+        <p>Both editions run the same Tater Tube Server and dashboard. Pick the DMG for a guided Mac experience or the multi-architecture container for Linux, Unraid, and other NAS systems.</p>
       </div>
       <div class="grid download-grid">
         <article class="download-card">
           <div>
-            <span class="eyebrow">Recommended</span>
+            <span class="eyebrow">Recommended on Mac</span>
+            <h3>macOS App</h3>
+            <p>A signed and notarized menu-bar app with the server, FFmpeg, VideoToolbox hardware encoding, and built-in updates included.</p>
+            <div class="chip-row"><span class="chip">Apple Silicon</span><span class="chip">macOS 14+</span><span class="chip">DMG</span></div>
+          </div>
+          <div class="release-actions">
+            <a class="button" href="https://github.com/TaterTotterson/tater-tube-server/releases/latest" target="_blank" rel="noreferrer">Download from latest release</a>
+            <a class="button button-secondary" href="#macos-server">Setup details</a>
+          </div>
+        </article>
+        <article class="download-card">
+          <div>
+            <span class="eyebrow">Linux + NAS</span>
             <h3>Docker Image</h3>
             <p>Multi-architecture container image for amd64 and arm64 hosts.</p>
             <div class="chip-row"><span class="chip">Docker</span><span class="chip">amd64</span><span class="chip">arm64</span></div>
@@ -180,31 +222,17 @@
         </article>
         <article class="download-card">
           <div>
-            <span class="eyebrow">Release</span>
-            <h3>Server Release Notes</h3>
-            <p>View the current release notes, changelog, and source archives.</p>
-            <div class="chip-row"><span class="chip">v1.0.0+</span><span class="chip">Changelog</span><span class="chip">Source</span></div>
+            <span class="eyebrow">Persistent data</span>
+            <h3>Your Server Data Stays Put</h3>
+            <p>Settings, player tokens, metadata, playback history, Tube TV schedules, commercial uploads, and working cache remain outside the app or container.</p>
+            <dl class="download-meta">
+              <div><dt>macOS</dt><dd><code>~/Library/Application Support/Tater Tube Server</code></dd></div>
+              <div><dt>Docker</dt><dd>Map a host folder to <code>/config</code></dd></div>
+            </dl>
           </div>
           <div class="release-actions">
-            <a class="button" href="https://github.com/TaterTotterson/tater-tube-server/releases/latest" target="_blank" rel="noreferrer">Open release</a>
-            <a class="button button-secondary" href="https://github.com/TaterTotterson/tater-tube-server" target="_blank" rel="noreferrer">GitHub</a>
+            <a class="button button-secondary" href="https://github.com/TaterTotterson/tater-tube-server" target="_blank" rel="noreferrer">Server GitHub</a>
           </div>
-        </article>
-        <article class="download-card">
-          <div>
-            <span class="eyebrow">Persistent data</span>
-            <h3>Config Volume</h3>
-            <p>Map one host folder to <code>/config</code>. It stores settings, player tokens, metadata, playback history, Tube TV schedules, commercial uploads, and working cache.</p>
-            <div class="chip-row"><span class="chip">/config</span><span class="chip">Settings</span><span class="chip">TV Data</span></div>
-          </div>
-          <div class="command-box">
-  <div class="command-head">
-    <span>Volume</span>
-    <button type="button" data-copy-code>Copy</button>
-  </div>
-  <pre><code>- /mnt/user/appdata/tater-tube-server/config:/config</code></pre>
-</div>
-
         </article>
       </div>
     </section>
@@ -212,8 +240,8 @@
     <section class="section">
       <div class="section-head">
         <span class="eyebrow">Local Media</span>
-        <h2>Map host folders, then add container paths in the UI.</h2>
-        <p>Mount host media folders read-only into the container. In <code>Configuration -> Local Media</code>, use container paths like <code>/media/movies</code>, not host paths. Scanned metadata powers library browsing, Continue Watching, Tape Deck music, automatic channels, and the custom channel builder.</p>
+        <h2>Add your media folders, then scan from the dashboard.</h2>
+        <p>On macOS, add native paths such as <code>/Users/you/Movies</code>. With Docker, mount host folders into the container and use paths like <code>/media/movies</code>. Scanned metadata powers library browsing, Continue Watching, Tape Deck music, automatic channels, and the custom channel builder.</p>
       </div>
       <div class="grid grid-3">
         <article class="info-card">
@@ -268,8 +296,8 @@
     <section class="section split-section">
       <div class="split-copy">
         <span class="eyebrow">Hardware transcoding</span>
-        <h2>Enable FFmpeg profiles when the player needs a lighter stream.</h2>
-        <p>The server includes CRT 480p, HDMI 1080p, and HDMI 4K profiles. The dashboard shows detected encoders and each active player card shows direct play, software transcode, or hardware transcode.</p>
+        <h2>Let VideoToolbox or your GPU handle transcodes.</h2>
+        <p>The Mac app includes FFmpeg and automatically detects Apple VideoToolbox. Docker installs can use NVIDIA, AMD, or Intel acceleration after the GPU is exposed to the container. The dashboard shows detected encoders and whether each active stream is direct, software, or hardware transcoded.</p>
         <div class="command-box">
   <div class="command-head">
     <span>Intel/AMD/Pi device mapping</span>
@@ -288,8 +316,8 @@
       <div class="grid">
         <article class="info-card">
   <h3>Hardware Detection</h3>
-  <p>The server checks FFmpeg and available encoders from the Hardware Transcoding tab.</p>
-  <div class="chip-row"><span class="chip">VAAPI</span><span class="chip">QSV</span><span class="chip">NVENC</span></div>
+  <p>Run Auto Detect from the Hardware Transcoding tab, confirm the recommended encoder is Ready, and save it.</p>
+  <div class="chip-row"><span class="chip">VideoToolbox</span><span class="chip">NVENC</span><span class="chip">VAAPI</span><span class="chip">QSV</span></div>
 </article>
 
         <article class="info-card">

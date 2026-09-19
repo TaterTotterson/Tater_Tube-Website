@@ -453,7 +453,7 @@ def render_home_page() -> str:
         <p>Tater Tube Server scans your movies and shows, resolves artwork, remembers playback, builds your Tube TV schedule, and chooses direct play or transcoding for each screen.</p>
         <p>It is a complete self-hosted media platform—not another skin over Plex, Emby, or Jellyfin.</p>
         <div class="grid grid-2 compact-feature-grid">
-          {simple_card("Keep your library yours", "Map local media into Docker and serve it directly from your own hardware.")}
+          {simple_card("Keep your library yours", "Choose the native Mac app or map local media into Docker, then serve it directly from your own hardware.")}
           {simple_card("Build your own live TV", "Turn movies and series into scheduled channels with guides, bumpers, station IDs, and commercial breaks.")}
           {simple_card("Play the best stream", "Use direct playback when the device supports it and server transcoding when it does not.")}
           {simple_card("Pair every screen", "Connect players with a short PIN and keep progress synchronized by the server.")}
@@ -739,8 +739,8 @@ def render_retro_page() -> str:
             ),
             simple_card(
                 "Tater Tube Server",
-                "Run the Docker server for shared Tube TV channels, Discovery, local libraries, player pairing, playback history, and optional transcoding.",
-                ["Tube TV", "Docker", "Transcoding"],
+                "Run the native macOS app or Docker server for shared Tube TV channels, Discovery, local libraries, player pairing, playback history, and optional transcoding.",
+                ["Tube TV", "Mac + Docker", "Transcoding"],
             ),
         ]
     )
@@ -1014,11 +1014,34 @@ def render_server_page() -> str:
       </div>
     </section>
 
+    <section class="section split-section" id="macos-server">
+      <div class="split-copy">
+        <span class="eyebrow">Native macOS app</span>
+        <h2>Run the server from your Mac's menu bar.</h2>
+        <p>On an Apple Silicon Mac with macOS 14 or newer, download the DMG, drag Tater Tube Server to Applications, and open it. The app starts the server, opens the dashboard the first time, and keeps everyday controls in its own menu bar icon—no Docker or Terminal setup required.</p>
+        <div class="chip-row">
+          {chip("Apple Silicon")}
+          {chip("macOS 14+")}
+          {chip("VideoToolbox")}
+          {chip("Automatic Updates")}
+        </div>
+        <div class="action-row">
+          {action_link("Download the macOS app", SERVER_LATEST_RELEASE)}
+          {action_link("Compare install options", "#server-downloads", secondary=True)}
+        </div>
+        {command_box("~/Library/Application Support/Tater Tube Server", "Persistent server data")}
+      </div>
+      <figure class="mac-server-panel">
+        <img src="../assets/images/server-mascot-modern-v6.png" alt="Tater mascot beside a home media server representing the native Tater Tube Server Mac app">
+        <figcaption>The app bundles the dashboard, FFmpeg, ffprobe, and Apple VideoToolbox hardware encoding.</figcaption>
+      </figure>
+    </section>
+
     <section class="section split-section">
       <div class="split-copy">
-        <span class="eyebrow">Docker install</span>
-        <h2>Start with the latest container image.</h2>
-        <p>The web UI runs on port 8080. Login is disabled by default so setup is quick on a trusted home network.</p>
+        <span class="eyebrow">Docker + Unraid</span>
+        <h2>Prefer a container? Start with the latest image.</h2>
+        <p>Docker remains the recommended path for Linux servers and NAS systems. The web UI runs on port 8080, and login is disabled by default so setup is quick on a trusted home network.</p>
         {command_box("docker pull ghcr.io/tatertotterson/tater-tube-server:latest", "Docker pull")}
         {command_box(docker_compose, "docker-compose.yml")}
       </div>
@@ -1058,16 +1081,28 @@ def render_server_page() -> str:
       </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="server-downloads">
       <div class="section-head">
         <span class="eyebrow">Downloads</span>
-        <h2>Install the server from the Docker image.</h2>
-        <p>The release publishes one multi-architecture container image tagged <code>latest</code>. Use the GitHub release for notes and the package page for container details.</p>
+        <h2>Choose the native Mac app or Docker.</h2>
+        <p>Both editions run the same Tater Tube Server and dashboard. Pick the DMG for a guided Mac experience or the multi-architecture container for Linux, Unraid, and other NAS systems.</p>
       </div>
       <div class="grid download-grid">
         <article class="download-card">
           <div>
-            <span class="eyebrow">Recommended</span>
+            <span class="eyebrow">Recommended on Mac</span>
+            <h3>macOS App</h3>
+            <p>A signed and notarized menu-bar app with the server, FFmpeg, VideoToolbox hardware encoding, and built-in updates included.</p>
+            <div class="chip-row">{chip("Apple Silicon")}{chip("macOS 14+")}{chip("DMG")}</div>
+          </div>
+          <div class="release-actions">
+            <a class="button" href="{SERVER_LATEST_RELEASE}" target="_blank" rel="noreferrer">Download from latest release</a>
+            <a class="button button-secondary" href="#macos-server">Setup details</a>
+          </div>
+        </article>
+        <article class="download-card">
+          <div>
+            <span class="eyebrow">Linux + NAS</span>
             <h3>Docker Image</h3>
             <p>Multi-architecture container image for amd64 and arm64 hosts.</p>
             <div class="chip-row">{chip("Docker")}{chip("amd64")}{chip("arm64")}</div>
@@ -1079,24 +1114,17 @@ def render_server_page() -> str:
         </article>
         <article class="download-card">
           <div>
-            <span class="eyebrow">Release</span>
-            <h3>Server Release Notes</h3>
-            <p>View the current release notes, changelog, and source archives.</p>
-            <div class="chip-row">{chip("v1.0.0+")}{chip("Changelog")}{chip("Source")}</div>
+            <span class="eyebrow">Persistent data</span>
+            <h3>Your Server Data Stays Put</h3>
+            <p>Settings, player tokens, metadata, playback history, Tube TV schedules, commercial uploads, and working cache remain outside the app or container.</p>
+            <dl class="download-meta">
+              <div><dt>macOS</dt><dd><code>~/Library/Application Support/Tater Tube Server</code></dd></div>
+              <div><dt>Docker</dt><dd>Map a host folder to <code>/config</code></dd></div>
+            </dl>
           </div>
           <div class="release-actions">
-            <a class="button" href="{SERVER_LATEST_RELEASE}" target="_blank" rel="noreferrer">Open release</a>
-            <a class="button button-secondary" href="{SERVER_GITHUB_REPO}" target="_blank" rel="noreferrer">GitHub</a>
+            <a class="button button-secondary" href="{SERVER_GITHUB_REPO}" target="_blank" rel="noreferrer">Server GitHub</a>
           </div>
-        </article>
-        <article class="download-card">
-          <div>
-            <span class="eyebrow">Persistent data</span>
-            <h3>Config Volume</h3>
-            <p>Map one host folder to <code>/config</code>. It stores settings, player tokens, metadata, playback history, Tube TV schedules, commercial uploads, and working cache.</p>
-            <div class="chip-row">{chip("/config")}{chip("Settings")}{chip("TV Data")}</div>
-          </div>
-          {command_box("- /mnt/user/appdata/tater-tube-server/config:/config", "Volume")}
         </article>
       </div>
     </section>
@@ -1104,8 +1132,8 @@ def render_server_page() -> str:
     <section class="section">
       <div class="section-head">
         <span class="eyebrow">Local Media</span>
-        <h2>Map host folders, then add container paths in the UI.</h2>
-        <p>Mount host media folders read-only into the container. In <code>Configuration -> Local Media</code>, use container paths like <code>/media/movies</code>, not host paths. Scanned metadata powers library browsing, Continue Watching, Tape Deck music, automatic channels, and the custom channel builder.</p>
+        <h2>Add your media folders, then scan from the dashboard.</h2>
+        <p>On macOS, add native paths such as <code>/Users/you/Movies</code>. With Docker, mount host folders into the container and use paths like <code>/media/movies</code>. Scanned metadata powers library browsing, Continue Watching, Tape Deck music, automatic channels, and the custom channel builder.</p>
       </div>
       <div class="grid grid-3">
         {simple_card("Movies", "Scans titles, dates, genres, duration, and artwork into a browsable movie library.", ["Movies", "Metadata", "Resume"])}
@@ -1130,19 +1158,19 @@ def render_server_page() -> str:
     <section class="section split-section">
       <div class="split-copy">
         <span class="eyebrow">Hardware transcoding</span>
-        <h2>Enable FFmpeg profiles when the player needs a lighter stream.</h2>
-        <p>The server includes CRT 480p, HDMI 1080p, and HDMI 4K profiles. The dashboard shows detected encoders and each active player card shows direct play, software transcode, or hardware transcode.</p>
+        <h2>Let VideoToolbox or your GPU handle transcodes.</h2>
+        <p>The Mac app includes FFmpeg and automatically detects Apple VideoToolbox. Docker installs can use NVIDIA, AMD, or Intel acceleration after the GPU is exposed to the container. The dashboard shows detected encoders and whether each active stream is direct, software, or hardware transcoded.</p>
         {command_box(hw_compose, "Intel/AMD/Pi device mapping")}
       </div>
       <div class="grid">
-        {simple_card("Hardware Detection", "The server checks FFmpeg and available encoders from the Hardware Transcoding tab.", ["VAAPI", "QSV", "NVENC"])}
+        {simple_card("Hardware Detection", "Run Auto Detect from the Hardware Transcoding tab, confirm the recommended encoder is Ready, and save it.", ["VideoToolbox", "NVENC", "VAAPI", "QSV"])}
         {simple_card("Player Stats", "The dashboard shows what each paired player is watching and whether hardware acceleration is active.", ["Now Playing", "HW Status"])}
       </div>
     </section>
     """
     return page_template(
         "Server | Tater Tube",
-        "Tater Tube Server setup for Tube TV, Docker, local libraries, Newznab Stream, player pairing, activity, and hardware transcoding.",
+        "Tater Tube Server setup for the native macOS app, Docker, Tube TV, local libraries, Newznab Stream, player pairing, activity, and hardware transcoding.",
         body,
         nav_key="server",
         depth=1,
@@ -1199,7 +1227,7 @@ def render_setup_page() -> str:
       <div class="section-head">
         <span class="eyebrow">The Tube backend</span>
         <h2>Use Tater Tube Server for Tube TV, Stream, and Local libraries.</h2>
-        <p>Install the server on a NAS, PC, or small Linux host. It handles the shared Tube TV schedule, Newznab Stream, local media folders, music, player pairing, activity history, and optional transcoding.</p>
+        <p>Install the native app on an Apple Silicon Mac, or run the Docker image on a NAS, PC, or Linux host. It handles the shared Tube TV schedule, Newznab Stream, local media folders, music, player pairing, activity history, and optional hardware transcoding.</p>
         <div class="action-row">
           {action_link("Server setup", "../server/index.html")}
           {action_link("Server downloads", SERVER_LATEST_RELEASE, secondary=True)}
@@ -1240,7 +1268,7 @@ def render_setup_page() -> str:
         <p>Use the server UI to pair and name players, add Newznab and NNTP providers, scan local movies, series, and music, configure transcoding, upload Tube TV commercials, create channels, choose logos, and inspect the TV Guide and Activity history.</p>
       </div>
       <div class="grid grid-3">
-        {simple_card("1. Add Libraries", "Map folders into Docker, add their container paths under Local Media, and scan metadata.", ["Movies", "Series", "Music"])}
+        {simple_card("1. Add Libraries", "Add native folder paths on macOS, or map folders into Docker, then configure Local Media and scan metadata.", ["Movies", "Series", "Music"])}
         {simple_card("2. Build Tube TV", "Enable automatic channels or create your own from genres, movies, series, seasons, and episodes.", ["Custom Channels", "Commercials", "Logos"])}
         {simple_card("3. Pair Players", "Create a setup PIN, enter the server URL and PIN on each Pi, and give every box a room name.", ["Short-Lived PIN", "Named Players"])}
       </div>
