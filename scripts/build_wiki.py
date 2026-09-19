@@ -26,6 +26,7 @@ STEAM_LATEST_RELEASE = f"{STEAM_GITHUB_REPO}/releases/latest"
 STEAM_ONE_CLICK_INSTALLER = f"{STEAM_LATEST_RELEASE}/download/Install-Tater-Tube.desktop"
 STEAM_INSTALL_GUIDE = f"{STEAM_GITHUB_REPO}/blob/main/INSTALL.md"
 STEAM_PLAYER_STORE = "https://store.steampowered.com/app/5239420/Tater_Tube_Player/"
+APPLE_TV_APP_STORE = "https://apps.apple.com/us/app/tater-tube-player/id6811687667"
 SERVER_GITHUB_REPO = "https://github.com/TaterTotterson/tater-tube-server"
 SERVER_LATEST_RELEASE = f"{SERVER_GITHUB_REPO}/releases/latest"
 PLAYER_GITHUB_REPO = "https://github.com/TaterTotterson/Tater-Tube-Player"
@@ -265,6 +266,15 @@ def steam_store_button(label: str = "Wishlist on Steam") -> str:
     )
 
 
+def apple_tv_store_button(label: str = "Get it for Apple TV") -> str:
+    return (
+        f'<a class="button button-app-store" href="{APPLE_TV_APP_STORE}" target="_blank" rel="noreferrer">'
+        '<span class="app-store-button-brand" aria-hidden="true">App Store</span>'
+        f'<span>{escape(label)}</span>'
+        "</a>"
+    )
+
+
 def command_box(command: str, label: str = "Terminal") -> str:
     return (
         '<div class="command-box">\n'
@@ -386,12 +396,13 @@ def render_home_page() -> str:
         <p class="modern-hero-lede">A modern, self-hosted home for your movies, shows, and live channels—served by Tater Tube Server and made for the biggest screen in the room.</p>
         <div class="hero-actions">
           {steam_store_button()}
+          {apple_tv_store_button()}
           {action_link("Explore the player", "player/index.html", secondary=True)}
           {action_link("Explore the server", "server/index.html", secondary=True)}
         </div>
         <div class="platform-status" aria-label="Player platform availability">
           <span class="is-steam"><strong>Steam + Steam Deck</strong> Wishlist now</span>
-          <span class="is-progress"><strong>Apple TV</strong> In progress</span>
+          <span class="is-apple"><strong>Apple TV</strong> Available now</span>
           <span><strong>Google TV</strong> Planned</span>
         </div>
       </div>
@@ -470,9 +481,10 @@ def render_home_page() -> str:
           <div class="action-row">{steam_store_button()}</div>
         </article>
         <article class="platform-card">
-          <span class="platform-badge is-progress">In progress</span>
+          <span class="platform-badge is-apple">Available now</span>
           <h3>Apple TV</h3>
-          <p>The native SwiftUI and AVKit client is in active development around the same Tater Tube Server library and playback contract.</p>
+          <p>Download the native player free from the App Store for Apple TV running tvOS 18 or later.</p>
+          <div class="action-row">{apple_tv_store_button()}</div>
         </article>
         <article class="platform-card">
           <span class="platform-badge">Planned</span>
@@ -512,12 +524,13 @@ def render_player_page() -> str:
         <p>Browse your library, pick up where you left off, discover something new, or tune into Live TV—all through a controller-first player powered by Tater Tube Server.</p>
         <div class="hero-actions">
           {steam_store_button()}
+          {apple_tv_store_button()}
           {action_link("See what works today", "#player-today", secondary=True)}
           {action_link("Set up the server", "../server/index.html", secondary=True)}
         </div>
         <div class="platform-status">
           <span class="is-steam"><strong>Steam + Steam Deck</strong> Wishlist now</span>
-          <span class="is-progress"><strong>Apple TV</strong> In progress</span>
+          <span class="is-apple"><strong>Apple TV</strong> Available now</span>
           <span><strong>Google TV</strong> Planned</span>
         </div>
       </div>
@@ -531,7 +544,7 @@ def render_player_page() -> str:
       <div class="section-head">
         <span class="eyebrow">Working today</span>
         <h2>Everything a focused player needs.</h2>
-        <p>The Steam build connects to a real Tater Tube Server and covers the complete living-room journey.</p>
+        <p>The Apple TV app and Steam build connect to a real Tater Tube Server and cover the complete living-room journey.</p>
       </div>
       <div class="grid grid-3 modern-feature-grid">
         {simple_card("Pair in a few steps", "Enter the server address and six-digit PIN, then keep the paired player ready for the next session.", ["Six-digit PIN", "Named players"])}
@@ -592,7 +605,7 @@ def render_player_page() -> str:
     """
     return page_template(
         "Tater Tube Player | Modern self-hosted media playback",
-        "Wishlist Tater Tube Player on Steam, a modern artwork-first client for movies, shows, and personal live TV from Tater Tube Server.",
+        "Download Tater Tube Player for Apple TV or wishlist it on Steam for modern, artwork-first playback from Tater Tube Server.",
         body,
         nav_key="player",
         depth=1,

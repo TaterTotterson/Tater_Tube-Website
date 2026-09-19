@@ -921,6 +921,37 @@ p {
   text-transform: uppercase;
 }
 
+.modern-page .button-app-store {
+  gap: 0.7rem;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background:
+    linear-gradient(135deg, rgba(255, 120, 31, 0.11), transparent 50%),
+    linear-gradient(135deg, #08090a, #30343a);
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.3);
+  transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.modern-page .button-app-store:hover {
+  border-color: rgba(255, 255, 255, 0.58);
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.4), 0 0 24px rgba(255, 120, 31, 0.12);
+  transform: translateY(-1px);
+}
+
+.app-store-button-brand {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 0.25rem 0.42rem;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.1);
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
 .platform-status {
   display: flex;
   flex-wrap: wrap;
@@ -960,6 +991,15 @@ p {
 
 .platform-status span.is-progress strong {
   color: #ffc18f;
+}
+
+.platform-status span.is-apple {
+  border-color: rgba(255, 255, 255, 0.26);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 120, 31, 0.05));
+}
+
+.platform-status span.is-apple strong {
+  color: #fff;
 }
 
 .player-showcase {
@@ -1238,6 +1278,12 @@ p {
   color: #9bdcff;
   border-color: rgba(102, 192, 244, 0.38);
   background: rgba(27, 40, 56, 0.72);
+}
+
+.platform-badge.is-apple {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.3);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 120, 31, 0.08));
 }
 
 .retro-gateway {
