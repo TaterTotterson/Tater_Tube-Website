@@ -446,17 +446,25 @@ def render_home_page() -> str:
       </div>
     </section>
 
-    <section class="section modern-server-highlight">
+    <section class="section modern-server-highlight" id="server-features">
       <div class="modern-server-copy">
         <span class="eyebrow">One system, end to end</span>
         <h2>Your server does the heavy lifting.</h2>
-        <p>Tater Tube Server scans your movies and shows, resolves artwork, remembers playback, builds your Tube TV schedule, and chooses direct play or transcoding for each screen.</p>
+        <p>Tater Tube Server scans your movies and shows, resolves artwork, remembers playback, builds your Tube TV schedule, chooses direct play or transcoding for each screen, and can enhance compatible lower-resolution video with optional AI upscaling.</p>
         <p>It is a complete self-hosted media platform—not another skin over Plex, Emby, or Jellyfin.</p>
         <div class="grid grid-2 compact-feature-grid">
           {simple_card("Keep your library yours", "Choose the native Mac app or map local media into Docker, then serve it directly from your own hardware.")}
           {simple_card("Build your own live TV", "Turn movies and series into scheduled channels with guides, bumpers, station IDs, and commercial breaks.")}
           {simple_card("Play the best stream", "Use direct playback when the device supports it and server transcoding when it does not.")}
           {simple_card("Pair every screen", "Connect players with a short PIN and keep progress synchronized by the server.")}
+          <article class="info-card compact-feature-ai">
+            <div>
+              <span class="platform-badge is-first">Optional AI upscaling</span>
+              <h3>Give older video a sharper path to the big screen.</h3>
+              <p>Auto Detect matches local GPU-accelerated models to your hardware, with automatic fallbacks that keep playback moving.</p>
+            </div>
+            <a class="button button-secondary" href="server/index.html#ai-upscaling">Explore AI upscaling</a>
+          </article>
         </div>
         <div class="action-row">
           {action_link("Set up Tater Tube Server", "server/index.html")}
@@ -985,7 +993,15 @@ def render_server_page() -> str:
       - /mnt/user/media/movies:/media/movies:ro
       - /mnt/user/media/tv:/media/tv:ro
     restart: unless-stopped"""
-    hw_compose = """services:
+    nvidia_compose = """services:
+  tater-tube-server:
+    image: ghcr.io/tatertotterson/tater-tube-server:latest
+    gpus: all
+    environment:
+      NVIDIA_DRIVER_CAPABILITIES: all
+    volumes:
+      - /path/to/tater-tube-server/config:/config"""
+    linux_gpu_compose = """services:
   tater-tube-server:
     image: ghcr.io/tatertotterson/tater-tube-server:latest
     devices:
@@ -1044,6 +1060,9 @@ def render_server_page() -> str:
         <p>Docker remains the recommended path for Linux servers and NAS systems. The web UI runs on port 8080, and login is disabled by default so setup is quick on a trusted home network.</p>
         {command_box("docker pull ghcr.io/tatertotterson/tater-tube-server:latest", "Docker pull")}
         {command_box(docker_compose, "docker-compose.yml")}
+        <div class="action-row">
+          {action_link("Configure GPU access", "#hardware-acceleration", secondary=True)}
+        </div>
       </div>
       <figure class="image-panel">
         <img src="../assets/images/tater-tube-logo.png" alt="Tater Tube logo">
@@ -1155,22 +1174,78 @@ def render_server_page() -> str:
       </div>
     </section>
 
-    <section class="section split-section">
-      <div class="split-copy">
-        <span class="eyebrow">Hardware transcoding</span>
-        <h2>Let VideoToolbox or your GPU handle transcodes.</h2>
-        <p>The Mac app includes FFmpeg and automatically detects Apple VideoToolbox. Docker installs can use NVIDIA, AMD, or Intel acceleration after the GPU is exposed to the container. The dashboard shows detected encoders and whether each active stream is direct, software, or hardware transcoded.</p>
-        {command_box(hw_compose, "Intel/AMD/Pi device mapping")}
+    <section class="section hardware-setup-section" id="hardware-acceleration">
+      <div class="section-head">
+        <span class="eyebrow">Hardware acceleration</span>
+        <h2>Give Docker the GPU access it needs.</h2>
+        <p>Direct-play titles do not need transcoding, but incompatible media, Tube TV, and AI processing depend on the server seeing the correct hardware. Recreate the container after changing these settings.</p>
       </div>
-      <div class="grid">
-        {simple_card("Hardware Detection", "Run Auto Detect from the Hardware Transcoding tab, confirm the recommended encoder is Ready, and save it.", ["VideoToolbox", "NVENC", "VAAPI", "QSV"])}
-        {simple_card("Player Stats", "The dashboard shows what each paired player is watching and whether hardware acceleration is active.", ["Now Playing", "HW Status"])}
+      <div class="grid grid-2 hardware-platform-grid">
+        <article class="hardware-platform-card">
+          <span class="platform-badge is-first">NVIDIA</span>
+          <h3>NVENC plus local AI processing</h3>
+          <p>Install the NVIDIA driver and Container Toolkit on the host—or the NVIDIA Driver plugin on Unraid—then expose the GPU and its complete video and graphics capabilities.</p>
+          {command_box(nvidia_compose, "Docker Compose")}
+          <div class="hardware-platform-notes">
+            <p><strong>Unraid:</strong> set <b>Extra Parameters</b> to <code>--gpus all</code> and add <code>NVIDIA_DRIVER_CAPABILITIES=all</code> as a variable.</p>
+            <p><code>--runtime=nvidia</code> is optional compatibility support for older setups; current NVIDIA Container Toolkit installations normally need only <code>--gpus all</code>.</p>
+            <p>The image automatically selects NVIDIA's headless EGL Vulkan path when the injected GLX path cannot initialize AI processing.</p>
+          </div>
+        </article>
+        <article class="hardware-platform-card">
+          <span class="platform-badge">Intel + AMD</span>
+          <h3>Quick Sync, VAAPI, and Vulkan</h3>
+          <p>Expose the host's DRM devices so the server can reach Intel or AMD hardware encoding and compatible Vulkan processing paths.</p>
+          {command_box(linux_gpu_compose, "Docker Compose")}
+          <div class="hardware-platform-notes">
+            <p><strong>Unraid:</strong> add a Device with <code>/dev/dri</code> as both the host and container path.</p>
+            <p>Leave Hardware Device blank unless a specific render node such as <code>/dev/dri/renderD129</code> is required.</p>
+          </div>
+        </article>
       </div>
+      <div class="grid grid-3 hardware-step-grid">
+        {simple_card("1. Recreate", "Apply the updated Compose or Unraid settings by recreating the container, not only restarting the old one.", ["Container", "GPU Access"])}
+        {simple_card("2. Detect Transcoding", "Open Hardware Transcoding, run Auto Detect, confirm the encoder says Ready, and save the selection.", ["NVENC", "VAAPI", "QSV"])}
+        {simple_card("3. Detect Upscaling", "Open Upscaling and run Auto Detect separately to test Standard scaling, Vulkan, and every bundled AI model.", ["Vulkan", "AI Models", "Fallbacks"])}
+      </div>
+    </section>
+
+    <section class="section ai-upscaling-section" id="ai-upscaling">
+      <div class="ai-upscaling-copy">
+        <span class="eyebrow">Experimental · Local processing</span>
+        <h2>Give lower-resolution video a sharper path to the big screen.</h2>
+        <p>When the connected TV has more pixels than the source, Tater Tube Server can enhance compatible video with optional GPU-accelerated AI upscaling. Everything runs on your server, so paired players benefit without an app update or sending your media anywhere else.</p>
+        <div class="chip-row">
+          {chip("Runs locally")}
+          {chip("Auto Detect")}
+          {chip("Movies + animation")}
+          {chip("Safe fallbacks")}
+        </div>
+        <div class="ai-upscaling-flow" aria-label="AI upscaling process">
+          <div>
+            <strong><span>01</span> Check</strong>
+            <p>Auto Detect tests Standard scaling, the GPU path, and every bundled AI model.</p>
+          </div>
+          <div>
+            <strong><span>02</span> Match</strong>
+            <p>Choose FSRCNNX for general video or Anime4K and ArtCNN for animated detail.</p>
+          </div>
+          <div>
+            <strong><span>03</span> Keep playing</strong>
+            <p>If AI is unavailable, the server steps down through compatible models to Standard.</p>
+          </div>
+        </div>
+        <p class="ai-upscaling-note"><strong>Built for choice, not guesswork.</strong> AI upscaling is optional and experimental. Compatibility and real-time speed depend on the GPU, drivers, source resolution, and current server load.</p>
+      </div>
+      <figure class="ai-upscaling-panel">
+        <img src="../assets/images/ai-upscaling-mascot.webp" alt="Tater mascot transforming a blocky low-resolution video into a crisp high-resolution picture with local AI processing">
+        <figcaption>Compatible SDR video can be enhanced locally at up to 2× while automatic fallbacks protect playback.</figcaption>
+      </figure>
     </section>
     """
     return page_template(
         "Server | Tater Tube",
-        "Tater Tube Server setup for the native macOS app, Docker, Tube TV, local libraries, Newznab Stream, player pairing, activity, and hardware transcoding.",
+        "Tater Tube Server setup for the native macOS app, Docker, Tube TV, local libraries, Newznab Stream, player pairing, activity, hardware transcoding, and optional AI upscaling.",
         body,
         nav_key="server",
         depth=1,
