@@ -1158,6 +1158,37 @@ p {
   text-transform: uppercase;
 }
 
+.modern-page .button-google-play {
+  gap: 0.7rem;
+  color: #fff;
+  border: 1px solid rgba(52, 168, 83, 0.48);
+  background:
+    linear-gradient(135deg, rgba(255, 120, 31, 0.12), transparent 50%),
+    linear-gradient(135deg, #111817, #174d32);
+  box-shadow: 0 16px 34px rgba(21, 101, 63, 0.27);
+  transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.modern-page .button-google-play:hover {
+  border-color: #5bc77a;
+  box-shadow: 0 18px 38px rgba(21, 101, 63, 0.38), 0 0 24px rgba(255, 120, 31, 0.12);
+  transform: translateY(-1px);
+}
+
+.google-play-button-brand {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 0.25rem 0.42rem;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.09);
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
 .platform-status {
   display: flex;
   flex-wrap: wrap;
@@ -1206,6 +1237,15 @@ p {
 
 .platform-status span.is-apple strong {
   color: #fff;
+}
+
+.platform-status span.is-google {
+  border-color: rgba(52, 168, 83, 0.38);
+  background: linear-gradient(135deg, rgba(52, 168, 83, 0.14), rgba(255, 120, 31, 0.05));
+}
+
+.platform-status span.is-google strong {
+  color: #8ae6a4;
 }
 
 .player-showcase {
@@ -1517,6 +1557,12 @@ p {
   color: #fff;
   border-color: rgba(255, 255, 255, 0.3);
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 120, 31, 0.08));
+}
+
+.platform-badge.is-google {
+  color: #9ceeb4;
+  border-color: rgba(52, 168, 83, 0.38);
+  background: linear-gradient(135deg, rgba(52, 168, 83, 0.15), rgba(255, 120, 31, 0.06));
 }
 
 .retro-gateway {

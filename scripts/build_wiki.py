@@ -27,6 +27,7 @@ STEAM_ONE_CLICK_INSTALLER = f"{STEAM_LATEST_RELEASE}/download/Install-Tater-Tube
 STEAM_INSTALL_GUIDE = f"{STEAM_GITHUB_REPO}/blob/main/INSTALL.md"
 STEAM_PLAYER_STORE = "https://store.steampowered.com/app/5239420/Tater_Tube_Player/"
 APPLE_TV_APP_STORE = "https://apps.apple.com/us/app/tater-tube-player/id6811687667"
+GOOGLE_TV_GOOGLE_PLAY = "https://play.google.com/store/apps/details?id=com.tatertotterson.tatertubeplayer"
 SERVER_GITHUB_REPO = "https://github.com/TaterTotterson/tater-tube-server"
 SERVER_LATEST_RELEASE = f"{SERVER_GITHUB_REPO}/releases/latest"
 PLAYER_GITHUB_REPO = "https://github.com/TaterTotterson/Tater-Tube-Player"
@@ -275,6 +276,15 @@ def apple_tv_store_button(label: str = "Get it for Apple TV") -> str:
     )
 
 
+def google_tv_store_button(label: str = "Get it for Google TV") -> str:
+    return (
+        f'<a class="button button-google-play" href="{GOOGLE_TV_GOOGLE_PLAY}" target="_blank" rel="noreferrer">'
+        '<span class="google-play-button-brand" aria-hidden="true">Google Play</span>'
+        f'<span>{escape(label)}</span>'
+        "</a>"
+    )
+
+
 def command_box(command: str, label: str = "Terminal") -> str:
     return (
         '<div class="command-box">\n'
@@ -397,13 +407,14 @@ def render_home_page() -> str:
         <div class="hero-actions">
           {steam_store_button()}
           {apple_tv_store_button()}
+          {google_tv_store_button()}
           {action_link("Explore the player", "player/index.html", secondary=True)}
           {action_link("Explore the server", "server/index.html", secondary=True)}
         </div>
         <div class="platform-status" aria-label="Player platform availability">
           <span class="is-steam"><strong>Steam + Steam Deck</strong> Wishlist now</span>
           <span class="is-apple"><strong>Apple TV</strong> Available now</span>
-          <span><strong>Google TV</strong> Planned</span>
+          <span class="is-google"><strong>Google TV</strong> Available now</span>
         </div>
       </div>
       <figure class="player-showcase">
@@ -495,9 +506,10 @@ def render_home_page() -> str:
           <div class="action-row">{apple_tv_store_button()}</div>
         </article>
         <article class="platform-card">
-          <span class="platform-badge">Planned</span>
+          <span class="platform-badge is-google">Available now</span>
           <h3>Google TV</h3>
-          <p>A native Compose TV and Media3 client will bring Tater Tube to Android-powered living rooms.</p>
+          <p>Download the native player from Google Play for Google TV and Android TV, with remote-first browsing and playback.</p>
+          <div class="action-row">{google_tv_store_button()}</div>
         </article>
       </div>
     </section>
@@ -533,13 +545,14 @@ def render_player_page() -> str:
         <div class="hero-actions">
           {steam_store_button()}
           {apple_tv_store_button()}
+          {google_tv_store_button()}
           {action_link("See what works today", "#player-today", secondary=True)}
           {action_link("Set up the server", "../server/index.html", secondary=True)}
         </div>
         <div class="platform-status">
           <span class="is-steam"><strong>Steam + Steam Deck</strong> Wishlist now</span>
           <span class="is-apple"><strong>Apple TV</strong> Available now</span>
-          <span><strong>Google TV</strong> Planned</span>
+          <span class="is-google"><strong>Google TV</strong> Available now</span>
         </div>
       </div>
       <figure class="player-showcase">
@@ -552,7 +565,7 @@ def render_player_page() -> str:
       <div class="section-head">
         <span class="eyebrow">Working today</span>
         <h2>Everything a focused player needs.</h2>
-        <p>The Apple TV app and Steam build connect to a real Tater Tube Server and cover the complete living-room journey.</p>
+        <p>The Steam, Apple TV, and Google TV players connect to a real Tater Tube Server and cover the complete living-room journey.</p>
       </div>
       <div class="grid grid-3 modern-feature-grid">
         {simple_card("Pair in a few steps", "Enter the server address and six-digit PIN, then keep the paired player ready for the next session.", ["Six-digit PIN", "Named players"])}
@@ -613,7 +626,7 @@ def render_player_page() -> str:
     """
     return page_template(
         "Tater Tube Player | Modern self-hosted media playback",
-        "Download Tater Tube Player for Apple TV or wishlist it on Steam for modern, artwork-first playback from Tater Tube Server.",
+        "Get Tater Tube Player for Steam, Apple TV, or Google TV for modern, artwork-first playback from Tater Tube Server.",
         body,
         nav_key="player",
         depth=1,
@@ -663,7 +676,7 @@ def render_privacy_page() -> str:
         <section id="scope">
           <span class="privacy-section-number">01</span>
           <h2>Scope</h2>
-          <p>This policy describes how Tater Tube Player handles information on supported platforms, including Apple TV and Steam. Tater Tube Player is a client for a Tater Tube Server selected and operated by the user.</p>
+          <p>This policy describes how Tater Tube Player handles information on supported platforms, including Steam, Apple TV, and Google TV. Tater Tube Player is a client for a Tater Tube Server selected and operated by the user.</p>
           <p>The Player does not require a Tater account and does not include advertising, behavioral analytics, or tracking technology. Tater Totterson AI LLC does not collect personal information through the Player.</p>
         </section>
 
@@ -697,7 +710,7 @@ def render_privacy_page() -> str:
         <section id="platforms">
           <span class="privacy-section-number">06</span>
           <h2>Platform services</h2>
-          <p>Apple, Valve, and other distribution platforms may independently process account, installation, device, purchase, or usage information under their own privacy policies. Tater Tube Player does not use platform account information for advertising or analytics.</p>
+          <p>Apple, Google, Valve, and other distribution platforms may independently process account, installation, device, purchase, or usage information under their own privacy policies. Tater Tube Player does not use platform account information for advertising or analytics.</p>
         </section>
 
         <section id="choices">
