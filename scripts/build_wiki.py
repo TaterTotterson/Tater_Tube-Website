@@ -394,7 +394,7 @@ def steam_download_card() -> str:
 
 def render_home_page() -> str:
     body = f"""
-    <section class="modern-hero modern-hero-copy-only">
+    <section class="modern-hero">
       <div class="modern-hero-copy">
         <span class="eyebrow">Tater Tube Player + Server</span>
         <h1 class="modern-hero-title">
@@ -417,6 +417,13 @@ def render_home_page() -> str:
           <span class="is-google"><strong>Google TV</strong> Available now</span>
         </div>
       </div>
+      <figure class="player-showcase">
+        <div class="player-showcase-head">
+          <span>Current TV interface</span>
+          <span class="status-dot is-available">Apple TV + Google TV</span>
+        </div>
+        <img src="assets/images/player-tv-home.webp" alt="Tater Tube Player home screen with Continue Watching and recently added media">
+      </figure>
     </section>
 
     <section class="section modern-player-intro" id="player-preview">
@@ -559,7 +566,7 @@ def render_home_page() -> str:
 
 def render_player_page() -> str:
     body = f"""
-    <section class="section modern-subhero modern-subhero-copy-only">
+    <section class="section modern-subhero">
       <div class="modern-subhero-copy">
         <span class="eyebrow">Tater Tube Player</span>
         <h1>Made for the <strong class="title-accent">couch.</strong> Built around your <strong class="title-accent">media.</strong></h1>
@@ -577,6 +584,10 @@ def render_player_page() -> str:
           <span class="is-google"><strong>Google TV</strong> Available now</span>
         </div>
       </div>
+      <figure class="player-showcase">
+        <div class="player-showcase-head"><span>Current TV interface</span><span class="status-dot is-available">Apple TV + Google TV</span></div>
+        <img src="../assets/images/player-tv-home.webp" alt="Tater Tube Player home screen with Continue Watching and recently added media">
+      </figure>
     </section>
 
     <section class="section" id="player-today">

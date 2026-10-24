@@ -1061,14 +1061,6 @@ p {
   min-width: 0;
 }
 
-.modern-hero-copy-only {
-  grid-template-columns: minmax(0, 1fr);
-}
-
-.modern-hero-copy-only .modern-hero-copy {
-  width: min(900px, 100%);
-}
-
 .modern-page .modern-hero-title {
   max-width: none;
   font-size: clamp(3.1rem, 5.3vw, 4.75rem);
@@ -1254,6 +1246,79 @@ p {
 
 .platform-status span.is-google strong {
   color: #8ae6a4;
+}
+
+.player-showcase {
+  position: relative;
+  margin: 0;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 20px;
+  overflow: hidden;
+  background: #111316;
+  box-shadow: 0 35px 100px rgba(0, 0, 0, 0.5), 0 0 70px rgba(255, 120, 31, 0.08);
+  transform: perspective(1600px) rotateY(-3deg) rotateX(1deg);
+}
+
+.player-showcase::after {
+  content: "";
+  position: absolute;
+  inset: 45px 0 0;
+  pointer-events: none;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.05), transparent 24%);
+}
+
+.player-showcase-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 46px;
+  padding: 0.65rem 0.9rem;
+  color: var(--muted-2);
+  border-bottom: 1px solid var(--line);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.status-dot {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: #bfc3c6;
+}
+
+.status-dot::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #f1a34f;
+}
+
+.status-dot.is-steam {
+  color: #a9d9f5;
+}
+
+.status-dot.is-steam::before {
+  background: #66c0f4;
+  box-shadow: 0 0 12px rgba(102, 192, 244, 0.6);
+}
+
+.status-dot.is-available {
+  color: #b8e8c5;
+}
+
+.status-dot.is-available::before {
+  background: #57d681;
+  box-shadow: 0 0 12px rgba(87, 214, 129, 0.55);
+}
+
+.player-showcase img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
 }
 
 .picture-processing-section {
@@ -1617,14 +1682,6 @@ p {
   gap: clamp(2.5rem, 5vw, 5rem);
   align-items: center;
   min-height: 680px;
-}
-
-.modern-subhero-copy-only {
-  grid-template-columns: minmax(0, 1fr);
-}
-
-.modern-subhero-copy-only .modern-subhero-copy {
-  width: min(850px, 100%);
 }
 
 .modern-subhero-copy > p {
@@ -1996,6 +2053,10 @@ p {
 
   .modern-hero-copy {
     width: min(760px, 100%);
+  }
+
+  .player-showcase {
+    transform: none;
   }
 
   .picture-processing-footer {
