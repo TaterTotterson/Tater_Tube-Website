@@ -1061,6 +1061,14 @@ p {
   min-width: 0;
 }
 
+.modern-hero-copy-only {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.modern-hero-copy-only .modern-hero-copy {
+  width: min(900px, 100%);
+}
+
 .modern-page .modern-hero-title {
   max-width: none;
   font-size: clamp(3.1rem, 5.3vw, 4.75rem);
@@ -1248,79 +1256,6 @@ p {
   color: #8ae6a4;
 }
 
-.player-showcase {
-  position: relative;
-  margin: 0;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 20px;
-  overflow: hidden;
-  background: #111316;
-  box-shadow: 0 35px 100px rgba(0, 0, 0, 0.5), 0 0 70px rgba(255, 120, 31, 0.08);
-  transform: perspective(1600px) rotateY(-3deg) rotateX(1deg);
-}
-
-.player-showcase::after {
-  content: "";
-  position: absolute;
-  inset: 45px 0 0;
-  pointer-events: none;
-  background: linear-gradient(120deg, rgba(255, 255, 255, 0.05), transparent 24%);
-}
-
-.player-showcase-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 46px;
-  padding: 0.65rem 0.9rem;
-  color: var(--muted-2);
-  border-bottom: 1px solid var(--line);
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.status-dot {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  color: #bfc3c6;
-}
-
-.status-dot::before {
-  content: "";
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #f1a34f;
-}
-
-.status-dot.is-steam {
-  color: #a9d9f5;
-}
-
-.status-dot.is-steam::before {
-  background: #66c0f4;
-  box-shadow: 0 0 12px rgba(102, 192, 244, 0.6);
-}
-
-.status-dot.is-available {
-  color: #b8e8c5;
-}
-
-.status-dot.is-available::before {
-  background: #57d681;
-  box-shadow: 0 0 12px rgba(87, 214, 129, 0.55);
-}
-
-.player-showcase img {
-  display: block;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-}
-
 .picture-processing-section {
   border-top: 1px solid var(--line);
 }
@@ -1488,53 +1423,6 @@ p {
 
 .modern-page .image-panel figcaption {
   background: rgba(18, 20, 23, 0.94);
-}
-
-.modern-media-section {
-  padding-top: 6rem;
-}
-
-.modern-screenshot-grid {
-  display: grid;
-  grid-template-columns: 1.12fr 0.88fr;
-  gap: 1rem;
-  align-items: stretch;
-}
-
-.media-window {
-  margin: 0;
-  border: 1px solid rgba(255, 255, 255, 0.11);
-  border-radius: 18px;
-  overflow: hidden;
-  background: #111316;
-  box-shadow: var(--shadow);
-}
-
-.media-window-label {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 48px;
-  padding: 0.75rem 1rem;
-  color: #ebebe8;
-  border-bottom: 1px solid var(--line);
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
-.media-window-label span:last-child {
-  color: var(--muted-2);
-  font-size: 0.68rem;
-}
-
-.media-window img {
-  width: 100%;
-  height: 100%;
-  max-height: 500px;
-  object-fit: cover;
-  object-position: top left;
 }
 
 .modern-server-highlight {
@@ -1731,6 +1619,14 @@ p {
   min-height: 680px;
 }
 
+.modern-subhero-copy-only {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.modern-subhero-copy-only .modern-subhero-copy {
+  width: min(850px, 100%);
+}
+
 .modern-subhero-copy > p {
   max-width: 650px;
   font-size: 1.15rem;
@@ -1739,26 +1635,6 @@ p {
 .modern-subhero h1 {
   max-width: 11ch;
   font-size: clamp(3.2rem, 5.8vw, 5.8rem);
-}
-
-.player-gallery {
-  border-top: 1px solid var(--line);
-}
-
-.player-gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-  margin-top: 2rem;
-}
-
-.player-gallery-grid .media-window img {
-  width: 100%;
-  height: auto;
-  max-height: none;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-  object-position: top left;
 }
 
 .connection-flow {
@@ -2078,8 +1954,6 @@ p {
     grid-template-columns: 1fr;
   }
 
-  .modern-screenshot-grid,
-  .player-gallery-grid,
   .picture-processing-grid,
   .modern-server-highlight,
   .ai-upscaling-section,
@@ -2122,10 +1996,6 @@ p {
 
   .modern-hero-copy {
     width: min(760px, 100%);
-  }
-
-  .player-showcase {
-    transform: none;
   }
 
   .picture-processing-footer {

@@ -394,7 +394,7 @@ def steam_download_card() -> str:
 
 def render_home_page() -> str:
     body = f"""
-    <section class="modern-hero">
+    <section class="modern-hero modern-hero-copy-only">
       <div class="modern-hero-copy">
         <span class="eyebrow">Tater Tube Player + Server</span>
         <h1 class="modern-hero-title">
@@ -417,13 +417,6 @@ def render_home_page() -> str:
           <span class="is-google"><strong>Google TV</strong> Available now</span>
         </div>
       </div>
-      <figure class="player-showcase">
-        <div class="player-showcase-head">
-          <span>Current TV interface</span>
-          <span class="status-dot is-available">Apple TV + Google TV</span>
-        </div>
-        <img src="assets/images/player-tv-home.webp" alt="Tater Tube Player home screen with Continue Watching and recently added media">
-      </figure>
     </section>
 
     <section class="section modern-player-intro" id="player-preview">
@@ -483,24 +476,6 @@ def render_home_page() -> str:
           <a class="button button-secondary" href="server/index.html#ai-upscaling">Explore AI upscaling</a>
           <a class="button button-secondary" href="server/index.html">Explore server settings</a>
         </div>
-      </div>
-    </section>
-
-    <section class="section modern-media-section">
-      <div class="section-head">
-        <span class="eyebrow">Made for watching</span>
-        <h2>Less dashboard. More play.</h2>
-        <p>Artwork, progress, live schedules, and search stay clear from across the room. Every surface is designed for a controller or TV remote first.</p>
-      </div>
-      <div class="modern-screenshot-grid">
-        <figure class="media-window media-window-large">
-          <div class="media-window-label"><span>Movies</span><span>Artwork-first browsing</span></div>
-          <img src="assets/images/player-tv-movies.webp" alt="Tater Tube Player movie library with poster artwork">
-        </figure>
-        <figure class="media-window">
-          <div class="media-window-label"><span>Tube TV</span><span>Now + Next</span></div>
-          <img src="assets/images/player-tv-tube-tv.webp" alt="Tater Tube Player Tube TV channel guide">
-        </figure>
       </div>
     </section>
 
@@ -584,7 +559,7 @@ def render_home_page() -> str:
 
 def render_player_page() -> str:
     body = f"""
-    <section class="section modern-subhero">
+    <section class="section modern-subhero modern-subhero-copy-only">
       <div class="modern-subhero-copy">
         <span class="eyebrow">Tater Tube Player</span>
         <h1>Made for the <strong class="title-accent">couch.</strong> Built around your <strong class="title-accent">media.</strong></h1>
@@ -602,10 +577,6 @@ def render_player_page() -> str:
           <span class="is-google"><strong>Google TV</strong> Available now</span>
         </div>
       </div>
-      <figure class="player-showcase">
-        <div class="player-showcase-head"><span>Current TV interface</span><span class="status-dot is-available">Apple TV + Google TV</span></div>
-        <img src="../assets/images/player-tv-home.webp" alt="Tater Tube Player home screen with Continue Watching and recently added media">
-      </figure>
     </section>
 
     <section class="section" id="player-today">
@@ -621,40 +592,6 @@ def render_player_page() -> str:
         {simple_card("Watch your channels", "Tune into server-built Tube TV with now/next information and scheduled breaks preserved.", ["Live TV", "HLS", "Guide"])}
         {simple_card("Direct play first", "Play compatible media directly, then fall back to audio-only or full H.264 transcoding when needed.", ["Direct play", "Transcoding"])}
         {simple_card("Made for the couch", "Use controller, keyboard, remote-style focus, or touch with clear states and auto-hiding playback controls.", ["Controller", "Remote", "Touch"])}
-      </div>
-    </section>
-
-    <section class="section player-gallery">
-      <div class="section-head">
-        <span class="eyebrow">Tater Tube Player previews</span>
-        <h2>The current Player journey.</h2>
-        <p>See the current living-room interface for browsing, resuming, discovering, and watching across Apple TV and Google TV.</p>
-      </div>
-      <div class="player-gallery-grid">
-        <figure class="media-window">
-          <div class="media-window-label"><span>Your library</span><span>Movies</span></div>
-          <img src="../assets/images/player-tv-movies.webp" alt="Tater Tube Player movie library with poster artwork">
-        </figure>
-        <figure class="media-window">
-          <div class="media-window-label"><span>Details</span><span>Resume or restart</span></div>
-          <img src="../assets/images/player-tv-resume.webp" alt="Tater Tube Player resume, start over, and clear progress controls">
-        </figure>
-        <figure class="media-window">
-          <div class="media-window-label"><span>Discovery</span><span>Movies + TV</span></div>
-          <img src="../assets/images/player-tv-discovery.webp" alt="Tater Tube Player Discovery categories for movies and series">
-        </figure>
-        <figure class="media-window">
-          <div class="media-window-label"><span>Tater Picks</span><span>Picked for you</span></div>
-          <img src="../assets/images/player-tv-tater-picks.webp" alt="Tater Picks recommendations with personalized reasons">
-        </figure>
-        <figure class="media-window">
-          <div class="media-window-label"><span>Your channels</span><span>Tube TV guide</span></div>
-          <img src="../assets/images/player-tv-tube-tv.webp" alt="Tater Tube Player Tube TV channel guide">
-        </figure>
-        <figure class="media-window">
-          <div class="media-window-label"><span>Ready to play</span><span>Media details</span></div>
-          <img src="../assets/images/player-tv-details.webp" alt="Tater Tube Player media details and play control">
-        </figure>
       </div>
     </section>
 
