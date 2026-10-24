@@ -426,6 +426,19 @@ def render_home_page() -> str:
       </figure>
     </section>
 
+    <section class="section modern-player-intro" id="player-preview">
+      <div class="section-head">
+        <span class="eyebrow">Playback comes first</span>
+        <h2>Your library feels at home on the TV.</h2>
+        <p>Tater Tube Player keeps the things you watch most within a few controller clicks, with artwork-forward browsing and clean playback controls built for the couch.</p>
+      </div>
+      <div class="grid grid-3 modern-feature-grid">
+        {simple_card("Pick up where you left off", "Resume movies and episodes across paired screens with progress stored by your server.", ["Continue Watching", "Playback history"])}
+        {simple_card("Browse everything", "Move through movies, TV shows, folders, seasons, and episodes without leaving the player.", ["Local libraries", "Search"])}
+        {simple_card("Tune into your own TV", "Watch server-built Tube TV channels with guide data, bumpers, station IDs, and commercial breaks intact.", ["Live TV", "Channel guide"])}
+      </div>
+    </section>
+
     <section class="section picture-processing-section" id="picture-processing">
       <div class="picture-processing-head">
         <span class="eyebrow">Smarter picture · Your hardware</span>
@@ -470,19 +483,6 @@ def render_home_page() -> str:
           <a class="button button-secondary" href="server/index.html#ai-upscaling">Explore AI upscaling</a>
           <a class="button button-secondary" href="server/index.html">Explore server settings</a>
         </div>
-      </div>
-    </section>
-
-    <section class="section modern-player-intro" id="player-preview">
-      <div class="section-head">
-        <span class="eyebrow">Playback comes first</span>
-        <h2>Your library feels at home on the TV.</h2>
-        <p>Tater Tube Player keeps the things you watch most within a few controller clicks, with artwork-forward browsing and clean playback controls built for the couch.</p>
-      </div>
-      <div class="grid grid-3 modern-feature-grid">
-        {simple_card("Pick up where you left off", "Resume movies and episodes across paired screens with progress stored by your server.", ["Continue Watching", "Playback history"])}
-        {simple_card("Browse everything", "Move through movies, TV shows, folders, seasons, and episodes without leaving the player.", ["Local libraries", "Search"])}
-        {simple_card("Tune into your own TV", "Watch server-built Tube TV channels with guide data, bumpers, station IDs, and commercial breaks intact.", ["Live TV", "Channel guide"])}
       </div>
     </section>
 

@@ -1322,32 +1322,7 @@ p {
 }
 
 .picture-processing-section {
-  position: relative;
-  margin-top: 1rem;
-  padding: clamp(2rem, 4vw, 3.5rem);
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.11);
-  border-radius: 26px;
-  background:
-    radial-gradient(circle at 9% 8%, rgba(255, 120, 31, 0.18), transparent 31%),
-    radial-gradient(circle at 91% 90%, rgba(109, 82, 255, 0.15), transparent 34%),
-    linear-gradient(145deg, rgba(35, 38, 42, 0.98), rgba(17, 19, 22, 0.98));
-  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.3);
-  isolation: isolate;
-}
-
-.picture-processing-section::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  opacity: 0.3;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
-  background-size: 54px 54px;
-  -webkit-mask-image: linear-gradient(120deg, black, transparent 66%);
-  mask-image: linear-gradient(120deg, black, transparent 66%);
+  border-top: 1px solid var(--line);
 }
 
 .picture-processing-head {
@@ -1368,38 +1343,19 @@ p {
 .picture-processing-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
+  gap: 0;
   margin-top: 2rem;
 }
 
 .picture-processing-card {
-  position: relative;
-  min-height: 340px;
-  padding: clamp(1.35rem, 3vw, 2rem);
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.11);
-  border-radius: 20px;
-  background: rgba(13, 15, 17, 0.82);
+  min-height: 300px;
+  padding: 0 clamp(2rem, 4vw, 4rem) 0 0;
 }
 
-.picture-processing-card::after {
-  content: "";
-  position: absolute;
-  right: -14%;
-  bottom: -45%;
-  width: 55%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  pointer-events: none;
-  filter: blur(12px);
-}
-
-.picture-processing-card.is-ai::after {
-  background: radial-gradient(circle, rgba(255, 120, 31, 0.24), transparent 68%);
-}
-
-.picture-processing-card.is-hdr::after {
-  background: radial-gradient(circle, rgba(125, 93, 255, 0.25), transparent 68%);
+.picture-processing-card + .picture-processing-card {
+  padding-right: 0;
+  padding-left: clamp(2rem, 4vw, 4rem);
+  border-left: 1px solid var(--line);
 }
 
 .picture-processing-card-head {
@@ -1435,8 +1391,6 @@ p {
 }
 
 .picture-processing-card .chip-row {
-  position: relative;
-  z-index: 1;
   margin-top: 1.4rem;
 }
 
@@ -1445,11 +1399,9 @@ p {
   align-items: center;
   justify-content: space-between;
   gap: 1.5rem;
-  margin-top: 1.25rem;
-  padding: 1rem 1.1rem;
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  border-radius: 16px;
-  background: rgba(10, 12, 14, 0.62);
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
 }
 
 .picture-processing-flow {
@@ -2181,6 +2133,18 @@ p {
     flex-direction: column;
   }
 
+  .picture-processing-card {
+    min-height: 0;
+    padding-right: 0;
+  }
+
+  .picture-processing-card + .picture-processing-card {
+    margin-top: 2rem;
+    padding: 2rem 0 0;
+    border-top: 1px solid var(--line);
+    border-left: 0;
+  }
+
   .server-mascot-panel {
     min-height: 480px;
   }
@@ -2230,13 +2194,12 @@ p {
   }
 
   .picture-processing-section {
-    padding: 1.35rem;
-    border-radius: 20px;
+    padding: 3.5rem 0;
   }
 
   .picture-processing-card {
     min-height: 0;
-    padding: 1.25rem;
+    padding-right: 0;
   }
 
   .picture-processing-card-head {
