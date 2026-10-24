@@ -419,11 +419,58 @@ def render_home_page() -> str:
       </div>
       <figure class="player-showcase">
         <div class="player-showcase-head">
-          <span>Player preview</span>
-          <span class="status-dot is-steam">Coming to Steam</span>
+          <span>Current TV interface</span>
+          <span class="status-dot is-available">Apple TV + Google TV</span>
         </div>
-        <img src="assets/images/player-steam-home.webp" alt="Development preview of the Tater Tube Player home screen on Steam Deck">
+        <img src="assets/images/player-tv-home.webp" alt="Tater Tube Player home screen with Continue Watching and recently added media">
       </figure>
+    </section>
+
+    <section class="section picture-processing-section" id="picture-processing">
+      <div class="picture-processing-head">
+        <span class="eyebrow">Smarter picture · Your hardware</span>
+        <h2>Sharper detail. Brighter range. Built into playback.</h2>
+        <p>Tater Tube Server can shape compatible video for the screen in front of you. Both features are optional, run on your own server, and fall back safely when the selected processing path is unavailable.</p>
+      </div>
+      <div class="picture-processing-grid">
+        <article class="picture-processing-card is-ai">
+          <div class="picture-processing-card-head">
+            <span class="picture-processing-mark">AI ×2</span>
+            <span class="platform-badge is-first">Optional · Experimental</span>
+          </div>
+          <h3>Give lower-resolution video a sharper path to the big screen.</h3>
+          <p>When the connected TV has more pixels than the source, GPU-accelerated AI models can enhance compatible video by up to 2×. Auto Detect finds what your hardware can run, while automatic fallbacks keep playback moving.</p>
+          <div class="chip-row">
+            <span class="chip">FSRCNNX</span>
+            <span class="chip">ArtCNN</span>
+            <span class="chip">Anime4K</span>
+            <span class="chip">Auto Detect</span>
+          </div>
+        </article>
+        <article class="picture-processing-card is-hdr">
+          <div class="picture-processing-card-head">
+            <span class="picture-processing-mark">SDR → HDR10</span>
+            <span class="platform-badge is-first">Optional · Experimental</span>
+          </div>
+          <h3>Bring compatible SDR video into a richer HDR presentation.</h3>
+          <p>HDR Enhancement can produce an HDR10 presentation during transcoding for compatible players and displays. Choose Conservative, Balanced, or Vivid while native HDR media and SDR-only screens stay on their proper paths.</p>
+          <div class="chip-row">
+            <span class="chip">HDR10</span>
+            <span class="chip">3 strengths</span>
+            <span class="chip">Local processing</span>
+            <span class="chip">Safe fallback</span>
+          </div>
+        </article>
+      </div>
+      <div class="picture-processing-footer">
+        <div class="picture-processing-flow" aria-label="Tater Tube picture processing flow">
+          <span>Your media</span><b aria-hidden="true">→</b><span>Tater Tube Server</span><b aria-hidden="true">→</b><span>Best fit for this screen</span>
+        </div>
+        <div class="action-row">
+          <a class="button button-secondary" href="server/index.html#ai-upscaling">Explore AI upscaling</a>
+          <a class="button button-secondary" href="server/index.html">Explore server settings</a>
+        </div>
+      </div>
     </section>
 
     <section class="section modern-player-intro" id="player-preview">
@@ -447,12 +494,12 @@ def render_home_page() -> str:
       </div>
       <div class="modern-screenshot-grid">
         <figure class="media-window media-window-large">
-          <div class="media-window-label"><span>Library</span><span>Movies + TV</span></div>
-          <img src="assets/images/player-steam-library.webp" alt="Development preview of the Tater Tube Player movie and television library">
+          <div class="media-window-label"><span>Movies</span><span>Artwork-first browsing</span></div>
+          <img src="assets/images/player-tv-movies.webp" alt="Tater Tube Player movie library with poster artwork">
         </figure>
         <figure class="media-window">
-          <div class="media-window-label"><span>Live TV</span><span>Now + Next</span></div>
-          <img src="assets/images/player-steam-live-tv-guide.webp" alt="Development preview of the Tater Tube Player Live TV guide">
+          <div class="media-window-label"><span>Tube TV</span><span>Now + Next</span></div>
+          <img src="assets/images/player-tv-tube-tv.webp" alt="Tater Tube Player Tube TV channel guide">
         </figure>
       </div>
     </section>
@@ -461,7 +508,7 @@ def render_home_page() -> str:
       <div class="modern-server-copy">
         <span class="eyebrow">One system, end to end</span>
         <h2>Your server does the heavy lifting.</h2>
-        <p>Tater Tube Server scans your movies and shows, resolves artwork, remembers playback, builds your Tube TV schedule, chooses direct play or transcoding for each screen, and can enhance compatible lower-resolution video with optional AI upscaling.</p>
+        <p>Tater Tube Server scans your movies and shows, resolves artwork, remembers playback, builds your Tube TV schedule, chooses direct play or transcoding for each screen, and can optionally enhance compatible video with AI upscaling and HDR Enhancement.</p>
         <p>It is a complete self-hosted media platform—not another skin over Plex, Emby, or Jellyfin.</p>
         <div class="grid grid-2 compact-feature-grid">
           {simple_card("Keep your library yours", "Choose the native Mac app or map local media into Docker, then serve it directly from your own hardware.")}
@@ -470,11 +517,11 @@ def render_home_page() -> str:
           {simple_card("Pair every screen", "Connect players with a short PIN and keep progress synchronized by the server.")}
           <article class="info-card compact-feature-ai">
             <div>
-              <span class="platform-badge is-first">Optional AI upscaling</span>
-              <h3>Give older video a sharper path to the big screen.</h3>
-              <p>Auto Detect matches local GPU-accelerated models to your hardware, with automatic fallbacks that keep playback moving.</p>
+              <span class="platform-badge is-first">Optional picture enhancement</span>
+              <h3>Sharper detail and expanded range, when you want them.</h3>
+              <p>AI Upscaling and HDR Enhancement run locally on compatible server hardware, with Auto Detect and safe playback fallbacks.</p>
             </div>
-            <a class="button button-secondary" href="server/index.html#ai-upscaling">Explore AI upscaling</a>
+            <a class="button button-secondary" href="#picture-processing">See picture processing</a>
           </article>
         </div>
         <div class="action-row">
@@ -528,7 +575,7 @@ def render_home_page() -> str:
     """
     return page_template(
         "Tater Tube | Your media, your channels, every screen",
-        "Tater Tube is a modern self-hosted media player and server for movies, shows, and personal live TV channels.",
+        "Tater Tube is a modern self-hosted media player and server with personal live TV, optional AI upscaling, and HDR Enhancement.",
         body,
         nav_key="home",
         theme="modern",
@@ -556,8 +603,8 @@ def render_player_page() -> str:
         </div>
       </div>
       <figure class="player-showcase">
-        <div class="player-showcase-head"><span>Steam Deck preview</span><span class="status-dot is-steam">Coming to Steam</span></div>
-        <img src="../assets/images/player-steam-home.webp" alt="Development preview of the Tater Tube Player home screen on Steam Deck">
+        <div class="player-showcase-head"><span>Current TV interface</span><span class="status-dot is-available">Apple TV + Google TV</span></div>
+        <img src="../assets/images/player-tv-home.webp" alt="Tater Tube Player home screen with Continue Watching and recently added media">
       </figure>
     </section>
 
@@ -579,34 +626,34 @@ def render_player_page() -> str:
 
     <section class="section player-gallery">
       <div class="section-head">
-        <span class="eyebrow">Steam Player previews</span>
+        <span class="eyebrow">Tater Tube Player previews</span>
         <h2>The current Player journey.</h2>
-        <p>See the library, details, Discovery, Tater Picks, Live TV, and search experience running in the current Steam build.</p>
+        <p>See the current living-room interface for browsing, resuming, discovering, and watching across Apple TV and Google TV.</p>
       </div>
       <div class="player-gallery-grid">
         <figure class="media-window">
-          <div class="media-window-label"><span>Your library</span><span>Movies + TV</span></div>
-          <img src="../assets/images/player-steam-library.webp" alt="Development preview of the Tater Tube Player library">
+          <div class="media-window-label"><span>Your library</span><span>Movies</span></div>
+          <img src="../assets/images/player-tv-movies.webp" alt="Tater Tube Player movie library with poster artwork">
         </figure>
         <figure class="media-window">
           <div class="media-window-label"><span>Details</span><span>Resume or restart</span></div>
-          <img src="../assets/images/player-steam-details.webp" alt="Development preview of movie details and resume controls in Tater Tube Player">
+          <img src="../assets/images/player-tv-resume.webp" alt="Tater Tube Player resume, start over, and clear progress controls">
         </figure>
         <figure class="media-window">
           <div class="media-window-label"><span>Discovery</span><span>Movies + TV</span></div>
-          <img src="../assets/images/player-steam-discover.webp" alt="Development preview of Discovery in Tater Tube Player">
+          <img src="../assets/images/player-tv-discovery.webp" alt="Tater Tube Player Discovery categories for movies and series">
         </figure>
         <figure class="media-window">
           <div class="media-window-label"><span>Tater Picks</span><span>Picked for you</span></div>
-          <img src="../assets/images/player-steam-tater-picks.webp" alt="Development preview of Tater Picks recommendations in Tater Tube Player">
+          <img src="../assets/images/player-tv-tater-picks.webp" alt="Tater Picks recommendations with personalized reasons">
         </figure>
         <figure class="media-window">
-          <div class="media-window-label"><span>Your channels</span><span>Live TV guide</span></div>
-          <img src="../assets/images/player-steam-live-tv-guide.webp" alt="Development preview of the Tater Tube Player Live TV guide">
+          <div class="media-window-label"><span>Your channels</span><span>Tube TV guide</span></div>
+          <img src="../assets/images/player-tv-tube-tv.webp" alt="Tater Tube Player Tube TV channel guide">
         </figure>
         <figure class="media-window">
-          <div class="media-window-label"><span>Search</span><span>Loaded titles</span></div>
-          <img src="../assets/images/player-steam-search.webp" alt="Development preview of search results in Tater Tube Player">
+          <div class="media-window-label"><span>Ready to play</span><span>Media details</span></div>
+          <img src="../assets/images/player-tv-details.webp" alt="Tater Tube Player media details and play control">
         </figure>
       </div>
     </section>
