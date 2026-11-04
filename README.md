@@ -41,3 +41,9 @@ TATER_TUBE_SOURCE_REPO=https://github.com/example/Tater-Tube.git TATER_TUBE_SOUR
 ```bash
 python3 -m http.server 8080 -d public_html
 ```
+
+## License and trademarks
+
+This project is licensed under the [GNU Affero General Public License v3.0](LICENSE).
+
+The Tater name and logo are governed by the [Tater Trademark Policy](TRADEMARKS.md).\n
